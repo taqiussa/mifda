@@ -6,6 +6,7 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -42,6 +43,26 @@ class User extends Authenticatable
      */
     public function mapels(): BelongsToMany
     {
-        return $this->belongsToMany(MataPelajaran::class,'guru_mata_pelajarans', 'user_id', 'mata_pelajaran_id');
+        return $this->belongsToMany(MataPelajaran::class, 'guru_mata_pelajarans', 'user_id', 'mata_pelajaran_id');
+    }
+
+    /**
+     * Get all of the kelas for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kelas(): HasMany
+    {
+        return $this->hasMany(GuruKelas::class);
+    }
+
+    /**
+     * Get all of the waliKelas for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function waliKelas(): HasMany
+    {
+        return $this->hasMany(WaliKelas::class);
     }
 }

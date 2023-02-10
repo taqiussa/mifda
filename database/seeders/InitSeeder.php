@@ -93,7 +93,38 @@ class InitSeeder extends Seeder
             ]);
 
             $data->assignRole('Guru');
-            $data->mapels()->attach($key+1);
+            $data->mapels()->attach($key + 1);
+
+            $data->kelas()->createMany([
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 1
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 2
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 3
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 4
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 5
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 6
+                ],
+                [
+                    'tahun' => '2022 / 2023',
+                    'kelas_id' => 7
+                ],
+            ]);
         }
 
         $datas =
@@ -115,16 +146,16 @@ class InitSeeder extends Seeder
                 ],
             ];
 
-            foreach ($datas as $data) {
-                $data = User::create([
-                    'name' => $data['name'],
-                    'username' => $data['username'],
-                    'password' => bcrypt('smpmifdaperon')
-                ]);
-    
-                $data->assignRole('Guru');
-            }
-    
+        foreach ($datas as $data) {
+            $data = User::create([
+                'name' => $data['name'],
+                'username' => $data['username'],
+                'password' => bcrypt('smpmifdaperon')
+            ]);
+
+            $data->assignRole('Guru');
+        }
+
         $fahmie = User::whereUsername('fahmie')->first();
         $fahmie->assignRole('Kepala Sekolah');
         $kurikulum = User::whereUsername('kurikulum')->first();
