@@ -125,6 +125,11 @@ class InitSeeder extends Seeder
                     'kelas_id' => 7
                 ],
             ]);
+
+            $data->waliKelas()->create([
+                'kelas_id' => $key + 1,
+                'tahun' => '2022 / 2023'
+            ]);
         }
 
         $datas =

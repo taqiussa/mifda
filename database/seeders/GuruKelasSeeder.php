@@ -124,6 +124,11 @@ class GuruKelasSeeder extends Seeder
                     'kelas_id' => 14
                 ],
             ]);
+
+            $data->waliKelas()->create([
+                'kelas_id' => $key + 8,
+                'tahun' => '2022 / 2023'
+            ]);
         }
 
         $users2 = [
@@ -218,6 +223,10 @@ class GuruKelasSeeder extends Seeder
                     'tahun' => '2022 / 2023',
                     'kelas_id' => 21
                 ],
+            ]);
+            $data->waliKelas()->create([
+                'kelas_id' => $key + 15,
+                'tahun' => '2022 / 2023'
             ]);
         }
     }

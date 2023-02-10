@@ -16,7 +16,7 @@ class SiswaSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 2023001; $i < 2023999; $i++) {
+        for ($i = 2023001; $i < 2023601; $i++) {
             $user = User::create([
                 'name' => fake()->name(),
                 'username' => $i,

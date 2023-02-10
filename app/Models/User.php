@@ -6,6 +6,7 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -57,12 +58,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the waliKelas for the User
+     * Get the waliKelas associated with the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function waliKelas(): HasMany
+    public function waliKelas(): HasOne
     {
-        return $this->hasMany(WaliKelas::class);
+        return $this->hasOne(WaliKelas::class)->withDefault();
     }
 }

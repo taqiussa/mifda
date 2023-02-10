@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             JenisPenilaianSeeder::class,
             KategoriNilaiSeeder::class,
             PenilaianRaporSeeder::class,
+            GuruKelasSeeder::class
         ]);
     }
 }
