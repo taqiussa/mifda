@@ -1,12 +1,16 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
+import logo from '../../../public/images/logo.png'
 
 export default function Guest({ children }) {
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
-                <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                <Link href="/" className='flex flex-col justify-center items-center space-y-7'>
+                    <img src={logo} className='w-28' alt='logo'/>
+                    <div className="text-emerald-500 text-2xl lg:text-4xl font-bold lg:tracking-widest text-center">
+                        SMP MIFTAHUL HUDA
+                    </div>
                 </Link>
             </div>
 
