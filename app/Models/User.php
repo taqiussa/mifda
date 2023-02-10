@@ -35,4 +35,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * The mapel that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function mapels(): BelongsToMany
+    {
+        return $this->belongsToMany(MataPelajaran::class,'guru_mata_pelajarans', 'user_id', 'mata_pelajaran_id');
+    }
 }
