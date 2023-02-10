@@ -22,6 +22,7 @@ class InitSeeder extends Seeder
                 'Kurikulum',
                 'Kesiswaan',
                 'Guru',
+                'Siswa'
             ];
 
         foreach ($data as $name) {

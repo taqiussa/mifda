@@ -13,41 +13,41 @@ class PrintAbsensiController extends Controller
 {
     use InitTrait;
 
-    public $bulan;
-    public $tahun;
-    public $semester;
-    public $kelasId;
-    public $maxHadir;
+    // public $bulan;
+    // public $tahun;
+    // public $semester;
+    // public $kelasId;
+    // public $maxHadir;
 
-    public $namaKelas;
-    public $namaWaliKelas;
-    public $namaGuruBk;
+    // public $namaKelas;
+    // public $namaWaliKelas;
+    // public $namaGuruBk;
 
-    public $listSiswa = [];
-    public $listHadir = [];
+    // public $listSiswa = [];
+    // public $listHadir = [];
 
-    public function __construct()
-    {
-        $this->bulan = request('bulan');
-        $this->tahun = request('tahun');
-        $this->semester = request('semester');
-        $this->kelasId = request('kelasId');
+    // public function __construct()
+    // {
+    //     $this->bulan = request('bulan');
+    //     $this->tahun = request('tahun');
+    //     $this->semester = request('semester');
+    //     $this->kelasId = request('kelasId');
 
-        $this->namaKelas = Kelas::find($this->kelasId)->nama ?? 'Kelas Belum dipilih';
-        $this->namaWaliKelas = WaliKelas::whereTahun($this->tahun)
-            ->whereKelasId($this->kelasId)
-            ->with(['guru' => fn($q) => $q->select('id', 'name')])
-            ->first()->guru->name ?? 'Kelas Belum dipilih';
-        $this->namaGuruBk = GuruKelas::whereTahun($this->tahun)
-            ->whereKelasId($this->kelasId)
-            ->with([
-                'user' => fn($q) => $q->select('id', 'name'), 
-                'mapel' => fn($q) => $q->select('id', 'nama')
-                ])
-            ->whereHas('mapel', fn ($q) => $q->whereNama('Konseling'))
-            ->first()
-            ->user->name ?? 'Kelas Belum dipilih';
-    }
+    //     $this->namaKelas = Kelas::find($this->kelasId)->nama ?? 'Kelas Belum dipilih';
+    //     $this->namaWaliKelas = WaliKelas::whereTahun($this->tahun)
+    //         ->whereKelasId($this->kelasId)
+    //         ->with(['guru' => fn($q) => $q->select('id', 'name')])
+    //         ->first()->guru->name ?? 'Kelas Belum dipilih';
+    //     $this->namaGuruBk = GuruKelas::whereTahun($this->tahun)
+    //         ->whereKelasId($this->kelasId)
+    //         ->with([
+    //             'user' => fn($q) => $q->select('id', 'name'), 
+    //             'mapel' => fn($q) => $q->select('id', 'nama')
+    //             ])
+    //         ->whereHas('mapel', fn ($q) => $q->whereNama('Konseling'))
+    //         ->first()
+    //         ->user->name ?? 'Kelas Belum dipilih';
+    // }
 
     public function index()
     {

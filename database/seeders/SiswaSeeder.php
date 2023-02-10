@@ -17,7 +17,7 @@ class SiswaSeeder extends Seeder
     public function run()
     {
         for ($i = 2023001; $i < 2023999; $i++) {
-            User::create([
+            $user = User::create([
                 'name' => fake()->name(),
                 'username' => $i,
                 'nis' => $i,
@@ -29,6 +29,8 @@ class SiswaSeeder extends Seeder
                 'kelas_id' => random_int(1, 21),
                 'tahun' => '2022 / 2023'
             ]);
+
+            $user->assignRole('Siswa');
         }
     }
 }
