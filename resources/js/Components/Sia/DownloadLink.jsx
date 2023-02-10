@@ -1,5 +1,5 @@
-import Icon from '@mdi/react';
-import {  mdiMicrosoftExcel } from '@mdi/js';
+import { Icon } from '@mdi/react';
+import { mdiMicrosoftExcel } from '@mdi/js';
 
 
 export default function DownloadLink({ href, children, processing, className }) {

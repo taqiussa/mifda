@@ -1,4 +1,4 @@
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { mdiTrashCanOutline } from '@mdi/js';
 
 export default function Hapus({ type = '', className = '', processing, children, onClick }) {
