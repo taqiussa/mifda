@@ -9,7 +9,7 @@ export default function SidebarGuru() {
             <div>
                 <SidebarLink href={route('dashboard')} active={route().current('dashboard')} label='dashboard' />
                 <SidebarLink href={route('absensi')} active={route().current('absensi')} label='absensi' />
-                <SidebarLink href={route('print-absensi')} active={route().current('print-absensi')} label='print absensi' />
+                {/* <SidebarLink href={route('print-absensi')} active={route().current('print-absensi')} label='print absensi' /> */}
             </div>
         </div>
     )
