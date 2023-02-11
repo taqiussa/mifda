@@ -97,30 +97,37 @@ class GuruKelasSeeder extends Seeder
             $data->kelas()->createMany([
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 8
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 9
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 10
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 11
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 12
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 13
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 14
                 ],
             ]);
@@ -197,30 +204,37 @@ class GuruKelasSeeder extends Seeder
             $data->kelas()->createMany([
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 15
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 16
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 17
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 18
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 19
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 20
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 21
                 ],
             ]);

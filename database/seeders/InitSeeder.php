@@ -98,30 +98,37 @@ class InitSeeder extends Seeder
             $data->kelas()->createMany([
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 1
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 2
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 3
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 4
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 5
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 6
                 ],
                 [
                     'tahun' => '2022 / 2023',
+                    'mata_pelajaran_id' => $key + 1,
                     'kelas_id' => 7
                 ],
             ]);
