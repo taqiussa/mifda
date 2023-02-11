@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\GuruKelas;
 use App\Models\MataPelajaran;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GuruKelasSeeder extends Seeder
@@ -17,14 +16,17 @@ class GuruKelasSeeder extends Seeder
      */
     public function run()
     {
-        MataPelajaran::create(['nama' => 'Konseling']);
-        $user = User::create(['name' => 'Guru Konseling', 'username' => 'konseling', 'password' => bcrypt('smpmifdaperon')]);
-        $user->assignRole('Guru');
+        $mapel = MataPelajaran::create(['nama' => 'Konseling']);
+        
+        $konseling = User::create(['name' => 'Guru Konseling', 'username' => 'konseling', 'password' => bcrypt('smpmifdaperon')]);
+        
+        $konseling->assignRole('Guru');
 
         for ($i = 1; $i < 22; $i++) {
             GuruKelas::create([
-                'user_id' => $user->id,
+                'user_id' => $konseling->id,
                 'kelas_id' => $i,
+                'mata_pelajaran_id' => $mapel->id,
                 'tahun' => '2022 / 2023'
             ]);
         }
@@ -199,6 +201,7 @@ class GuruKelasSeeder extends Seeder
             ]);
 
             $data->assignRole('Guru');
+
             $data->mapels()->attach($key + 1);
 
             $data->kelas()->createMany([
@@ -238,6 +241,7 @@ class GuruKelasSeeder extends Seeder
                     'kelas_id' => 21
                 ],
             ]);
+
             $data->waliKelas()->create([
                 'kelas_id' => $key + 15,
                 'tahun' => '2022 / 2023'

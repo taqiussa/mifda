@@ -24,14 +24,14 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,
             MataPelajaranSeeder::class,
             InitSeeder::class,
-            SiswaSeeder::class,
             KehadiranSeeder::class,
             KurikulumSeeder::class,
             AturanKurikulumSeeder::class,
             JenisPenilaianSeeder::class,
             KategoriNilaiSeeder::class,
             PenilaianRaporSeeder::class,
-            GuruKelasSeeder::class
+            GuruKelasSeeder::class,
+            SiswaSeeder::class,
         ]);
     }
 }
