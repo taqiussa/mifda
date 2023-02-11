@@ -7,6 +7,7 @@ use App\Http\Controllers\GetDataController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
+use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\PrintAbsensiController;
 
 /*
@@ -50,6 +51,10 @@ Route::middleware([
         Route::post('get-absensi-ekstrakurikuler', 'get_absensi_ekstrakurikuler')->name('get-absensi-ekstrakurikuler');
     });
 
+    // Route Get Nilai dan Penilaian
+    Route::controller(GetPenilaianController::class)->group(function() {
+        Route::post('get-nilai-siswa', 'get_nilai_siswa')->name('get-nilai-siswa');
+    });
 
     // Batas Route Menu dan Route Get Data
 
