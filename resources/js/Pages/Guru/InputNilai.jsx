@@ -3,21 +3,18 @@ import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
-import axios from 'axios'
 import Kelas from '@/Components/Sia/Kelas'
-import Tanggal from '@/Components/Sia/Tanggal'
-import moment from 'moment'
-import Jam from '@/Components/Sia/Jam'
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
-import getAbsensiSiswa from '@/Functions/getAbsensiSiswa'
 import Semester from '@/Components/Sia/Semester'
 import MataPelajaran from '@/Components/Sia/MataPelajaran'
 import KategoriNilai from '@/Components/Sia/KategoriNilai'
 import JenisPenilaian from '@/Components/Sia/JenisPenilaian'
+import getKelas from '@/Functions/getKelas'
 import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
+import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 
 const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
@@ -38,7 +35,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
     const [count, setCount] = useState(0)
 
     async function getDataNilaiSiswa() {
-        const response = await getAbsensiSiswa(data.tanggal, data.tahun, data.jam, data.kelasId)
+        const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
         setListSiswa(response.listSiswa)
     }
 
@@ -51,6 +48,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
         setListJenis(response.listJenis)
     }
+
     async function getDataKelas() {
         const response = await getKelas(data.tahun, data.mataPelajaranId)
         setListKelas(response.listKelas)
@@ -154,6 +152,8 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                 getDataNilaiSiswa()
             )
 
+        } else {
+            setListSiswa([])
         }
         return () => {
         }

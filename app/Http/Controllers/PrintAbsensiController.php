@@ -36,8 +36,8 @@ class PrintAbsensiController extends Controller
         $this->namaKelas = Kelas::find($this->kelasId)->nama ?? 'Kelas Belum dipilih';
         $this->namaWaliKelas = WaliKelas::whereTahun($this->tahun)
             ->whereKelasId($this->kelasId)
-            ->with(['guru' => fn($q) => $q->select('id', 'name')])
-            ->first()->guru->name ?? 'Kelas Belum dipilih';
+            ->with(['user' => fn($q) => $q->select('id', 'name')])
+            ->first()->user->name ?? 'Kelas Belum dipilih';
         $this->namaGuruBk = GuruKelas::whereTahun($this->tahun)
             ->whereKelasId($this->kelasId)
             ->with([

@@ -52,7 +52,7 @@ class GetDataController extends Controller
         if ($kurikulum == 'K13') {
             $kategori = KategoriNilai::whereIn('nama', ['Pengetahuan', 'Keterampilan'])->get();
         } else {
-            $kategori = KategoriNilai::whereIn('nama', ['Formati', 'Sumatif'])->get();
+            $kategori = KategoriNilai::whereIn('nama', ['Formatif', 'Sumatif'])->get();
         }
 
         return response()->json([

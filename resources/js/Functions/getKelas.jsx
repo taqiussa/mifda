@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const getJenisPenilaian = async (tahun, mataPelajaranId) => {
+const getKelas = async (tahun, mataPelajaranId) => {
     try {
         const response = await axios.post(
             route('get-kelas',
@@ -16,4 +16,4 @@ const getJenisPenilaian = async (tahun, mataPelajaranId) => {
     }
 }
 
-export default getJenisPenilaian
+export default getKelas

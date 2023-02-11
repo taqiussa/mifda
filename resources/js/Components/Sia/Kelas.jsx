@@ -39,7 +39,7 @@ export default forwardRef(function Kelas(
                     <option value="">Pilih Kelas</option>
 
                     {listKelas.map((kelas, index) => (
-                        <option key={index} value={kelas.id}>{kelas.nama}</option>
+                        <option key={index} value={kelas.kelas_id ?? kelas.id}>{kelas.kelas.nama ?? kelas.nama}</option>
                     ))}
 
                 </select>
