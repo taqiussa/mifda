@@ -11,8 +11,15 @@ import Jam from '@/Components/Sia/Jam'
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
 import getAbsensiSiswa from '@/Functions/getAbsensiSiswa'
+import Semester from '@/Components/Sia/Semester'
+import MataPelajaran from '@/Components/Sia/MataPelajaran'
+import KategoriNilai from '@/Components/Sia/KategoriNilai'
+import JenisPenilaian from '@/Components/Sia/JenisPenilaian'
+import getKategoriNilai from '@/Functions/getKategoriNilai'
+import getJenisPenilaian from '@/Functions/getJenisPenilaian'
+import Nilai from '@/Components/Sia/Nilai'
 
-const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
+const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -25,13 +32,32 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
     })
 
     const [listSiswa, setListSiswa] = useState([])
+    const [listKategori, setListKategori] = useState([])
+    const [listJenis, setListJenis] = useState([])
+    const [listKelas, setListKelas] = useState([])
+    const [count, setCount] = useState(0)
 
     async function getDataNilaiSiswa() {
         const response = await getAbsensiSiswa(data.tanggal, data.tahun, data.jam, data.kelasId)
         setListSiswa(response.listSiswa)
     }
 
-    const handleDynamic = (e, index, id, nis, name, guruName) => {
+    async function getDataKategoriNilai() {
+        const response = await getKategoriNilai(data.tahun, data.kelasId)
+        setListKategori(response.listKategori)
+    }
+
+    async function getDataJenisPenilaian() {
+        const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
+        setListJenis(response.listJenis)
+    }
+    async function getDataKelas() {
+        const response = await getKelas(data.tahun, data.mataPelajaranId)
+        setListKelas(response.listKelas)
+    }
+
+
+    const handleDynamic = (e, index, id, nis, name) => {
 
         const newList = [...listSiswa]
         newList.splice(index, 1, {
@@ -40,11 +66,8 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
             user: {
                 name: name
             },
-            absensi: {
-                kehadiran_id: e.target.value,
-                guru: {
-                    name: guruName
-                },
+            nilai: {
+                nilai: e.target.value
             }
         })
 
@@ -77,10 +100,55 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
 
     useEffect(() => {
 
-        if (data.tanggal
-            && data.tahun
-            && data.jam
+        if (data.tahun
+            && data.mataPelajaranId
+        ) {
+
+            trackPromise(
+                getDataKelas()
+            )
+
+        }
+    }, [data.tahun, data.mataPelajaranId])
+
+    useEffect(() => {
+
+        if (data.tahun
             && data.kelasId
+        ) {
+            trackPromise(
+                getDataKategoriNilai()
+            )
+
+        }
+        return () => {
+        }
+    }, [data.tahun, data.kelasId])
+
+    useEffect(() => {
+
+        if (data.tahun
+            && data.semester
+            && data.kelasId
+            && data.kategoriNilaiId
+        ) {
+            trackPromise(
+                getDataJenisPenilaian()
+            )
+
+        }
+        return () => {
+        }
+    }, [data.tahun, data.semester, data.kelasId, data.kategoriNilaiId])
+
+    useEffect(() => {
+
+        if (data.tahun
+            && data.semester
+            && data.mataPelajaranId
+            && data.kelasId
+            && data.kategoriNilaiId
+            && data.jenisPenilaianId
         ) {
             trackPromise(
                 getDataNilaiSiswa()
@@ -89,7 +157,7 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
         }
         return () => {
         }
-    }, [data.tanggal, data.tahun, data.jam, data.kelasId])
+    }, [data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId])
 
     useEffect(() => {
 
@@ -99,21 +167,12 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
         })
 
     }, [count])
-    
+
     return (
         <>
             <Head title='Absensi' />
             <form onSubmit={submit} className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-4 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
-                    <Tanggal
-                        id="tanggal"
-                        name="tanggal"
-                        label="tanggal"
-                        value={data.tanggal}
-                        message={errors.tanggal}
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                    />
 
                     <Tahun
                         id="tahun"
@@ -124,12 +183,22 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
                         handleChange={onHandleChange}
                     />
 
-                    <Jam
-                        id="jam"
-                        name="jam"
-                        value={data.jam}
-                        message={errors.jam}
+                    <Semester
+                        id="semester"
+                        name="semester"
+                        value={data.semester}
+                        message={errors.semester}
                         isFocused={true}
+                        handleChange={onHandleChange}
+                    />
+
+                    <MataPelajaran
+                        id="mataPelajaranId"
+                        name="mataPelajaranId"
+                        value={data.mataPelajaranId}
+                        message={errors.mataPelajaranId}
+                        isFocused={true}
+                        listMapel={listMataPelajaran}
                         handleChange={onHandleChange}
                     />
 
@@ -143,15 +212,27 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
                         handleChange={onHandleChange}
                     />
 
-                </div>
-                {show && (
+                    <KategoriNilai
+                        id="kategoriNilaiId"
+                        name="kategoriNilaiId"
+                        value={data.kategoriNilaiId}
+                        message={errors.kategoriNilaiId}
+                        listKategori={listKategori}
+                        isFocused={true}
+                        handleChange={onHandleChange}
+                    />
 
-                    <div className="flex justify-end">
-                        <PrimaryButton type='button' onClick={handleNihil}>
-                            set hadir
-                        </PrimaryButton>
-                    </div>
-                )}
+                    <JenisPenilaian
+                        id="jenisPenilaianId"
+                        name="jenisPenilaianId"
+                        value={data.jenisPenilaianId}
+                        message={errors.jenisPenilaianId}
+                        listJenis={listJenis}
+                        isFocused={true}
+                        handleChange={onHandleChange}
+                    />
+
+                </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-slate-600">
                         <thead className="text-sm text-slate-600 bg-gray-50">
@@ -160,13 +241,13 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
                                     No
                                 </th>
                                 <th scope='col' className="py-3 px-2 text-left">
+                                    Nis
+                                </th>
+                                <th scope='col' className="py-3 px-2 text-left">
                                     Nama
                                 </th>
                                 <th scope='col' className="py-3 px-2 text-left">
-                                    Kehadiran
-                                </th>
-                                <th scope='col' className="py-3 px-2 text-left">
-                                    Guru
+                                    Nilai
                                 </th>
                             </tr>
                         </thead>
@@ -177,28 +258,18 @@ const InputNilai = ({ initTahun, listKehadiran, listKelas }) => {
                                         {index + 1}
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
+                                        {siswa.nis}
+                                    </td>
+                                    <td className="py-2 px-2 font-medium text-slate-600">
                                         {siswa.user.name}
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
-                                        <select
-                                            className="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-auto"
-                                            onChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name, siswa.absensi.guru?.name)}
-                                            name={siswa.nis}
-                                            value={siswa.absensi.kehadiran_id ?? ""}
-                                        >
-                                            <option value="">Pilih Kehadiran</option>
-                                            {listKehadiran.map((kehadiran, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={kehadiran.id}
-                                                >
-                                                    {kehadiran.nama}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td>
-                                    <td className="py-2 px-2 font-medium text-slate-600">
-                                        {siswa.absensi.guru?.name}
+                                        <Nilai
+                                            id="jenisPenilaianId"
+                                            name="jenisPenilaianId"
+                                            value={siswa.nilai?.nilai}
+                                            handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.nilai?.nilai)}
+                                        />
                                     </td>
                                 </tr>
                             ))}

@@ -12,13 +12,23 @@ class GuruKelas extends Model
     protected $guarded = [];
 
     /**
+     * Get the kelas that owns the GuruKelas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kelas(): BelongsTo
+    {
+        return $this->belongsTo(Kelas::class)->withDefault();
+    }
+
+    /**
      * Get the mapel that owns the GuruKelas
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function mapel(): BelongsTo
     {
-        return $this->belongsTo(MataPelajaran::class)->withDefault();
+        return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id')->withDefault();
     }
 
     /**

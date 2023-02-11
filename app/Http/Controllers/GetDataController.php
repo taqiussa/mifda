@@ -65,7 +65,7 @@ class GetDataController extends Controller
     {
         return response()->json([
             'listKelas' => GuruKelas::with(['kelas' => fn ($q) => $q->select('id', 'nama')])
-                ->whereGuruId(auth()->user()->id)
+                ->whereUserId(auth()->user()->id)
                 ->whereMataPelajaranId($request->mataPelajaranId)
                 ->whereTahun($request->tahun)
                 ->get(),
