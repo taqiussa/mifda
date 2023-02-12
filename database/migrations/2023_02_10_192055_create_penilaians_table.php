@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('jenis_penilaian_id');
             $table->string('tahun', 30);
             $table->integer('semester');
-            $table->integer('nilai');
+            $table->integer('nilai')->nullable();
             $table->timestamps();
         });
     }

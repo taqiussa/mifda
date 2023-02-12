@@ -16,7 +16,7 @@ import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 
-const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
+const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -25,27 +25,16 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         kelasId: '',
         kategoriNilaiId: '',
         jenisPenilaianId: '',
-        arrayInput: [],
+        fileImport: '',
     })
 
     const [listSiswa, setListSiswa] = useState([])
     const [listKategori, setListKategori] = useState([])
     const [listJenis, setListJenis] = useState([])
     const [listKelas, setListKelas] = useState([])
-    const [count, setCount] = useState(0)
 
     async function getDataNilaiSiswa() {
         const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
-        setData({
-            tahun: data.tahun,
-            semester: data.semester,
-            mataPelajaranId: data.mataPelajaranId,
-            kelasId: data.kelasId,
-            kategoriNilaiId: data.kategoriNilaiId,
-            jenisPenilaianId: data.jenisPenilaianId,
-            arrayInput: [],
-        })
-        setListSiswa([])
         setListSiswa(response.listSiswa)
     }
 
@@ -64,28 +53,8 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         setListKelas(response.listKelas)
     }
 
-
-    const handleDynamic = (e, index, id, nis, name) => {
-
-        const newList = [...listSiswa]
-        newList.splice(index, 1, {
-            id: id ?? '',
-            nis: nis,
-            user: {
-                name: name
-            },
-            nilai: {
-                nilai: e.target.value
-            }
-        })
-
-        setListSiswa(newList)
-
-        setCount(count + 1)
-    }
-
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.value)
+        setData(event.target.name, event.target.type === 'file' ? event.target.files[0] : event.target.value);
     }
 
     const submit = (e) => {
@@ -277,36 +246,16 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                                         {siswa.user.name}
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
-                                        <Nilai
-                                            id={siswa.nis}
-                                            name={siswa.nis}
-                                            value={siswa.nilai.nilai ?? ''}
-                                            handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name)}
-                                        />
-
-                                        {
-                                            (() => {
-                                                if (data.arrayInput.length > 0 && data.arrayInput[index].nilai.nilai > 100) {
-                                                    return (
-                                                        <span className='text-red-500'>Nilai maksimal 100</span>
-                                                    )
-                                                }
-                                            })
-                                                ()}
+                                        {siswa.nilai.nilai ?? ''}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <div className='flex justify-end'>
-                    <PrimaryButton type='submit' processing={processing}>
-                        Simpan
-                    </PrimaryButton>
-                </div>
             </form>
         </>
     )
 }
-InputNilai.layout = page => <AppLayout children={page} />
-export default InputNilai
+UploadNilai.layout = page => <AppLayout children={page} />
+export default UploadNilai

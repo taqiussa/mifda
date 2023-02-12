@@ -76,6 +76,7 @@ Route::middleware([
     // Route Input Nilai
     Route::controller(InputNilaiController::class)->group(function () {
         Route::get('input-nilai', 'index')->name('input-nilai');
+        Route::post('input-nilai/simpan', 'simpan')->name('input-nilai.simpan');
     });
 
     //Route Print Kehadiran
@@ -84,6 +85,8 @@ Route::middleware([
         Route::get('print-absensi/print-per-bulan', 'print_per_bulan')->name('print-absensi.print-per-bulan');
         Route::get('print-absensi/print-per-semester', 'print_per_semester')->name('print-absensi.print-per-semester');
     });
+
+    // Route Upload Nilai
 });
 
 Route::middleware('auth')->group(function () {

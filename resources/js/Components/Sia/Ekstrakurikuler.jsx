@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
-export default forwardRef(function Kelas(
+export default forwardRef(function Ekstrakurikuler(
     { name, id, value, message, className, required, isFocused, handleChange, listEkstrakurikuler },
     ref
 ) {

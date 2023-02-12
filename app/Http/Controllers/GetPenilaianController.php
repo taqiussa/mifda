@@ -16,8 +16,9 @@ class GetPenilaianController extends Controller
             'listSiswa' => Siswa::whereTahun($request->tahun)
                 ->whereKelasId($request->kelasId)
                 ->with([
-                    'user' => fn($q) => $q->select('nis', 'name'),
-                    'nilai' => fn ($q) => $q->whereTahun($request->tahun)
+                    'user' => fn ($q) => $q->select('nis', 'name'),
+                    'nilai' => fn ($q) => $q
+                        ->whereTahun($request->tahun)
                         ->whereSemester($request->semester)
                         ->whereMataPelajaranId($request->mataPelajaranId)
                         ->whereKategoriNilaiId($request->kategoriNilaiId)

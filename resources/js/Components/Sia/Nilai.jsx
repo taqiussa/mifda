@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
-export default forwardRef(function JenisAlquran(
+export default forwardRef(function Nilai(
     { type = 'text', name, id, value, message, className, required, isFocused, handleChange },
     ref
 ) {
