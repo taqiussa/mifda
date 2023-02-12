@@ -2,7 +2,7 @@ import { Icon } from '@mdi/react';
 import { mdiPrinter } from '@mdi/js';
 
 
-export default function PrintLinkMerah({ href, children, processing, className }) {
+export default function PrintLinkMerah({ href, label, processing, className }) {
     return (
         <div className="items-center whitespace-nowrap">
             <a
@@ -14,7 +14,7 @@ export default function PrintLinkMerah({ href, children, processing, className }
                 }
             >
                 <Icon path={mdiPrinter} size={1} className="mr-2" />
-                {children}
+                {label}
             </a>
         </div>
     );

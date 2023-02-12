@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
-import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import Kelas from '@/Components/Sia/Kelas'
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
@@ -13,8 +12,8 @@ import JenisPenilaian from '@/Components/Sia/JenisPenilaian'
 import getKelas from '@/Functions/getKelas'
 import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
-import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
+import DownloadLink from '@/Components/Sia/DownloadLink'
 
 const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
@@ -141,15 +140,6 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         }
     }, [data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId])
 
-    useEffect(() => {
-
-        setData({
-            ...data,
-            arrayInput: [...listSiswa],
-        })
-
-    }, [count])
-
     return (
         <>
             <Head title='Absensi' />
@@ -214,6 +204,24 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                         handleChange={onHandleChange}
                     />
 
+                </div>
+                <div className='flex flex-col justify-center '>
+                    <div>
+                        &nbsp;
+                    </div>
+                    <div>
+                        <DownloadLink
+                            href={route('upload-nilai.export', {
+                                tahun: data.tahun,
+                                semester: data.semester,
+                                kategoriNilaiId: data.kategoriNilaiId,
+                                jenisPenilaianId: data.jenisPenilaianId,
+                                kelasId: data.kelasId,
+                                jenisAnalisis: data.jenisAnalisis
+                            })}
+                            label='download draft'
+                        />
+                    </div>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-slate-600">

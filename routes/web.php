@@ -10,6 +10,7 @@ use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\PrintAbsensiController;
+use App\Http\Controllers\UploadNilaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,10 @@ Route::middleware([
     });
 
     // Route Upload Nilai
+    Route::controller(UploadNilaiController::class)->group(function () {
+        Route::get('upload-nilai', 'index')->name('upload-nilai');
+        Route::get('upload-nilai/export', 'export')->name('upload-nilai.export');
+    });
 });
 
 Route::middleware('auth')->group(function () {

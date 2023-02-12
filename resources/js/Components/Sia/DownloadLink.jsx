@@ -2,7 +2,7 @@ import { Icon } from '@mdi/react';
 import { mdiMicrosoftExcel } from '@mdi/js';
 
 
-export default function DownloadLink({ href, children, processing, className }) {
+export default function DownloadLink({ href, label, processing, className }) {
     return (
         <div className="items-center whitespace-nowrap">
             <a
@@ -14,7 +14,7 @@ export default function DownloadLink({ href, children, processing, className }) 
                 }
             >
                 <Icon path={mdiMicrosoftExcel} size={1} className="mr-2" />
-                {children}
+                {label}
             </a>
         </div>
     );
