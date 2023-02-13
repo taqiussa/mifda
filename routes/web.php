@@ -91,6 +91,7 @@ Route::middleware([
     Route::controller(UploadNilaiController::class)->group(function () {
         Route::get('upload-nilai', 'index')->name('upload-nilai');
         Route::get('upload-nilai/export', 'export')->name('upload-nilai.export');
+        Route::post('upload-nilai/import', 'import')->name('upload-nilai.import');
     });
 });
 

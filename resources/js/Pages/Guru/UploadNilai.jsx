@@ -14,6 +14,8 @@ import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 import DownloadLink from '@/Components/Sia/DownloadLink'
+import FileUpload from '@/Components/Sia/FileUpload'
+import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 
 const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
@@ -58,7 +60,7 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('input-nilai.simpan'), {
+        post(route('upload-nilai.import'), {
             onSuccess: (page) => {
                 toast.success('Berhasil Simpan Absensi Siswa')
                 setData({
@@ -68,8 +70,9 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                     kelasId: data.kelasId,
                     kategoriNilaiId: data.kategoriNilaiId,
                     jenisPenilaianId: data.jenisPenilaianId,
-                    arrayInput: [],
+                    fileImport: ''
                 })
+                getDataNilaiSiswa()
             },
             onError: (error) => {
                 toast.error('Gagal! ' + error.pesan)
@@ -205,63 +208,80 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                     />
 
                 </div>
-                <div className='flex flex-col justify-center '>
-                    <div>
-                        &nbsp;
+
+                <DownloadLink
+                    href={route('upload-nilai.export', {
+                        tahun: data.tahun,
+                        semester: data.semester,
+                        kategoriNilaiId: data.kategoriNilaiId,
+                        jenisPenilaianId: data.jenisPenilaianId,
+                        kelasId: data.kelasId,
+                        jenisAnalisis: data.jenisAnalisis
+                    })}
+                    label='download draft'
+                />
+
+                <div className='flex flex-row space-x-3'>
+
+                    <FileUpload
+                        id="fileImport"
+                        name="fileImport"
+                        message={errors.fileImport}
+                        isFocused={true}
+                        handleChange={onHandleChange}
+                    />
+
+                    <div className='flex flex-col'>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            <PrimaryButton onClick={submit} processing={processing}>Upload</PrimaryButton>
+                        </div>
                     </div>
-                    <div>
-                        <DownloadLink
-                            href={route('upload-nilai.export', {
-                                tahun: data.tahun,
-                                semester: data.semester,
-                                kategoriNilaiId: data.kategoriNilaiId,
-                                jenisPenilaianId: data.jenisPenilaianId,
-                                kelasId: data.kelasId,
-                                jenisAnalisis: data.jenisAnalisis
-                            })}
-                            label='download draft'
-                        />
-                    </div>
+
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-slate-600">
-                        <thead className="text-sm text-slate-600 bg-gray-50">
-                            <tr>
-                                <th scope='col' className="py-3 px-2">
-                                    No
-                                </th>
-                                <th scope='col' className="py-3 px-2 text-left">
-                                    Nis
-                                </th>
-                                <th scope='col' className="py-3 px-2 text-left">
-                                    Nama
-                                </th>
-                                <th scope='col' className="py-3 px-2 text-left">
-                                    Nilai
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listSiswa && listSiswa.map((siswa, index) => (
-                                <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
-                                    <td className="py-2 px-2 font-medium text-slate-600 text-center">
-                                        {index + 1}
-                                    </td>
-                                    <td className="py-2 px-2 font-medium text-slate-600">
-                                        {siswa.nis}
-                                    </td>
-                                    <td className="py-2 px-2 font-medium text-slate-600">
-                                        {siswa.user.name}
-                                    </td>
-                                    <td className="py-2 px-2 font-medium text-slate-600">
-                                        {siswa.nilai.nilai ?? ''}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+
             </form>
+
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-slate-600">
+                    <thead className="text-sm text-slate-600 bg-gray-50">
+                        <tr>
+                            <th scope='col' className="py-3 px-2">
+                                No
+                            </th>
+                            <th scope='col' className="py-3 px-2 text-left">
+                                Nis
+                            </th>
+                            <th scope='col' className="py-3 px-2 text-left">
+                                Nama
+                            </th>
+                            <th scope='col' className="py-3 px-2 text-left">
+                                Nilai
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listSiswa && listSiswa.map((siswa, index) => (
+                            <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
+                                <td className="py-2 px-2 font-medium text-slate-600 text-center">
+                                    {index + 1}
+                                </td>
+                                <td className="py-2 px-2 font-medium text-slate-600">
+                                    {siswa.nis}
+                                </td>
+                                <td className="py-2 px-2 font-medium text-slate-600">
+                                    {siswa.user.name}
+                                </td>
+                                <td className="py-2 px-2 font-medium text-slate-600">
+                                    {siswa.nilai.nilai ?? ''}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }
