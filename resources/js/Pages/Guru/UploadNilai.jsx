@@ -74,9 +74,6 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                 })
                 getDataNilaiSiswa()
             },
-            onError: (error) => {
-                toast.error('Gagal! ' + error.pesan)
-            }
         })
     }
 
@@ -213,6 +210,7 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                     href={route('upload-nilai.export', {
                         tahun: data.tahun,
                         semester: data.semester,
+                        mataPelajaranId: data.mataPelajaranId,
                         kategoriNilaiId: data.kategoriNilaiId,
                         jenisPenilaianId: data.jenisPenilaianId,
                         kelasId: data.kelasId,

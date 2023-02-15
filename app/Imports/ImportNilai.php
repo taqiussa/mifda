@@ -19,10 +19,10 @@ class ImportNilai implements ToCollection, WithHeadingRow
                 [
                     'tahun' => $row['tahun'],
                     'semester' => $row['semester'],
-                    'mata_pelajaran_id' => $row['mataPelajaranId'],
-                    'kategori_nilai_id' => $row['kategoriNilaiId'],
-                    'jenis_penilaian_id' => $row['jenisPenilaianId'],
-                    'kelas_id' => $row['kelasId'],
+                    'mata_pelajaran_id' => $row['mata_pelajaran_id'],
+                    'kategori_nilai_id' => $row['kategori_nilai_id'],
+                    'jenis_penilaian_id' => $row['jenis_penilaian_id'],
+                    'kelas_id' => $row['kelas_id'],
                     'nis' => $row['nis'],
                 ],
                 [

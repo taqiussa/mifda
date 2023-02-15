@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelas;
 use App\Traits\InitTrait;
 use App\Exports\ExportNilai;
+use App\Imports\ImportNilai;
 use Illuminate\Http\Request;
 use App\Models\JenisPenilaian;
 use App\Models\GuruMataPelajaran;
@@ -36,6 +37,7 @@ class UploadNilaiController extends Controller
             [
                 'tahun' => 'required',
                 'semester' => 'required',
+                'mataPelajaranId' => 'required',
                 'kategoriNilaiId' => 'required',
                 'jenisPenilaianId' => 'required',
                 'kelasId' => 'required',
@@ -43,6 +45,7 @@ class UploadNilaiController extends Controller
             [
                 'tahun.required' => 'tidak boleh kosong',
                 'semester.required' => 'tidak boleh kosong',
+                'mataPelajaranId.required' => 'tidak boleh kosong',
                 'kategoriNilaiId.required' => 'tidak boleh kosong',
                 'jenisPenilaianId.required' => 'tidak boleh kosong',
                 'kelasId.required' => 'tidak boleh kosong',
@@ -50,13 +53,14 @@ class UploadNilaiController extends Controller
         );
         $tahun = $request->tahun;
         $semester = $request->semester;
+        $mataPelajaranId = $request->mataPelajaranId;
         $kategoriNilaiId = $request->kategoriNilaiId;
         $jenisPenilaianId = $request->jenisPenilaianId;
         $kelasId = $request->kelasId;
 
         $namaKelas = Kelas::find($kelasId)->nama;
         $namaJenisPenilaian = JenisPenilaian::find($jenisPenilaianId)->nama;
-        return Excel::download(new ExportNilai($tahun, $semester, $kategoriNilaiId, $jenisPenilaianId, $kelasId),  $namaJenisPenilaian . ' ' . $namaKelas . '.xlsx');
+        return Excel::download(new ExportNilai($tahun, $semester, $mataPelajaranId, $kategoriNilaiId, $jenisPenilaianId, $kelasId),  $namaJenisPenilaian . ' ' . $namaKelas . '.xlsx');
     }
 
     public function import(Request $request)
@@ -64,5 +68,9 @@ class UploadNilaiController extends Controller
         $request->validate([
             'fileImport' => 'required|mimes:xls,xlsx'
         ]);
+
+        Excel::import(new ImportNilai(), $request->fileImport);
+
+        to_route('upload-nilai');
     }
 }

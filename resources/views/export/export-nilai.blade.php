@@ -3,6 +3,7 @@
         <tr>
             <td>tahun</td>
             <td>semester</td>
+            <td>mata_pelajaran_id</td>
             <td>kategori_nilai_id</td>
             <td>jenis_penilaian_id</td>
             <td>kelas_id</td>
@@ -17,6 +18,7 @@
             <tr>
                 <td>{{ $tahun }}</td>
                 <td>{{ $semester }}</td>
+                <td>{{ $mataPelajaranId }}</td>
                 <td>{{ $kategoriNilaiId }}</td>
                 <td>{{ $jenisPenilaianId }}</td>
                 <td>{{ $kelasId }}</td>
