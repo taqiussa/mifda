@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('kategori_sikap_id');
             $table->foreignId('jenis_sikap_id');
             $table->foreignId('user_id');
-            $table->integer('nilai');
+            $table->integer('nilai')->nullable();
             $table->timestamps();
         });
     }

@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Traits\InitTrait;
-use App\Exports\ExportNilai;
-use App\Imports\ImportNilai;
+use App\Exports\ExportNilaiSikap;
+use App\Imports\ImportNilaiSikap;
 use Illuminate\Http\Request;
-use App\Models\JenisPenilaian;
 use App\Models\GuruMataPelajaran;
-use App\Models\MataPelajaran;
 use Maatwebsite\Excel\Facades\Excel;
 
-class UploadNilaiController extends Controller
+class UploadNilaiSikapController extends Controller
 {
     use InitTrait;
 
     public function index()
     {
         return inertia(
-            'Guru/UploadNilai',
+            'Guru/UploadNilaiSikap',
             [
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
@@ -39,30 +37,27 @@ class UploadNilaiController extends Controller
                 'tahun' => 'required',
                 'semester' => 'required',
                 'mataPelajaranId' => 'required',
-                'kategoriNilaiId' => 'required',
-                'jenisPenilaianId' => 'required',
+                'kategoriSikapId' => 'required',
+                'jenisSikapId' => 'required',
                 'kelasId' => 'required',
             ],
             [
                 'tahun.required' => 'tidak boleh kosong',
                 'semester.required' => 'tidak boleh kosong',
                 'mataPelajaranId.required' => 'tidak boleh kosong',
-                'kategoriNilaiId.required' => 'tidak boleh kosong',
-                'jenisPenilaianId.required' => 'tidak boleh kosong',
+                'kategoriSikapId.required' => 'tidak boleh kosong',
+                'jenisSikapId.required' => 'tidak boleh kosong',
                 'kelasId.required' => 'tidak boleh kosong',
             ]
         );
         $tahun = $request->tahun;
         $semester = $request->semester;
         $mataPelajaranId = $request->mataPelajaranId;
-        $kategoriNilaiId = $request->kategoriNilaiId;
-        $jenisPenilaianId = $request->jenisPenilaianId;
+        $kategoriSikapId = $request->kategoriSikapId;
         $kelasId = $request->kelasId;
 
         $namaKelas = Kelas::find($kelasId)->nama;
-        $namaJenisPenilaian = JenisPenilaian::find($jenisPenilaianId)->nama;
-        $namaMapel = MataPelajaran::find($mataPelajaranId)->nama;
-        return Excel::download(new ExportNilai($tahun, $semester, $mataPelajaranId, $kategoriNilaiId, $jenisPenilaianId, $kelasId),  $namaMapel . ' - ' . $namaJenisPenilaian . ' - ' . $namaKelas . '.xlsx');
+        return Excel::download(new ExportNilaiSikap($tahun, $semester, $mataPelajaranId, $kategoriSikapId, $kelasId),  'Penilaian Sikap - ' . $namaKelas . '.xlsx');
     }
 
     public function import(Request $request)
@@ -71,8 +66,8 @@ class UploadNilaiController extends Controller
             'fileImport' => 'required|mimes:xls,xlsx'
         ]);
 
-        Excel::import(new ImportNilai(), $request->fileImport);
+        Excel::import(new ImportNilaiSikap(), $request->fileImport);
 
-        to_route('upload-nilai');
+        to_route('upload-nilai-sikap');
     }
 }

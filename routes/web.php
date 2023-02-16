@@ -12,6 +12,7 @@ use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiSikapController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\UploadNilaiController;
+use App\Http\Controllers\UploadNilaiSikapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,13 @@ Route::middleware([
         Route::get('upload-nilai', 'index')->name('upload-nilai');
         Route::get('upload-nilai/export', 'export')->name('upload-nilai.export');
         Route::post('upload-nilai/import', 'import')->name('upload-nilai.import');
+    });
+
+    // Route Upload Nilai Sikap
+    Route::controller(UploadNilaiSikapController::class)->group(function () {
+        Route::get('upload-nilai-sikap', 'index')->name('upload-nilai-sikap');
+        Route::get('upload-nilai-sikap/export', 'export')->name('upload-nilai-sikap.export');
+        Route::get('upload-nilai-sikap/import', 'import')->name('upload-nilai-sikap.import');
     });
 });
 
