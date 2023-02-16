@@ -108,7 +108,7 @@ Route::middleware([
     Route::controller(UploadNilaiSikapController::class)->group(function () {
         Route::get('upload-nilai-sikap', 'index')->name('upload-nilai-sikap');
         Route::get('upload-nilai-sikap/export', 'export')->name('upload-nilai-sikap.export');
-        Route::get('upload-nilai-sikap/import', 'import')->name('upload-nilai-sikap.import');
+        Route::post('upload-nilai-sikap/import', 'import')->name('upload-nilai-sikap.import');
     });
 });
 

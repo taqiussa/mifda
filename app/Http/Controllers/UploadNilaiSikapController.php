@@ -8,6 +8,7 @@ use App\Exports\ExportNilaiSikap;
 use App\Imports\ImportNilaiSikap;
 use Illuminate\Http\Request;
 use App\Models\GuruMataPelajaran;
+use App\Models\KategoriSikap;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UploadNilaiSikapController extends Controller
@@ -26,6 +27,7 @@ class UploadNilaiSikapController extends Controller
                         'mapel'
                     ])
                     ->get(),
+                'listKategori' => KategoriSikap::get(),
             ]
         );
     }

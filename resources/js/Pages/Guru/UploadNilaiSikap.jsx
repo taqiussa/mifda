@@ -15,8 +15,6 @@ import getNilaiSikap from '@/Functions/getNilaiSikap'
 import DownloadLink from '@/Components/Sia/DownloadLink'
 import FileUpload from '@/Components/Sia/FileUpload'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
-import getNilaiSikap from '@/Functions/getNilaiSikap'
-import getJenisSikap from '@/Functions/getJenisSikap'
 
 const UploadNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKategori }) => {
 
