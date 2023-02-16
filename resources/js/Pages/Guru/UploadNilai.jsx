@@ -62,7 +62,7 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         e.preventDefault()
         post(route('upload-nilai.import'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Absensi Siswa')
+                toast.success('Berhasil Upload Nilai Siswa')
                 setData({
                     tahun: data.tahun,
                     semester: data.semester,

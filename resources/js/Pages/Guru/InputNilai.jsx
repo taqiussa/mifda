@@ -15,6 +15,8 @@ import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
@@ -88,6 +90,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         setData(event.target.name, event.target.value)
     }
 
+    const MySwal = withReactContent(Swal)
     const submit = (e) => {
         e.preventDefault()
         post(route('input-nilai.simpan'), {
@@ -104,7 +107,12 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                 })
             },
             onError: (error) => {
-                toast.error('Gagal! ' + error.pesan)
+                MySwal.fire({
+                    title: 'Gagal!',
+                    text: error.pesan,
+                    icon: 'error',
+                    confirmButtonText: 'Kembali'
+                })
             }
         })
     }

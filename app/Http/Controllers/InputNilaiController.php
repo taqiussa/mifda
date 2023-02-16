@@ -39,11 +39,11 @@ class InputNilaiController extends Controller
         ]);
 
         $inputs = $request->arrayInput;
-        // foreach ($inputs as $input) {
-        //     if (intval($input['nilai']['nilai'] > 100)) {
-        //         return back()->withErrors(['pesan' => 'Periksa Data, Nilai Tidak Boleh Lebih Dari 100']);
-        //     }
-        // }
+        foreach ($inputs as $input) {
+            if (intval($input['nilai']['nilai'] > 100)) {
+                return back()->withErrors(['pesan' => 'Periksa Data, Nilai Tidak Boleh Lebih Dari 100']);
+            }
+        }
 
         foreach ($inputs as $input) {
             Penilaian::updateOrCreate(
