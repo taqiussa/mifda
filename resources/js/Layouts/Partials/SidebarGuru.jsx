@@ -13,6 +13,7 @@ export default function SidebarGuru() {
                 <SidebarLink href={route('input-nilai-sikap')} active={route().current('input-nilai-sikap')} label='input nilai sikap' />
                 <SidebarLink href={route('print-absensi')} active={route().current('print-absensi')} label='print absensi' />
                 <SidebarLink href={route('upload-nilai')} active={route().current('upload-nilai')} label='upload nilai' />
+                <SidebarLink href={route('upload-nilai-sikap')} active={route().current('upload-nilai-sikap')} label='upload nilai sikap' />
 
             </div>
         </div>
