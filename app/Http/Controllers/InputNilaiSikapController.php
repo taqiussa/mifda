@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\InitTrait;
 use Illuminate\Http\Request;
 use App\Models\GuruMataPelajaran;
+use App\Models\KategoriSikap;
 use App\Models\PenilaianSikap;
 
 class InputNilaiSikapController extends Controller
@@ -22,7 +23,8 @@ class InputNilaiSikapController extends Controller
                     ->with([
                         'mapel'
                     ])
-                    ->get()
+                    ->get(),
+                'listKategori' => KategoriSikap::get(),
             ]
         );
     }

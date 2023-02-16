@@ -16,7 +16,7 @@ import getNilaiSikap from '@/Functions/getNilaiSikap'
 import JenisSikap from '@/Components/Sia/JenisSikap'
 import KategoriSikap from '@/Components/Sia/KategoriSikap'
 
-const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
+const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKategori }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
