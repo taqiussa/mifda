@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AturanKurikulum;
 use App\Models\GuruKelas;
 use App\Models\JenisPenilaian;
+use App\Models\JenisSikap;
 use App\Models\KategoriNilai;
 use App\Models\Kelas;
 use App\Models\PenilaianRapor;
@@ -39,6 +40,13 @@ class GetDataController extends Controller
             ->pluck('jenis_penilaian_id');
         return response()->json([
             'listJenis' => JenisPenilaian::whereIn('id', $jenisPenilaianId)->get()
+        ]);
+    }
+
+    public function get_jenis_sikap(Request $request)
+    {
+        return response()->json([
+            'listJenis' => JenisSikap::whereKategoriSikapId($request->kategoriSikapId)->get()
         ]);
     }
 

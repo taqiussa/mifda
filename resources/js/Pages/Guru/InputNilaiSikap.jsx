@@ -29,12 +29,11 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
     })
 
     const [listSiswa, setListSiswa] = useState([])
-    const [listKategori, setListKategori] = useState([])
     const [listJenis, setListJenis] = useState([])
     const [listKelas, setListKelas] = useState([])
     const [count, setCount] = useState(0)
 
-    async function getDataNilaiSiswa() {
+    async function getDataNilaiSikap() {
         const response = await getNilaiSikap(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriSikapId, data.jenisSikapId)
         setData({
             tahun: data.tahun,
@@ -47,11 +46,6 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
         })
         setListSiswa([])
         setListSiswa(response.listSiswa)
-    }
-
-    async function getDataKategoriSikap() {
-        const response = await getKategoriSikap(data.tahun, data.kelasId)
-        setListKategori(response.listKategori)
     }
 
     async function getDataJenisSikap() {
@@ -125,20 +119,6 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
     useEffect(() => {
 
         if (data.tahun
-            && data.kelasId
-        ) {
-            trackPromise(
-                getDataKategoriSikap()
-            )
-
-        }
-        return () => {
-        }
-    }, [data.tahun, data.kelasId])
-
-    useEffect(() => {
-
-        if (data.tahun
             && data.semester
             && data.kelasId
             && data.kategoriSikapId
@@ -162,7 +142,7 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
             && data.jenisSikapId
         ) {
             trackPromise(
-                getDataNilaiSiswa()
+                getDataNilaiSikap()
             )
 
         } else {
