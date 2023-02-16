@@ -68,7 +68,7 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKateg
             user: {
                 name: name
             },
-            nilai: {
+            nilai_sikap: {
                 nilai: e.target.value
             }
         })
@@ -260,13 +260,13 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKateg
                                         <Nilai
                                             id={siswa.nis}
                                             name={siswa.nis}
-                                            value={siswa.nilai.nilai ?? ''}
+                                            value={siswa.nilai_sikap.nilai ?? ''}
                                             handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name)}
                                         />
 
                                         {
                                             (() => {
-                                                if (data.arrayInput.length > 0 && data.arrayInput[index].nilai.nilai > 100) {
+                                                if (data.arrayInput.length > 0 && data.arrayInput[index].nilai_sikap.nilai > 100) {
                                                     return (
                                                         <span className='text-red-500'>Nilai maksimal 100</span>
                                                     )

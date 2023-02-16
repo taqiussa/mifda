@@ -56,7 +56,7 @@ class InputNilaiSikapController extends Controller
                 [
                     'tanggal' => date('Y-m-d'),
                     'user_id' => auth()->user()->id,
-                    'nilai' => $input['nilai']['nilai'] ?? null,
+                    'nilai' => $input['nilai_sikap']['nilai'] ?? null,
                 ]
             );
         }

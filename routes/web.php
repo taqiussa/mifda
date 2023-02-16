@@ -42,6 +42,7 @@ Route::middleware([
     Route::controller(GetDataController::class)->group(function () {
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-jenis-penilaian', 'get_jenis_penilaian')->name('get-jenis-penilaian');
+        Route::post('get-jenis-sikap', 'get_jenis_sikap')->name('get-jenis-sikap');
         Route::post('get-kategori-nilai', 'get_kategori_nilai')->name('get-kategori-nilai');
         Route::post('get-kelas', 'get_kelas')->name('get-kelas');
         Route::post('get-siswa', 'get_siswa')->name('get-siswa');
