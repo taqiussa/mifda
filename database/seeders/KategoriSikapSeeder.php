@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\KategoriSikap;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,8 @@ class KategoriSikapSeeder extends Seeder
      */
     public function run()
     {
-        //
+        KategoriSikap::create([
+            'nama' => 'P5'
+        ]);
     }
 }

@@ -108,21 +108,12 @@ function arrayBulan()
     ]), false);
 }
 
-enum IndikatorAlquran: int
+enum EnumKategoriNilai: int
 {
-    case KEBENARAN = 1;
-    case KEINDAHAN = 2;
-    case KELANCARAN = 3;
-    case MAKHROJ = 4;
-    case TAJWID = 5;
-}
-
-enum EnumKategoriPenilaian: int
-{
-    case PENGETAHUAN = 3;
-    case KETERAMPILAN = 4;
-    case FORMATIF = 5;
-    case SUMATIF = 6;
+    case PENGETAHUAN = 1;
+    case KETERAMPILAN = 2;
+    case SUMATIF = 3;
+    case FORMATIF = 4;
 }
 
 enum EnumKehadiran: int
@@ -137,9 +128,7 @@ enum EnumKehadiran: int
 
 enum EnumKategoriSikap: int
 {
-    case SPIRITUAL = 1;
-    case SOSIAL = 2;
-    case PANCASILA = 3;
+    case P5 = 1;
 }
 
 enum EnumBulan: int
@@ -162,31 +151,4 @@ enum EnumStatusSiswa: int
 {
     case PINDAH = 1;
     case LULUS = 2;
-}
-
-enum EnumKategoriGuru: int
-{
-    case Guru = 1;
-    case Karyawan = 2;
-    case WaliKelas = 3;
-}
-
-enum EnumJenisIbadah: int
-{
-    case Dhuha = 1;
-    case Dhuhur = 2;
-    case Tadarus = 3;
-}
-
-enum EnumKehadiranIbadah: int
-{
-    case Hadir = 1;
-    case Izin = 2;
-    case Alpha = 3;
-}
-
-enum EnumKategoriAlquran: int
-{
-    case Bilghoib = 1;
-    case Binnadzor = 2;
 }

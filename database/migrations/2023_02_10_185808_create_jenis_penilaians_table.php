@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('jenis_penilaians', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kategori_nilai_id');
             $table->string('nama');
             $table->timestamps();
         });

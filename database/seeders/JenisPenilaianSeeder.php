@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\JenisPenilaian;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use EnumKategoriNilai;
 use Illuminate\Database\Seeder;
 
 class JenisPenilaianSeeder extends Seeder
@@ -16,28 +16,81 @@ class JenisPenilaianSeeder extends Seeder
     public function run()
     {
         $data  = [
-            'Tugas 1',
-            'Tugas 2',
-            'Ulangan Harian 1',
-            'Ulangan Harian 2',
-            'Praktek 1',
-            'Praktek 2',
-            'Proyek 1',
-            'Proyek 2',
-            'PTS',
-            'PAS',
-            'PAT',
-            'Sumatif 1',
-            'Sumatif 2',
-            'Formatif 1',
-            'Formatif 2',
-            'Sumatif Akhir Gasal',
-            'Sumatif Akhir Genap',
+            [
+                'nama' => 'Tugas 1',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'Tugas 2',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'Ulangan Harian 1',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'Ulangan Harian 2',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'Praktek 1',
+                'kategori_nilai_id' => EnumKategoriNilai::KETERAMPILAN
+            ],
+            [
+                'nama' => 'Praktek 2',
+                'kategori_nilai_id' => EnumKategoriNilai::KETERAMPILAN
+            ],
+            [
+                'nama' => 'Proyek 1',
+                'kategori_nilai_id' => EnumKategoriNilai::KETERAMPILAN
+            ],
+            [
+                'nama' => 'Proyek 2',
+                'kategori_nilai_id' => EnumKategoriNilai::KETERAMPILAN
+            ],
+            [
+                'nama' => 'PTS',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'PAS',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'PAT',
+                'kategori_nilai_id' => EnumKategoriNilai::PENGETAHUAN
+            ],
+            [
+                'nama' => 'Sumatif 1',
+                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF
+            ],
+            [
+                'nama' => 'Sumatif 2',
+                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF
+            ],
+            [
+                'nama' => 'Formatif 1',
+                'kategori_nilai_id' => EnumKategoriNilai::FORMATIF
+            ],
+            [
+                'nama' => 'Formatif 2',
+                'kategori_nilai_id' => EnumKategoriNilai::FORMATIF
+            ],
+            [
+                'nama' => 'Sumatif Akhir Gasal',
+                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF
+            ],
+            [
+                'nama' => 'Sumatif Akhir Genap',
+                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF
+            ],
+
         ];
-        
+
         foreach ($data as $jenis) {
             JenisPenilaian::create([
-                'nama' => $jenis
+                'nama' => $jenis['nama'],
+                'kategori_nilai_id' => $jenis['kategori_nilai_id']
             ]);
         }
     }
