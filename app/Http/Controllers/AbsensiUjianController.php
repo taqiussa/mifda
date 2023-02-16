@@ -34,7 +34,7 @@ class AbsensiUjianController extends Controller
             '*.absensi.kehadiran_id' => 'required'
         ]);
         if ($validator->fails()) {
-            return to_route('absensi-ujian')->withErrors('Ada data kosong');
+            return back()->withErrors(['pesan' => 'Periksa Data, Kehadiran tidak boleh kosong']);
         }
 
         $tanggal = $request->tanggal;

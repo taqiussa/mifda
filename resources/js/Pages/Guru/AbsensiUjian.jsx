@@ -13,6 +13,7 @@ import Ruang from '@/Components/Sia/Ruang'
 import Semester from '@/Components/Sia/Semester'
 import Ujian from '@/Components/Sia/Ujian'
 import getAbsensiUjian from '@/Functions/getAbsensiUjian'
+import Sweet from '@/Components/Sia/Sweet'
 
 const AbsensiUjian = ({ initTahun, initSemester, listKehadiran, listRuang }) => {
 
@@ -104,7 +105,12 @@ const AbsensiUjian = ({ initTahun, initSemester, listKehadiran, listRuang }) => 
                 })
             },
             onError: (error) => {
-                toast.error('Gagal ' + error[0])
+                Sweet.fire({
+                    title: 'Gagal!',
+                    text: error.pesan,
+                    icon: 'error',
+                    confirmButtonText: 'Kembali'
+                })
             }
         })
     }
