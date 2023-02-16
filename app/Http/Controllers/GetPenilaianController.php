@@ -37,12 +37,12 @@ class GetPenilaianController extends Controller
                 ->whereKelasId($request->kelasId)
                 ->with([
                     'user' => fn ($q) => $q->select('nis', 'name'),
-                    'nilai' => fn ($q) => $q
+                    'nilaiSikap' => fn ($q) => $q
                         ->whereTahun($request->tahun)
                         ->whereSemester($request->semester)
                         ->whereMataPelajaranId($request->mataPelajaranId)
-                        ->whereKategoriNilaiId($request->kategoriNilaiId)
-                        ->whereJenisPenilaianId($request->jenisPenilaianId)
+                        ->whereKategoriSikapId($request->kategoriSikapId)
+                        ->whereJenisSikapId($request->jenisSikapId)
                 ])
                 ->get()
                 ->sortBy('user.name')

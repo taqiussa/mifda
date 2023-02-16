@@ -57,6 +57,7 @@ Route::middleware([
     // Route Get Nilai dan Penilaian
     Route::controller(GetPenilaianController::class)->group(function () {
         Route::post('get-nilai-siswa', 'get_nilai_siswa')->name('get-nilai-siswa');
+        Route::post('get-nilai-sikap', 'get_nilai_sikap')->name('get-nilai-sikap');
     });
 
     // Batas Route Menu dan Route Get Data
