@@ -33,16 +33,16 @@ class Siswa extends Model
         return $this->hasMany(Absensi::class, 'nis', 'nis');
     }
 
-    /**
-     * Get the biodata associated with the Siswa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
-     */
-    public function guru(): HasOneThrough
-    {
-        // nis dari absensi, id dari User    , nis dari siswa, user_id dari absensi;
-        return $this->hasOneThrough(User::class, Absensi::class, 'nis', 'id', 'nis', 'user_id')->withDefault();
-    }
+    // /**
+    //  * Get the biodata associated with the Siswa
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+    //  */
+    // public function guru(): HasOneThrough
+    // {
+    //     nis dari absensi, id dari User    , nis dari siswa, user_id dari absensi;
+    //     return $this->hasOneThrough(User::class, Absensi::class, 'nis', 'id', 'nis', 'user_id')->withDefault();
+    // }
 
     /**
      * Get the kelas that owns the Siswa
