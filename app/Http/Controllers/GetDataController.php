@@ -91,7 +91,6 @@ class GetDataController extends Controller
 
     public function get_siswa()
     {
-
         return response()->json([
             'listSiswa' => Siswa::whereTahun(request('tahun'))
                 ->whereKelasId(request('kelasId'))
