@@ -8,23 +8,23 @@ import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
 import Semester from '@/Components/Sia/Semester'
 import MataPelajaran from '@/Components/Sia/MataPelajaran'
-import KategoriNilai from '@/Components/Sia/KategoriNilai'
-import JenisPenilaian from '@/Components/Sia/JenisPenilaian'
 import getKelas from '@/Functions/getKelas'
-import getKategoriNilai from '@/Functions/getKategoriNilai'
-import getJenisPenilaian from '@/Functions/getJenisPenilaian'
+import getKategoriSikap from '@/Functions/getKategoriSikap'
+import getJenisSikap from '@/Functions/getJenisSikap'
 import Nilai from '@/Components/Sia/Nilai'
-import getNilaiSiswa from '@/Functions/getNilaiSiswa'
+import getNilaiSikap from '@/Functions/getNilaiSikap'
+import JenisSikap from '@/Components/Sia/JenisSikap'
+import KategoriSikap from '@/Components/Sia/KategoriSikap'
 
-const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
+const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
         semester: initSemester,
         mataPelajaranId: '',
         kelasId: '',
-        kategoriNilaiId: '',
-        jenisPenilaianId: '',
+        kategoriSikapId: '',
+        jenisSikapId: '',
         arrayInput: [],
     })
 
@@ -35,27 +35,27 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
     const [count, setCount] = useState(0)
 
     async function getDataNilaiSiswa() {
-        const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
+        const response = await getNilaiSikap(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriSikapId, data.jenisSikapId)
         setData({
             tahun: data.tahun,
             semester: data.semester,
             mataPelajaranId: data.mataPelajaranId,
             kelasId: data.kelasId,
-            kategoriNilaiId: data.kategoriNilaiId,
-            jenisPenilaianId: data.jenisPenilaianId,
+            kategoriSikapId: data.kategoriSikapId,
+            jenisSikapId: data.jenisSikapId,
             arrayInput: [],
         })
         setListSiswa([])
         setListSiswa(response.listSiswa)
     }
 
-    async function getDataKategoriNilai() {
-        const response = await getKategoriNilai(data.tahun, data.kelasId)
+    async function getDataKategoriSikap() {
+        const response = await getKategoriSikap(data.tahun, data.kelasId)
         setListKategori(response.listKategori)
     }
 
-    async function getDataJenisPenilaian() {
-        const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
+    async function getDataJenisSikap() {
+        const response = await getJenisSikap(data.tahun, data.semester, data.kelasId, data.kategoriSikapId)
         setListJenis(response.listJenis)
     }
 
@@ -90,16 +90,16 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('input-nilai.simpan'), {
+        post(route('input-nilai-sikap.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Nilai Siswa')
+                toast.success('Berhasil Simpan Nilai Sikap Siswa')
                 setData({
                     tahun: data.tahun,
                     semester: data.semester,
                     mataPelajaranId: data.mataPelajaranId,
                     kelasId: data.kelasId,
-                    kategoriNilaiId: data.kategoriNilaiId,
-                    jenisPenilaianId: data.jenisPenilaianId,
+                    kategoriSikapId: data.kategoriSikapId,
+                    jenisSikapId: data.jenisSikapId,
                     arrayInput: [],
                 })
             },
@@ -128,7 +128,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
             && data.kelasId
         ) {
             trackPromise(
-                getDataKategoriNilai()
+                getDataKategoriSikap()
             )
 
         }
@@ -141,16 +141,16 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         if (data.tahun
             && data.semester
             && data.kelasId
-            && data.kategoriNilaiId
+            && data.kategoriSikapId
         ) {
             trackPromise(
-                getDataJenisPenilaian()
+                getDataJenisSikap()
             )
 
         }
         return () => {
         }
-    }, [data.tahun, data.semester, data.kelasId, data.kategoriNilaiId])
+    }, [data.tahun, data.semester, data.kelasId, data.kategoriSikapId])
 
     useEffect(() => {
 
@@ -158,8 +158,8 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
             && data.semester
             && data.mataPelajaranId
             && data.kelasId
-            && data.kategoriNilaiId
-            && data.jenisPenilaianId
+            && data.kategoriSikapId
+            && data.jenisSikapId
         ) {
             trackPromise(
                 getDataNilaiSiswa()
@@ -170,7 +170,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         }
         return () => {
         }
-    }, [data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId])
+    }, [data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriSikapId, data.jenisSikapId])
 
     useEffect(() => {
 
@@ -225,21 +225,21 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                         handleChange={onHandleChange}
                     />
 
-                    <KategoriNilai
-                        id="kategoriNilaiId"
-                        name="kategoriNilaiId"
-                        value={data.kategoriNilaiId}
-                        message={errors.kategoriNilaiId}
+                    <KategoriSikap
+                        id="kategoriSikapId"
+                        name="kategoriSikapId"
+                        value={data.kategoriSikapId}
+                        message={errors.kategoriSikapId}
                         listKategori={listKategori}
                         isFocused={true}
                         handleChange={onHandleChange}
                     />
 
-                    <JenisPenilaian
-                        id="jenisPenilaianId"
-                        name="jenisPenilaianId"
-                        value={data.jenisPenilaianId}
-                        message={errors.jenisPenilaianId}
+                    <JenisSikap
+                        id="jenisSikapId"
+                        name="jenisSikapId"
+                        value={data.jenisSikapId}
+                        message={errors.jenisSikapId}
                         listJenis={listJenis}
                         isFocused={true}
                         handleChange={onHandleChange}
@@ -308,5 +308,5 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         </>
     )
 }
-InputNilai.layout = page => <AppLayout children={page} />
-export default InputNilai
+InputNilaiSikap.layout = page => <AppLayout children={page} />
+export default InputNilaiSikap

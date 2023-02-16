@@ -9,6 +9,7 @@ use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputNilaiController;
+use App\Http\Controllers\InputNilaiSikapController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\UploadNilaiController;
 
@@ -78,6 +79,12 @@ Route::middleware([
     Route::controller(InputNilaiController::class)->group(function () {
         Route::get('input-nilai', 'index')->name('input-nilai');
         Route::post('input-nilai/simpan', 'simpan')->name('input-nilai.simpan');
+    });
+
+    // Route Input Nilai Sikap
+    Route::controller(InputNilaiSikapController::class)->group(function () {
+        Route::get('input-nilai-sikap', 'index')->name('input-nilai-sikap');
+        Route::post('input-nilai-sikap/simpan', 'simpan')->name('input-nilai-sikap.simpan');
     });
 
     //Route Print Kehadiran
