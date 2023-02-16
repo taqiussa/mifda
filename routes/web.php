@@ -11,6 +11,7 @@ use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiSikapController;
 use App\Http\Controllers\PrintAbsensiController;
+use App\Http\Controllers\PrintRaporController;
 use App\Http\Controllers\UploadNilaiController;
 use App\Http\Controllers\UploadNilaiSikapController;
 
@@ -46,6 +47,7 @@ Route::middleware([
         Route::post('get-jenis-sikap', 'get_jenis_sikap')->name('get-jenis-sikap');
         Route::post('get-kategori-nilai', 'get_kategori_nilai')->name('get-kategori-nilai');
         Route::post('get-kelas', 'get_kelas')->name('get-kelas');
+        Route::post('get-kelas-wali', 'get_kelas_wali')->name('get-kelas-wali');
         Route::post('get-siswa', 'get_siswa')->name('get-siswa');
     });
 
@@ -109,6 +111,12 @@ Route::middleware([
         Route::get('upload-nilai-sikap', 'index')->name('upload-nilai-sikap');
         Route::get('upload-nilai-sikap/export', 'export')->name('upload-nilai-sikap.export');
         Route::post('upload-nilai-sikap/import', 'import')->name('upload-nilai-sikap.import');
+    });
+
+    // Route Print Rapor
+    Route::controller(PrintRaporController::class)->group(function () {
+        Route::get('print-rapor', 'index')->name('print-rapor');
+        Route::get('print-rapor/print', 'print')->name('print-rapor.print');
     });
 });
 

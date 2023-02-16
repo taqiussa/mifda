@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
 export default forwardRef(function Kelas(
-    { name, id, value, message, className, required, isFocused, handleChange, listKelas },
+    { name, id, value, message, className, required, isFocused, handleChange, disable, listKelas },
     ref
 ) {
 
@@ -28,12 +28,15 @@ export default forwardRef(function Kelas(
                     id={id}
                     value={value}
                     className={
-                        `border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full ` +
+                        `border-gray-300  focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full ${
+                            disable && 'bg-slate-200'
+                        } ` +
                         className
                     }
                     ref={input}
                     required={required}
                     onChange={(e) => handleChange(e)}
+                    disabled={disable}
                 >
 
                     <option value="">Pilih Kelas</option>

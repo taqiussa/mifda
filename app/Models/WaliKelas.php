@@ -20,4 +20,14 @@ class WaliKelas extends Model
     {
         return $this->belongsTo(User::class)->withDefault();
     }
+
+    /**
+     * Get the kelas that owns the WaliKelas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kelas(): BelongsTo
+    {
+        return $this->belongsTo(Kelas::class)->withDefault();
+    }
 }

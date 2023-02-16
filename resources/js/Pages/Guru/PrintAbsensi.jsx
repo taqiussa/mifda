@@ -29,12 +29,12 @@ const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
 
                 <div className="lg:grid lg:grid-cols-7 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
                     <Bulan
-                    id="bulan"
-                    name="bulan"
-                    value={data.bulan}
-                    message={errors.bulan}
-                    isFocused={true}
-                    handleChange={onHandleChange}
+                        id="bulan"
+                        name="bulan"
+                        value={data.bulan}
+                        message={errors.bulan}
+                        isFocused={true}
+                        handleChange={onHandleChange}
                     />
 
                     <Tahun
@@ -58,14 +58,15 @@ const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
 
                     <div className=' flex flex-col justify-end'>
                         {/* 👇️ open link in new tab */}
-                        <PrintLink href={route('print-absensi.print-per-bulan',
-                            {
-                                bulan: data.bulan,
-                                tahun: data.tahun,
-                                kelasId: data.kelasId
-                            })}>
-                            per bulan
-                        </PrintLink>
+                        <PrintLink
+                            label='per bulan'
+                            href={route('print-absensi.print-per-bulan',
+                                {
+                                    bulan: data.bulan,
+                                    tahun: data.tahun,
+                                    kelasId: data.kelasId
+                                })}
+                        />
                     </div>
                 </div>
 
@@ -101,13 +102,14 @@ const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
 
                     <div className=' flex flex-col justify-end'>
                         {/* 👇️ open link in new tab */}
-                        <PrintLink href={route('print-absensi.print-per-semester', {
-                            tahun: data.tahunPerSemester,
-                            semester: data.semester,
-                            kelasId: data.kelasIdPerSemester
-                        })}>
-                            per semester
-                        </PrintLink>
+                        <PrintLink
+                            label='per semester'
+                            href={route('print-absensi.print-per-semester', {
+                                tahun: data.tahunPerSemester,
+                                semester: data.semester,
+                                kelasId: data.kelasIdPerSemester
+                            })}
+                        />
                     </div>
                 </div>
 

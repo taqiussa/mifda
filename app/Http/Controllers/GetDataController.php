@@ -11,6 +11,7 @@ use App\Models\Kelas;
 use App\Models\PenilaianRapor;
 use App\Models\Siswa;
 use App\Models\SiswaEkstra;
+use App\Models\WaliKelas;
 use Illuminate\Http\Request;
 
 class GetDataController extends Controller
@@ -77,6 +78,15 @@ class GetDataController extends Controller
                 ->whereMataPelajaranId($request->mataPelajaranId)
                 ->whereTahun($request->tahun)
                 ->get(),
+        ]);
+    }
+
+    public function get_kelas_wali(Request $request)
+    {
+        return response()->json([
+            'kelasId' => WaliKelas::whereUserId(auth()->user()->id)
+                ->whereTahun($request->tahun)
+                ->value('kelas_id') ?? '',
         ]);
     }
 
