@@ -24,7 +24,7 @@ const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
 
     return (
         <>
-            <Head title='Print Kehadiran' />
+            <Head title='Print Absensi' />
             <div className='space-y-10 mt-10'>
 
                 <div className="lg:grid lg:grid-cols-7 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
@@ -117,5 +117,5 @@ const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
         </>
     )
 }
-PrintAbsensi.layout = page => <AppLayout children={page} title="Print Kehadiran" />
+PrintAbsensi.layout = page => <AppLayout children={page} />
 export default PrintAbsensi

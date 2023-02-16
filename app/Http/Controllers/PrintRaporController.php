@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AturanKurikulum;
 use App\Models\Kelas;
 use App\Models\WaliKelas;
 use App\Traits\InitTrait;
-use Illuminate\Http\Request;
 
 class PrintRaporController extends Controller
 {
@@ -28,5 +28,10 @@ class PrintRaporController extends Controller
 
     public function print()
     {
+        $kelas = request('kelasId');
+        $tahun = request('tahun');
+        $semester = request('semester');
+
+        $cekKurikulum = AturanKurikulum::whereTingkat();
     }
 }

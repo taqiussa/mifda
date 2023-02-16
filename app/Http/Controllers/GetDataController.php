@@ -12,49 +12,48 @@ use App\Models\PenilaianRapor;
 use App\Models\Siswa;
 use App\Models\SiswaEkstra;
 use App\Models\WaliKelas;
-use Illuminate\Http\Request;
 
 class GetDataController extends Controller
 {
-    public function get_ekstrakurikuler(Request $request)
-    {
-        return response()->json([
-            'listSiswa' => SiswaEkstra::whereTahun($request->tahun)
-                ->whereKelasId($request->kelasId)
-                ->with([
-                    'ekstrakurikuler',
-                    'user'
-                ])
-                ->get()
-                ->sortBy(['user.name'])
-                ->values()
-        ]);
-    }
+    // public function get_ekstrakurikuler()
+    // {
+    //     return response()->json([
+    //         'listSiswa' => SiswaEkstra::whereTahun(request('tahun'))
+    //             ->whereKelasId(request('kelasId'))
+    //             ->with([
+    //                 'ekstrakurikuler',
+    //                 'user'
+    //             ])
+    //             ->get()
+    //             ->sortBy(['user.name'])
+    //             ->values()
+    //     ]);
+    // }
 
-    public function get_jenis_penilaian(Request $request)
+    public function get_jenis_penilaian()
     {
-        $tingkat = Kelas::find($request->kelasId)->tingkat;
-        $jenisPenilaianId = PenilaianRapor::whereTahun($request->tahun)
-            ->whereSemester($request->semester)
+        $tingkat = Kelas::find(request('kelasId'))->tingkat;
+        $jenisPenilaianId = PenilaianRapor::whereTahun(request('tahun'))
+            ->whereSemester(request('semester'))
             ->whereTingkat($tingkat)
-            ->whereKategoriNilaiId($request->kategoriNilaiId)
+            ->whereKategoriNilaiId(request('kategoriNilaiId'))
             ->pluck('jenis_penilaian_id');
         return response()->json([
             'listJenis' => JenisPenilaian::whereIn('id', $jenisPenilaianId)->get()
         ]);
     }
 
-    public function get_jenis_sikap(Request $request)
+    public function get_jenis_sikap()
     {
         return response()->json([
-            'listJenis' => JenisSikap::whereKategoriSikapId($request->kategoriSikapId)->get()
+            'listJenis' => JenisSikap::whereKategoriSikapId(request('kategoriSikapId'))->get()
         ]);
     }
 
-    public function get_kategori_nilai(Request $request)
+    public function get_kategori_nilai()
     {
-        $tingkat = Kelas::find($request->kelasId)->tingkat;
-        $kurikulum = AturanKurikulum::whereTahun($request->tahun)
+        $tingkat = Kelas::find(request('kelasId'))->tingkat;
+        $kurikulum = AturanKurikulum::whereTahun(request('tahun'))
             ->whereTingkat($tingkat)
             ->with(['kurikulum' => fn ($q) => $q->select('id', 'nama')])
             ->first()->kurikulum->nama;
@@ -70,32 +69,32 @@ class GetDataController extends Controller
     }
 
 
-    public function get_kelas(Request $request)
+    public function get_kelas()
     {
         return response()->json([
             'listKelas' => GuruKelas::with(['kelas' => fn ($q) => $q->select('id', 'nama')])
                 ->whereUserId(auth()->user()->id)
-                ->whereMataPelajaranId($request->mataPelajaranId)
-                ->whereTahun($request->tahun)
+                ->whereMataPelajaranId(request('mataPelajaranId'))
+                ->whereTahun(request('tahun'))
                 ->get(),
         ]);
     }
 
-    public function get_kelas_wali(Request $request)
+    public function get_kelas_wali()
     {
         return response()->json([
             'kelasId' => WaliKelas::whereUserId(auth()->user()->id)
-                ->whereTahun($request->tahun)
+                ->whereTahun(request('tahun'))
                 ->value('kelas_id') ?? '',
         ]);
     }
 
-    public function get_siswa(Request $request)
+    public function get_siswa()
     {
 
         return response()->json([
-            'listSiswa' => Siswa::whereTahun($request->tahun)
-                ->whereKelasId($request->kelasId)
+            'listSiswa' => Siswa::whereTahun(request('tahun'))
+                ->whereKelasId(request('kelasId'))
                 ->with(['user' => fn ($q) => $q->select('nis', 'name')])
                 ->get()
                 ->sortBy('user.name')

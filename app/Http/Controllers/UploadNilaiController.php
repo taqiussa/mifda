@@ -6,7 +6,6 @@ use App\Models\Kelas;
 use App\Traits\InitTrait;
 use App\Exports\ExportNilai;
 use App\Imports\ImportNilai;
-use Illuminate\Http\Request;
 use App\Models\JenisPenilaian;
 use App\Models\GuruMataPelajaran;
 use App\Models\MataPelajaran;
@@ -32,9 +31,9 @@ class UploadNilaiController extends Controller
         );
     }
 
-    public function export(Request $request)
+    public function export()
     {
-        $request->validate(
+        request()->validate(
             [
                 'tahun' => 'required',
                 'semester' => 'required',
@@ -52,12 +51,12 @@ class UploadNilaiController extends Controller
                 'kelasId.required' => 'tidak boleh kosong',
             ]
         );
-        $tahun = $request->tahun;
-        $semester = $request->semester;
-        $mataPelajaranId = $request->mataPelajaranId;
-        $kategoriNilaiId = $request->kategoriNilaiId;
-        $jenisPenilaianId = $request->jenisPenilaianId;
-        $kelasId = $request->kelasId;
+        $tahun = request('tahun');
+        $semester = request('semester');
+        $mataPelajaranId = request('mataPelajaranId');
+        $kategoriNilaiId = request('kategoriNilaiId');
+        $jenisPenilaianId = request('jenisPenilaianId');
+        $kelasId = request('kelasId');
 
         $namaKelas = Kelas::find($kelasId)->nama;
         $namaJenisPenilaian = JenisPenilaian::find($jenisPenilaianId)->nama;
@@ -65,13 +64,13 @@ class UploadNilaiController extends Controller
         return Excel::download(new ExportNilai($tahun, $semester, $mataPelajaranId, $kategoriNilaiId, $jenisPenilaianId, $kelasId),  $namaMapel . ' - ' . $namaJenisPenilaian . ' - ' . $namaKelas . '.xlsx');
     }
 
-    public function import(Request $request)
+    public function import()
     {
-        $request->validate([
+        request()->validate([
             'fileImport' => 'required|mimes:xls,xlsx'
         ]);
 
-        Excel::import(new ImportNilai(), $request->fileImport);
+        Excel::import(new ImportNilai(), request('fileImport'));
 
         to_route('upload-nilai');
     }

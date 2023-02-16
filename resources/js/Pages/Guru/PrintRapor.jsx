@@ -40,7 +40,7 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
 
     return (
         <>
-            <Head title='Print Kehadiran' />
+            <Head title='Print Rapor' />
             <div className='space-y-10 mt-10'>
 
                 <div className="lg:grid lg:grid-cols-7 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
@@ -71,17 +71,17 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                         isFocused={true}
                         listKelas={listKelas}
                         handleChange={onHandleChange}
-                        disable={true}
+                        disabled={true}
                     />
 
                     <div className=' flex flex-col justify-end'>
                         {/* 👇️ open link in new tab */}
                         <PrintLink
                             label='print'
-                            href={route('print-absensi.print-per-bulan',
+                            href={route('print-rapor.print',
                                 {
-                                    bulan: data.bulan,
                                     tahun: data.tahun,
+                                    semester: data.semester,
                                     kelasId: data.kelasId
                                 })}
                         />
@@ -93,5 +93,5 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
         </>
     )
 }
-PrintRapor.layout = page => <AppLayout children={page} title="Print Kehadiran" />
+PrintRapor.layout = page => <AppLayout children={page} />
 export default PrintRapor

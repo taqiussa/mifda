@@ -8,7 +8,6 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Traits\InitTrait;
 use EnumKehadiran;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 
@@ -29,10 +28,10 @@ class AbsensiController extends Controller
         );
     }
 
-    public function simpan(Request $request)
+    public function simpan()
     {
-        $inputs = $request->arrayInput;
-        
+        $inputs = request('arrayInput');
+
         $validator = Validator::make($inputs, [
             '*.absensi.kehadiran_id' => 'required'
         ]);
@@ -41,10 +40,10 @@ class AbsensiController extends Controller
             return back()->withErrors(['pesan' => 'Ada data kosong']);
         }
 
-        $tanggal = $request->tanggal;
-        $tahun = $request->tahun;
-        $jam = $request->jam;
-        $kelasId = $request->kelasId;
+        $tanggal = request('tanggal');
+        $tahun = request('tahun');
+        $jam = request('jam');
+        $kelasId = request('kelasId');
         $semester = $this->data_semester();
         $userId = auth()->user()->id;
 
@@ -68,9 +67,9 @@ class AbsensiController extends Controller
         return to_route('absensi');
     }
 
-    public function nihil(Request $request)
+    public function nihil()
     {
-        $request->validate(
+        request()->validate(
             [
                 'tanggal' => 'required',
                 'tahun' => 'required',
@@ -79,10 +78,10 @@ class AbsensiController extends Controller
             ]
         );
 
-        $tanggal = $request->tanggal;
-        $tahun = $request->tahun;
-        $jam = $request->jam;
-        $kelasId = $request->kelasId;
+        $tanggal = request('tanggal');
+        $tahun = request('tahun');
+        $jam = request('jam');
+        $kelasId = request('kelasId');
         $semester = $this->data_semester();
         $userId = auth()->user()->id;
         $kehadiranId = EnumKehadiran::HADIR;
@@ -139,14 +138,14 @@ class AbsensiController extends Controller
         Absensi::upsert($data, ['tanggal', 'tahun', 'jam', 'kelas_id', 'semester', 'nis'], ['kehadiran_id', 'user_id']);
 
         return response()->json([
-            'listSiswa' => Siswa::whereTahun($request->tahun)
-                ->whereKelasId($request->kelasId)
+            'listSiswa' => Siswa::whereTahun(request('tahun'))
+                ->whereKelasId(request('kelasId'))
                 ->with(
                     [
                         'user' => fn ($q) => $q->select('nis', 'name'),
                         'absensi' => fn ($q) => $q
-                            ->whereTanggal($request->tanggal)
-                            ->whereJam($request->jam),
+                            ->whereTanggal(request('tanggal'))
+                            ->whereJam(request('jam')),
                         'absensi.guru' => fn ($q) => $q->select('id', 'name'),
                     ]
                 )

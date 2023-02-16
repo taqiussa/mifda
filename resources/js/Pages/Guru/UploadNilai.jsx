@@ -142,7 +142,7 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     return (
         <>
-            <Head title='Absensi' />
+            <Head title='Upload Nilai' />
             <form onSubmit={submit} className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 

@@ -6,7 +6,6 @@ use App\Models\Kelas;
 use App\Traits\InitTrait;
 use App\Exports\ExportNilaiSikap;
 use App\Imports\ImportNilaiSikap;
-use Illuminate\Http\Request;
 use App\Models\GuruMataPelajaran;
 use App\Models\KategoriSikap;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,9 +31,9 @@ class UploadNilaiSikapController extends Controller
         );
     }
 
-    public function export(Request $request)
+    public function export()
     {
-        $request->validate(
+        request()->validate(
             [
                 'tahun' => 'required',
                 'semester' => 'required',
@@ -52,23 +51,23 @@ class UploadNilaiSikapController extends Controller
                 'kelasId.required' => 'tidak boleh kosong',
             ]
         );
-        $tahun = $request->tahun;
-        $semester = $request->semester;
-        $mataPelajaranId = $request->mataPelajaranId;
-        $kategoriSikapId = $request->kategoriSikapId;
-        $kelasId = $request->kelasId;
+        $tahun = request('tahun');
+        $semester = request('semester');
+        $mataPelajaranId = request('mataPelajaranId');
+        $kategoriSikapId = request('kategoriSikapId');
+        $kelasId = request('kelasId');
 
         $namaKelas = Kelas::find($kelasId)->nama;
         return Excel::download(new ExportNilaiSikap($tahun, $semester, $mataPelajaranId, $kategoriSikapId, $kelasId),  'Penilaian Sikap - ' . $namaKelas . '.xlsx');
     }
 
-    public function import(Request $request)
+    public function import()
     {
-        $request->validate([
+        request()->validate([
             'fileImport' => 'required|mimes:xls,xlsx'
         ]);
 
-        Excel::import(new ImportNilaiSikap(), $request->fileImport);
+        Excel::import(new ImportNilaiSikap(), request('fileImport'));
 
         to_route('upload-nilai-sikap');
     }
