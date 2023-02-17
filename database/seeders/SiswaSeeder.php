@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Biodata;
 use App\Models\Siswa;
 use App\Models\SiswaEkstrakurikuler;
 use App\Models\User;
@@ -42,6 +43,15 @@ class SiswaSeeder extends Seeder
                 'kelas_id' => $siswa->kelas_id,
                 'ekstrakurikuler_id' => random_int(1, 17),
                 'tahun' => '2022 / 2023'
+            ]);
+
+            Biodata::create([
+                'nis' => $i,
+                'nik' => 3324223 . $i,
+                'nisn' => 293 . $i,
+                'jenis_kelamin' => fake()->randomElement(['L', 'P']),
+                'tempat_lahir' => fake()->randomElement(['Kendal', 'Semarang', 'Temanggung', 'Magelang']),
+                'tanggal_lahir' => fake()->date(),
             ]);
 
             $user->assignRole('Siswa');
