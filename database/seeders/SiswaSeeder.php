@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Siswa;
+use App\Models\SiswaEkstrakurikuler;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,7 +25,7 @@ class SiswaSeeder extends Seeder
                 'password' => bcrypt('12345678')
             ]);
 
-            Siswa::create([
+            $siswa = Siswa::create([
                 'nis' => $i,
                 'kelas_id' => random_int(1, 21),
                 'tahun' => '2022 / 2023'
@@ -34,6 +35,13 @@ class SiswaSeeder extends Seeder
                 'nis' => $i,
                 'kelas_id' => random_int(1, 21),
                 'tahun' => '2023 / 2024'
+            ]);
+
+            SiswaEkstrakurikuler::create([
+                'nis' => $i,
+                'kelas_id' => $siswa->kelas_id,
+                'ekstrakurikuler_id' => random_int(1, 17),
+                'tahun' => '2022 / 2023'
             ]);
 
             $user->assignRole('Siswa');
