@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('semester');
             $table->foreignId('ekstrakurikuler_id');
             $table->foreignId('nis');
-            $table->foreignId('kelas_id');
+            $table->foreignId('kelas_id')->nullable();
             $table->foreignId('user_id');
             $table->integer('nilai')->nullable();
             $table->timestamps();

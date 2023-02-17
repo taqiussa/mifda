@@ -7,66 +7,39 @@ import Kelas from '@/Components/Sia/Kelas'
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
 import Semester from '@/Components/Sia/Semester'
-import MataPelajaran from '@/Components/Sia/MataPelajaran'
-import KategoriNilai from '@/Components/Sia/KategoriNilai'
-import JenisPenilaian from '@/Components/Sia/JenisPenilaian'
 import getKelas from '@/Functions/getKelas'
 import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
-import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 import Sweet from '@/Components/Sia/Sweet'
+import Ekstrakurikuler from '@/Components/Sia/Ekstrakurikuler'
+import getNilaiEkstrakurikuler from '@/Functions/getNilaiEkstrakurikuler'
 
 const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikuler }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
         semester: initSemester,
-        mataPelajaranId: '',
-        kelasId: '',
-        kategoriNilaiId: '',
-        jenisPenilaianId: '',
+        ekstrakurikulerId: '',
         arrayInput: [],
     })
 
     const [listSiswa, setListSiswa] = useState([])
-    const [listKategori, setListKategori] = useState([])
-    const [listJenis, setListJenis] = useState([])
-    const [listKelas, setListKelas] = useState([])
     const [count, setCount] = useState(0)
 
-    async function getDataNilaiSiswa() {
-        const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
+    async function getDataNilaiEkstrakurikuler() {
+        const response = await getNilaiEkstrakurikuler(data.tahun, data.semester, data.ekstrakurikulerId)
         setData({
             tahun: data.tahun,
             semester: data.semester,
-            mataPelajaranId: data.mataPelajaranId,
-            kelasId: data.kelasId,
-            kategoriNilaiId: data.kategoriNilaiId,
-            jenisPenilaianId: data.jenisPenilaianId,
+            ekstrakurikulerId: data.ekstrakurikulerId,
             arrayInput: [],
         })
         setListSiswa([])
         setListSiswa(response.listSiswa)
     }
 
-    async function getDataKategoriNilai() {
-        const response = await getKategoriNilai(data.tahun, data.kelasId)
-        setListKategori(response.listKategori)
-    }
-
-    async function getDataJenisPenilaian() {
-        const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
-        setListJenis(response.listJenis)
-    }
-
-    async function getDataKelas() {
-        const response = await getKelas(data.tahun, data.mataPelajaranId)
-        setListKelas(response.listKelas)
-    }
-
-
-    const handleDynamic = (e, index, id, nis, name) => {
+    const handleDynamic = (e, index, id, nis, name, kelasId, namaKelas) => {
 
         const newList = [...listSiswa]
         newList.splice(index, 1, {
@@ -77,6 +50,11 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
             },
             nilai: {
                 nilai: e.target.value
+            },
+            kelas:
+            {
+                id: kelasId,
+                nama: namaKelas
             }
         })
 
@@ -97,10 +75,7 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
                 setData({
                     tahun: data.tahun,
                     semester: data.semester,
-                    mataPelajaranId: data.mataPelajaranId,
-                    kelasId: data.kelasId,
-                    kategoriNilaiId: data.kategoriNilaiId,
-                    jenisPenilaianId: data.jenisPenilaianId,
+                    ekstrakurikulerId: data.ekstrakurikulerId,
                     arrayInput: [],
                 })
             },
@@ -118,57 +93,11 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
     useEffect(() => {
 
         if (data.tahun
-            && data.mataPelajaranId
-        ) {
-
-            trackPromise(
-                getDataKelas()
-            )
-
-        }
-    }, [data.tahun, data.mataPelajaranId])
-
-    useEffect(() => {
-
-        if (data.tahun
-            && data.kelasId
-        ) {
-            trackPromise(
-                getDataKategoriNilai()
-            )
-
-        }
-        return () => {
-        }
-    }, [data.tahun, data.kelasId])
-
-    useEffect(() => {
-
-        if (data.tahun
             && data.semester
-            && data.kelasId
-            && data.kategoriNilaiId
+            && data.ekstrakurikulerId
         ) {
             trackPromise(
-                getDataJenisPenilaian()
-            )
-
-        }
-        return () => {
-        }
-    }, [data.tahun, data.semester, data.kelasId, data.kategoriNilaiId])
-
-    useEffect(() => {
-
-        if (data.tahun
-            && data.semester
-            && data.mataPelajaranId
-            && data.kelasId
-            && data.kategoriNilaiId
-            && data.jenisPenilaianId
-        ) {
-            trackPromise(
-                getDataNilaiSiswa()
+                getDataNilaiEkstrakurikuler()
             )
 
         } else {
@@ -176,7 +105,7 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
         }
         return () => {
         }
-    }, [data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId])
+    }, [data.tahun, data.semester, data.ekstrakurikulerId])
 
     useEffect(() => {
 
@@ -189,7 +118,7 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
 
     return (
         <>
-            <Head title='Input Nilai' />
+            <Head title='Input Nilai Ekstrakurikuler' />
             <form onSubmit={submit} className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 
@@ -211,43 +140,13 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
                         handleChange={onHandleChange}
                     />
 
-                    <MataPelajaran
-                        id="mataPelajaranId"
-                        name="mataPelajaranId"
-                        value={data.mataPelajaranId}
-                        message={errors.mataPelajaranId}
+                    <Ekstrakurikuler
+                        id="ekstrakurikulerId"
+                        name="ekstrakurikulerId"
+                        value={data.ekstrakurikulerId}
+                        message={errors.ekstrakurikulerId}
                         isFocused={true}
-                        listMapel={listMataPelajaran}
-                        handleChange={onHandleChange}
-                    />
-
-                    <Kelas
-                        id="kelasId"
-                        name="kelasId"
-                        value={data.kelasId}
-                        message={errors.kelasId}
-                        isFocused={true}
-                        listKelas={listKelas}
-                        handleChange={onHandleChange}
-                    />
-
-                    <KategoriNilai
-                        id="kategoriNilaiId"
-                        name="kategoriNilaiId"
-                        value={data.kategoriNilaiId}
-                        message={errors.kategoriNilaiId}
-                        listKategori={listKategori}
-                        isFocused={true}
-                        handleChange={onHandleChange}
-                    />
-
-                    <JenisPenilaian
-                        id="jenisPenilaianId"
-                        name="jenisPenilaianId"
-                        value={data.jenisPenilaianId}
-                        message={errors.jenisPenilaianId}
-                        listJenis={listJenis}
-                        isFocused={true}
+                        listEkstrakurikuler={listEkstrakurikuler}
                         handleChange={onHandleChange}
                     />
 
@@ -264,6 +163,9 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
                                 </th>
                                 <th scope='col' className="py-3 px-2 text-left">
                                     Nama
+                                </th>
+                                <th scope='col' className="py-3 px-2 text-left">
+                                    Kelas
                                 </th>
                                 <th scope='col' className="py-3 px-2 text-left">
                                     Nilai
@@ -283,11 +185,14 @@ const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikule
                                         {siswa.user.name}
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
+                                        {siswa.kelas.nama}
+                                    </td>
+                                    <td className="py-2 px-2 font-medium text-slate-600">
                                         <Nilai
                                             id={siswa.nis}
                                             name={siswa.nis}
                                             value={siswa.nilai.nilai ?? ''}
-                                            handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name)}
+                                            handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name, siswa.kelas.id, siswa.kelas?.nama)}
                                         />
 
                                         {

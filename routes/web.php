@@ -54,15 +54,16 @@ Route::middleware([
 
     //Route Get Absensi
     Route::controller(GetAbsensiController::class)->group(function () {
+        Route::post('get-absensi-ekstrakurikuler', 'get_absensi_ekstrakurikuler')->name('get-absensi-ekstrakurikuler');
         Route::post('get-absensi-siswa', 'get_absensi_siswa')->name('get-absensi-siswa');
         Route::post('get-absensi-ujian', 'get_absensi_ujian')->name('get-absensi-ujian');
-        Route::post('get-absensi-ekstrakurikuler', 'get_absensi_ekstrakurikuler')->name('get-absensi-ekstrakurikuler');
     });
 
     // Route Get Nilai dan Penilaian
     Route::controller(GetPenilaianController::class)->group(function () {
-        Route::post('get-nilai-siswa', 'get_nilai_siswa')->name('get-nilai-siswa');
+        Route::post('get-nilai-ekstrakurikuler', 'get_nilai_ekstrakurikuler')->name('get-nilai-ekstrakurikuler');
         Route::post('get-nilai-sikap', 'get_nilai_sikap')->name('get-nilai-sikap');
+        Route::post('get-nilai-siswa', 'get_nilai_siswa')->name('get-nilai-siswa');
     });
 
     // Batas Route Menu dan Route Get Data
