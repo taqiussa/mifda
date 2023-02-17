@@ -26,9 +26,17 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
     async function getDataKelasWali() {
         const response = await getKelasWali(data.tahun)
         if (response.kelasId) {
-            setData((prevData) => ({ ...prevData, kelasId: response.kelasId }));
-        }else{
-            setData((prevData) => ({ ...prevData, kelasId: '' }));
+            setData({
+                tahun: data.tahun,
+                semester: data.semester,
+                kelasId: response.kelasId
+            });
+        } else {
+            setData({
+                tahun: data.tahun,
+                semester: data.semester,
+                kelasId: ''
+            });
         }
     }
 
@@ -139,7 +147,8 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                             {
                                                 tahun: data.tahun,
                                                 semester: data.semester,
-                                                kelasId: data.kelasId
+                                                kelasId: data.kelasId,
+                                                nis: siswa.nis
                                             })}
                                     />
                                 </td>
