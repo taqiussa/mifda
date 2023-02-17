@@ -9,6 +9,7 @@ use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputNilaiController;
+use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\PrintRaporController;
@@ -84,6 +85,12 @@ Route::middleware([
     Route::controller(InputNilaiController::class)->group(function () {
         Route::get('input-nilai', 'index')->name('input-nilai');
         Route::post('input-nilai/simpan', 'simpan')->name('input-nilai.simpan');
+    });
+
+    // Route Input Nilai Ekstrakurikuler
+    Route::controller(InputNilaiEkstrakurikulerController::class)->group(function () {
+        Route::get('input-nilai-ekstrakurikuler', 'index')->name('input-nilai-ekstrakurikuler');
+        Route::post('input-nilai-ekstrakurikuler/simpan', 'simpan')->name('input-nilai-ekstrakurikuler.simpan');
     });
 
     // Route Input Nilai Sikap
