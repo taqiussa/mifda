@@ -22,12 +22,12 @@ export default function Navbar({ openSide }) {
 
                 </button>
 
-                <div className="flex items-center justify-center text-xl font-extrabold 
+                <div className="flex items-center justify-center text-md lg:text-xl font-extrabold 
                             bg-gradient-to-r bg-clip-text  text-transparent 
                             from-emerald-500 via-lime-500 to-teal-500
                             animate-text">
 
-                    Sistem Info Akademik
+                    Sistem Akademik Terpadu
 
                 </div>
 

@@ -24,6 +24,36 @@ class Siswa extends Model
     }
 
     /**
+     * Get all of the absensis for the Siswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function absensis(): HasMany
+    {
+        return $this->hasMany(Absensi::class, 'nis', 'nis');
+    }
+
+    /**
+     * Get the biodata that owns the Siswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function biodata(): BelongsTo
+    {
+        return $this->belongsTo(Biodata::class, 'nis', 'nis')->withDefault();
+    }
+
+    /**
+     * Get the catatan that owns the Siswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function catatan(): BelongsTo
+    {
+        return $this->belongsTo(Catatan::class, 'nis', 'nis')->withDefault();
+    }
+
+    /**
      * Get all of the hitungAbsensi for the Siswa
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -34,7 +64,7 @@ class Siswa extends Model
     }
 
     // /**
-    //  * Get the biodata associated with the Siswa
+    //  * Get the guru associated with the Siswa
     //  *
     //  * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
     //  */
@@ -85,6 +115,16 @@ class Siswa extends Model
     }
 
     /**
+     * Get all of the penilaianEkstrakurikuler for the Siswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function penilaianEkstrakurikuler(): HasMany
+    {
+        return $this->hasMany(PenilaianEkstrakurikuler::class, 'nis', 'nis');
+    }
+
+    /**
      * Get all of the penilaianSikap for the Siswa
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -94,6 +134,16 @@ class Siswa extends Model
         return $this->hasMany(PenilaianSikap::class, 'nis', 'nis');
     }
 
+    /**
+     * Get all of the prestasi for the Siswa
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function prestasi(): HasMany
+    {
+        return $this->hasMany(Prestasi::class, 'nis', 'nis');
+    }
+    
     /**
      * Get the user that owns the Siswa
      *
