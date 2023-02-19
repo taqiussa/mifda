@@ -8,6 +8,7 @@ import Semester from '@/Components/Sia/Semester'
 import getKelasWali from '@/Functions/getKelasWali'
 import { trackPromise } from 'react-promise-tracker'
 import getSiswa from '@/Functions/getSiswa'
+import DownloadLink from '@/Components/Sia/DownloadLink'
 
 const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
 
@@ -140,7 +141,7 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                 <td className="py-2 px-2 font-medium text-slate-600">
                                     {siswa.user.name}
                                 </td>
-                                <td className="py-2 px-2 font-medium text-slate-600">
+                                <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
                                     <PrintLink
                                         label='print'
                                         href={route('print-rapor.print',
@@ -151,6 +152,16 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                                 nis: siswa.nis
                                             })}
                                     />
+                                    <DownloadLink
+                                        href={route('print-rapor.download', {
+                                            tahun: data.tahun,
+                                            semester: data.semester,
+                                            kelasId: data.kelasId,
+                                            nis: siswa.nis
+                                        })}
+                                        label='download'
+                                    />
+
                                 </td>
                             </tr>
                         ))}

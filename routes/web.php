@@ -125,6 +125,7 @@ Route::middleware([
     Route::controller(PrintRaporController::class)->group(function () {
         Route::get('print-rapor', 'index')->name('print-rapor');
         Route::get('print-rapor/print', 'print')->name('print-rapor.print');
+        Route::get('print-rapor/download', 'download')->name('print-rapor.download');
     });
 });
 

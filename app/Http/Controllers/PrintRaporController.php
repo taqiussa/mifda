@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use EnumKehadiran;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use EnumKategoriSikap;
 use App\Models\WaliKelas;
 use App\Traits\InitTrait;
-use App\Models\AturanKurikulum;
 use App\Models\JenisSikap;
 use App\Models\TanggalRapor;
-use EnumKategoriSikap;
-use EnumKehadiran;
+use App\Models\AturanKurikulum;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PrintRaporController extends Controller
 {
@@ -133,6 +134,118 @@ class PrintRaporController extends Controller
                 ];
 
             return view('print.rapor-merdeka', $data);
+        }
+    }
+    public function download()
+    {
+        $kelas = Kelas::find(request('kelasId'));
+        $tahun = request('tahun');
+        $semester = request('semester');
+        $nis = request('nis');
+        $naik = request('naik');
+
+        $cekKurikulum = AturanKurikulum::whereTingkat($kelas->tingkat)
+            ->whereTahun($tahun)
+            ->with(['kurikulum'])
+            ->first();
+
+        $siswa = Siswa::whereNis($nis)
+            ->with([
+                'user',
+                'biodata',
+                'catatan' => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester),
+                'penilaianEkstrakurikuler'  => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester),
+                'penilaianEkstrakurikuler.ekstra',
+                'penilaianEkstrakurikuler.ekstra.deskripsi',
+                'prestasi'  => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester),
+            ])
+            ->withCount([
+                'absensis as hitung_alpha' => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester)
+                    ->whereKehadiranId(EnumKehadiran::ALPHA),
+                'absensis as hitung_izin' => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester)
+                    ->whereKehadiranId(EnumKehadiran::IZIN),
+                'absensis as hitung_sakit' => fn ($q) => $q->whereTahun($tahun)
+                    ->whereSemester($semester)
+                    ->whereKehadiranId(EnumKehadiran::SAKIT),
+            ])
+            ->first();
+
+        $namaWaliKelas = WaliKelas::whereTahun($tahun)
+            ->whereKelasId($kelas->id)
+            ->with([
+                'user' => fn ($q) => $q->select('id', 'name')
+            ])
+            ->first()
+            ->user
+            ->name;
+
+        if ($cekKurikulum->kurikulum->nama == 'Kurtilas') {
+            $data =
+                [
+                    'kelasId' => $kelas->id,
+                    'namaKelas' => $kelas->nama,
+                    'tingkat' => $kelas->tingkat,
+                    'namaSiswa' => $siswa->user->name,
+                    'nis' => $siswa->nis,
+                    'nisn' => $siswa->biodata->nisn,
+                    'tahun' => $tahun,
+                    'semester' => $semester,
+                    'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                    'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                    'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                    'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                    'naik' => $naik,
+                    'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                    'listPrestasi' => $siswa->prestasi,
+                    'catatan' => $siswa->catatan,
+                    'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                        ->whereSemester($semester)
+                        ->first(),
+                    'namaWaliKelas' => $namaWaliKelas,
+                ];
+
+            $pdf = Pdf::loadView('print.rapor-kurtilas', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+            return response()->streamDownload(
+                fn () => print($pdf),
+                $siswa->user->name . '.pdf'
+            );
+        }
+
+        if ($cekKurikulum->kurikulum->nama == 'Merdeka') {
+            $data =
+                [
+                    'kelasId' => $kelas->id,
+                    'namaKelas' => $kelas->nama,
+                    'tingkat' => $kelas->tingkat,
+                    'namaSiswa' => $siswa->user->name,
+                    'nis' => $siswa->nis,
+                    'nisn' => $siswa->biodata->nisn,
+                    'tahun' => $tahun,
+                    'semester' => $semester,
+                    'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                    'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                    'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                    'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                    'naik' => $naik,
+                    'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                    'listPrestasi' => $siswa->prestasi,
+                    'catatan' => $siswa->catatan,
+                    'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                        ->whereSemester($semester)
+                        ->first(),
+                    'namaWaliKelas' => $namaWaliKelas,
+                ];
+
+                $pdf = Pdf::loadView('print.rapor-merdeka', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+                return response()->streamDownload(
+                    fn () => print($pdf),
+                    $siswa->user->name . '.pdf'
+                );
         }
     }
 }
