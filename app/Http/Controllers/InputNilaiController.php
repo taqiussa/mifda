@@ -29,41 +29,34 @@ class InputNilaiController extends Controller
     public function simpan()
     {
         request()->validate([
-            'tahun' => 'required',
-            'semester' => 'required',
-            'mataPelajaranId' => 'required',
-            'kelasId' => 'required',
-            'kategoriNilaiId' => 'required',
-            'jenisPenilaianId' => 'required',
+            'nis' => 'required',
+            'nilai' => 'required',
         ]);
 
-        $inputs = request('arrayInput');
-        
-        foreach ($inputs as $input) {
-            if (intval($input['nilai']['nilai'] > 100)) {
-                return back()->withErrors(['pesan' => 'Periksa Data, Nilai Tidak Boleh Lebih Dari 100']);
-            }
-        }
+        $nis = request('nis');
+        $nilai = request('nilai');
 
-        foreach ($inputs as $input) {
-            Penilaian::updateOrCreate(
-                [
-                    'tahun' => request('tahun'),
-                    'semester' => request('semester'),
-                    'mata_pelajaran_id' => request('mataPelajaranId'),
-                    'kategori_nilai_id' => request('kategoriNilaiId'),
-                    'jenis_penilaian_id' => request('jenisPenilaianId'),
-                    'kelas_id' => request('kelasId'),
-                    'nis' => $input['nis'],
-                ],
-                [
-                    'tanggal' => date('Y-m-d'),
-                    'user_id' => auth()->user()->id,
-                    'nilai' => $input['nilai']['nilai'] ?? null,
-                ]
-            );
-        }
 
-        return to_route('input-nilai');
+        Penilaian::updateOrCreate(
+            [
+                'tahun' => request('tahun'),
+                'semester' => request('semester'),
+                'mata_pelajaran_id' => request('mataPelajaranId'),
+                'kategori_nilai_id' => request('kategoriNilaiId'),
+                'jenis_penilaian_id' => request('jenisPenilaianId'),
+                'kelas_id' => request('kelasId'),
+                'nis' => $nis,
+            ],
+            [
+                'tanggal' => date('Y-m-d'),
+                'user_id' => auth()->user()->id,
+                'nilai' => $nilai,
+            ]
+        );
+
+        return response()->json([
+            'message' => 'Tersimpan',
+            'nis' => $nis
+        ]);
     }
 }

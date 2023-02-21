@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
 export default forwardRef(function Nilai(
-    { type = 'text', name, id, value, message, className, required, isFocused, handleChange },
+    { type = 'text', name, id, value, message, className, required, isFocused, handleChange, handleBlur },
     ref
 ) {
 
@@ -35,6 +35,7 @@ export default forwardRef(function Nilai(
                     ref={input}
                     required={required}
                     onChange={(e) => handleChange(e)}
+                    onBlur={(e) => handleBlur(e)}
                 />
 
             </div>

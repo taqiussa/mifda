@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Head, useForm, usePage } from '@inertiajs/react'
+import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
+import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import Kelas from '@/Components/Sia/Kelas'
+import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
 import Semester from '@/Components/Sia/Semester'
 import MataPelajaran from '@/Components/Sia/MataPelajaran'
@@ -13,10 +15,9 @@ import getKategoriNilai from '@/Functions/getKategoriNilai'
 import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
-import axios from 'axios'
-import { set } from 'lodash'
+import Sweet from '@/Components/Sia/Sweet'
 
-const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
+const InputNilaiBackup = ({ initTahun, initSemester, listMataPelajaran }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -28,13 +29,11 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         arrayInput: [],
     })
 
-
     const [listSiswa, setListSiswa] = useState([])
     const [listKategori, setListKategori] = useState([])
     const [listJenis, setListJenis] = useState([])
     const [listKelas, setListKelas] = useState([])
     const [count, setCount] = useState(0)
-    const [message, setMessage] = useState([])
 
     async function getDataNilaiSiswa() {
         const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
@@ -86,33 +85,34 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         setCount(count + 1)
     }
 
-    const onHandleBlur = (e, nis) => {
-        e.preventDefault()
-        axios.post(route('input-nilai.simpan',
-            {
-                tahun: data.tahun,
-                semester: data.semester,
-                mataPelajaranId: data.mataPelajaranId,
-                kelasId: data.kelasId,
-                kategoriNilaiId: data.kategoriNilaiId,
-                jenisPenilaianId: data.jenisPenilaianId,
-                nis: nis,
-                nilai: e.target.value
-            }))
-            .then(response => {
-                setMessage({
-                    nis: response.data.nis,
-                    message: response.data.message
-                })
-                console.log(message)
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
+    }
+
+    const submit = (e) => {
+        e.preventDefault()
+        post(route('input-nilai.simpan'), {
+            onSuccess: (page) => {
+                toast.success('Berhasil Simpan Nilai Siswa')
+                setData({
+                    tahun: data.tahun,
+                    semester: data.semester,
+                    mataPelajaranId: data.mataPelajaranId,
+                    kelasId: data.kelasId,
+                    kategoriNilaiId: data.kategoriNilaiId,
+                    jenisPenilaianId: data.jenisPenilaianId,
+                    arrayInput: [],
+                })
+            },
+            onError: (error) => {
+                Sweet.fire({
+                    title: 'Gagal!',
+                    text: error.pesan,
+                    icon: 'error',
+                    confirmButtonText: 'Kembali'
+                })
+            }
+        })
     }
 
     useEffect(() => {
@@ -190,7 +190,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
     return (
         <>
             <Head title='Input Nilai' />
-            <form className='space-y-3'>
+            <form onSubmit={submit} className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 
                     <Tahun
@@ -288,17 +288,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                                             name={siswa.nis}
                                             value={siswa.nilai.nilai ?? ''}
                                             handleChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name)}
-                                            handleBlur={(e) => onHandleBlur(e, siswa.nis)}
                                         />
-                                        {
-                                            (() => {
-                                                if (message && message.nis == siswa.nis) {
-                                                    return (
-                                                        <span className='text-emerald-500'>{message.message}</span>
-                                                    )
-                                                }
-                                            })
-                                                ()}
 
                                         {
                                             (() => {
@@ -315,9 +305,14 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                         </tbody>
                     </table>
                 </div>
+                <div className='flex justify-end'>
+                    <PrimaryButton type='submit' processing={processing}>
+                        Simpan
+                    </PrimaryButton>
+                </div>
             </form>
         </>
     )
 }
-InputNilai.layout = page => <AppLayout children={page} />
-export default InputNilai
+InputNilaiBackup.layout = page => <AppLayout children={page} />
+export default InputNilaiBackup
