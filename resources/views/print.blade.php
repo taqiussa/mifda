@@ -15,7 +15,30 @@
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png" sizes="16x16" />
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+    {{-- <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
+
+    <style type="text/css">
+        body {
+            font-family: 'Times New Roman', Times, serif !important;
+            font-size: 12pt !important;
+            margin-top: 1cm !important;
+            margin-left: 1cm !important;
+            margin-right: 1cm !important;
+            margin-bottom: 2cm !important;
+        }
+
+        @page {
+            margin: 0cm 0cm !important;
+        }
+
+        footer {
+            position: fixed !important;
+            bottom: 1cm !important;
+            left: 1cm !important;
+            right: 0cm !important;
+            font-size: 11pt !important;
+        }
+    </style>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css'])
@@ -25,7 +48,7 @@
 
     <!-- Main Content -->
     <div class="px-2 container-fluid">
-        
+
         <main>
 
             @yield('content')
