@@ -26,6 +26,7 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
     const [listSiswa, setListSiswa] = useState([])
     const [count, setCount] = useState(0)
     const [show, setShow] = useState(false)
+    const [message, setMessage] = useState([])
 
     async function getDataAbsensiSiswa() {
         const response = await getAbsensiSiswa(data.tanggal, data.tahun, data.jam, data.kelasId)
@@ -51,6 +52,25 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
 
         setListSiswa(newList)
         setCount(count + 1)
+
+        axios.post(route('absensi.simpan',
+            {
+                tanggal: data.tanggal,
+                tahun: data.tahun,
+                jam: data.jam,
+                kelasId: data.kelasId,
+                nis: nis,
+                kehadiranId: e.target.value
+            }))
+            .then(response => {
+                setMessage({
+                    nis: response.data.nis,
+                    message: response.data.message
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const onHandleChange = (event) => {
@@ -78,30 +98,6 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
                     console.log(error)
                 })
         )
-    }
-
-    const submit = (e) => {
-        e.preventDefault()
-        post(route('absensi.simpan'), {
-            onSuccess: (page) => {
-                toast.success('Berhasil Simpan Absensi Siswa')
-                setData({
-                    tanggal: data.tanggal,
-                    tahun: data.tahun,
-                    jam: data.jam,
-                    kelasId: data.kelasId,
-                    arrayInput: [],
-                })
-            },
-            onError: (error) => {
-                Sweet.fire({
-                    title: 'Gagal!',
-                    text: error.pesan,
-                    icon: 'error',
-                    confirmButtonText: 'Kembali'
-                })
-            }
-        })
     }
 
     useEffect(() => {
@@ -132,12 +128,13 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
             arrayInput: [...listSiswa],
         })
 
+
     }, [count])
-    
+
     return (
         <>
             <Head title='Absensi' />
-            <form onSubmit={submit} className='space-y-3'>
+            <div className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-4 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
                     <Tanggal
                         id="tanggal"
@@ -214,22 +211,36 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
                                         {siswa.user.name}
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
-                                        <select
-                                            className="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-auto"
-                                            onChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name, siswa.absensi.guru?.name)}
-                                            name={siswa.nis}
-                                            value={siswa.absensi.kehadiran_id ?? ""}
-                                        >
-                                            <option value="">Pilih Kehadiran</option>
-                                            {listKehadiran.map((kehadiran, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={kehadiran.id}
-                                                >
-                                                    {kehadiran.nama}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <div className='flex flex-col'>
+
+                                            <select
+                                                className="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-auto"
+                                                onChange={(e) => handleDynamic(e, index, siswa.id, siswa.nis, siswa.user.name, siswa.absensi.guru?.name)}
+                                                name={siswa.nis}
+                                                value={siswa.absensi.kehadiran_id ?? ""}
+                                            >
+                                                <option value="">Pilih Kehadiran</option>
+                                                {listKehadiran.map((kehadiran, index) => (
+                                                    <option
+                                                        key={index}
+                                                        value={kehadiran.id}
+                                                    >
+                                                        {kehadiran.nama}
+                                                    </option>
+                                                ))}
+                                            </select>
+
+                                            {
+                                                (() => {
+                                                    if (message && message.nis == siswa.nis) {
+                                                        return (
+                                                            <span className='text-emerald-500'>{message.message}</span>
+                                                        )
+                                                    }
+                                                })
+                                                    ()}
+
+                                        </div>
                                     </td>
                                     <td className="py-2 px-2 font-medium text-slate-600">
                                         {siswa.absensi.guru?.name}
@@ -239,12 +250,7 @@ const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className='flex justify-end'>
-                    <PrimaryButton type='submit' processing={processing}>
-                        Simpan
-                    </PrimaryButton>
-                </div>
-            </form>
+            </div>
         </>
     )
 }

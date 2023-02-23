@@ -30,15 +30,6 @@ class AbsensiController extends Controller
 
     public function simpan()
     {
-        $inputs = request('arrayInput');
-
-        $validator = Validator::make($inputs, [
-            '*.absensi.kehadiran_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors(['pesan' => 'Ada data kosong']);
-        }
 
         $tanggal = request('tanggal');
         $tahun = request('tahun');
@@ -46,25 +37,28 @@ class AbsensiController extends Controller
         $kelasId = request('kelasId');
         $semester = $this->data_semester();
         $userId = auth()->user()->id;
+        $nis = request('nis');
+        $kehadiranId = request('kehadiranId');
 
+        Absensi::updateOrCreate(
+            [
+                'tanggal' => $tanggal,
+                'tahun' => $tahun,
+                'jam' => $jam,
+                'kelas_id' => $kelasId,
+                'semester' => $semester,
+                'nis' => $nis,
+            ],
+            [
+                'kehadiran_id' => $kehadiranId,
+                'user_id' => $userId
+            ]
+        );
 
-        foreach ($inputs as $input) {
-            Absensi::updateOrCreate(
-                [
-                    'tanggal' => $tanggal,
-                    'tahun' => $tahun,
-                    'jam' => $jam,
-                    'kelas_id' => $kelasId,
-                    'semester' => $semester,
-                    'nis' => $input['nis'],
-                ],
-                [
-                    'kehadiran_id' => $input['absensi']['kehadiran_id'],
-                    'user_id' => $userId
-                ]
-            );
-        }
-        return to_route('absensi');
+        return response()->json([
+            'message' => 'Tersimpan',
+            'nis' => $nis
+        ]);
     }
 
     public function nihil()

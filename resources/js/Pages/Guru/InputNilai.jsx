@@ -104,7 +104,6 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                     nis: response.data.nis,
                     message: response.data.message
                 })
-                console.log(message)
             })
             .catch(error => {
                 console.log(error)
@@ -190,7 +189,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
     return (
         <>
             <Head title='Input Nilai' />
-            <form className='space-y-3'>
+            <div className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 
                     <Tahun
@@ -315,7 +314,7 @@ const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
                         </tbody>
                     </table>
                 </div>
-            </form>
+            </div>
         </>
     )
 }
