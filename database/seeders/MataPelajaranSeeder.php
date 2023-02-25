@@ -17,21 +17,52 @@ class MataPelajaranSeeder extends Seeder
     {
         $data =
             [
-                'Pendidikan Agama Islam',
-                'Pendidikan Kewarganegaraan',
-                'Bahasa Indonesia',
-                'Matematika',
-                'Ilmu Pengetahuan Alam',
-                'Ilmu Pengetahuan Sosial',
-                'Bahasa Inggris',
-                'Seni Budaya',
-                'Pendidikan Jasmani, Olahraga dan Kesehatan',
-                'Informatika',
+                [
+                    'nama' => 'Pendidikan Agama Islam',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Pendidikan Kewarganegaraan',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Bahasa Indonesia',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Matematika',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Ilmu Pengetahuan Alam',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Ilmu Pengetahuan Sosial',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Bahasa Inggris',
+                    'kelompok' => 'A',
+                ],
+                [
+                    'nama' => 'Seni Budaya',
+                    'kelompok' => 'B',
+                ],
+                [
+                    'nama' => 'Pendidikan Jasmani, Olahraga dan Kesehatan',
+                    'kelompok' => 'B',
+                ],
+                [
+                    'nama' => 'Informatika',
+                    'kelompok' => 'C',
+                ],
             ];
 
         foreach ($data as $mapel) {
             MataPelajaran::create([
-                'nama' => $mapel
+                'nama' => $mapel['nama'],
+                'kelompok' => $mapel['kelompok']
             ]);
         }
     }

@@ -16,7 +16,7 @@ class GuruKelasSeeder extends Seeder
      */
     public function run()
     {
-        $mapel = MataPelajaran::create(['nama' => 'Konseling']);
+        $mapel = MataPelajaran::create(['nama' => 'Konseling', 'kelompok' => 'D']);
         
         $konseling = User::create(['name' => 'Guru Konseling', 'username' => 'konseling', 'password' => bcrypt('smpmifdaperon')]);
         

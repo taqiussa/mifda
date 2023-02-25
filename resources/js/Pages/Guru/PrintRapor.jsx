@@ -142,7 +142,7 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                     {siswa.user.name}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
-                                    <PrintLink
+                                    {/* <PrintLink
                                         label='print'
                                         href={route('print-rapor.print',
                                             {
@@ -151,7 +151,7 @@ const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                                 kelasId: data.kelasId,
                                                 nis: siswa.nis
                                             })}
-                                    />
+                                    /> */}
                                     <DownloadLink
                                         href={route('print-rapor.download', {
                                             tahun: data.tahun,
