@@ -15,24 +15,24 @@ class KkmSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 19; $i++) {
             Kkm::create([
                 'mata_pelajaran_id' => $i,
                 'tingkat' => 7,
                 'tahun' => '2022 / 2023',
-                'kkm' => fake()->randomElement([70, 75])
+                'kkm' => 75
             ]);
             Kkm::create([
                 'mata_pelajaran_id' => $i,
                 'tingkat' => 8,
                 'tahun' => '2022 / 2023',
-                'kkm' => fake()->randomElement([70, 75])
+                'kkm' => 75
             ]);
             Kkm::create([
                 'mata_pelajaran_id' => $i,
                 'tingkat' => 9,
                 'tahun' => '2022 / 2023',
-                'kkm' => fake()->randomElement([70, 75])
+                'kkm' => 75
             ]);
         }
     }

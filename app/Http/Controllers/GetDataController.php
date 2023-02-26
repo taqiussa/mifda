@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AturanKurikulum;
+use App\Models\Catatan;
 use App\Models\GuruKelas;
 use App\Models\JenisPenilaian;
 use App\Models\JenisSikap;
@@ -15,6 +16,21 @@ use App\Models\WaliKelas;
 
 class GetDataController extends Controller
 {
+    public function get_catatan()
+    {
+        return response()->json([
+            'listCatatan' => Catatan::whereTahun(request('tahun'))
+                ->whereSemester(request('semester'))
+                ->whereKelasId(request('kelasId'))
+                ->with([
+                    'user' => fn ($q) => $q->select('nis', 'name')
+                ])
+                ->get()
+                ->sortBy(['user.name'])
+                ->values()
+        ]);
+    }
+
     // public function get_ekstrakurikuler()
     // {
     //     return response()->json([

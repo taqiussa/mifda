@@ -15,7 +15,7 @@ class KelasSeeder extends Seeder
      */
     public function run()
     {
-        $data = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        $data = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
         foreach ($data as $kelas) {
             Kelas::create([
                 'tingkat' => 7,

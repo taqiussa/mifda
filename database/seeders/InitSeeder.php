@@ -34,54 +34,119 @@ class InitSeeder extends Seeder
 
         $users = [
             [
-                'name' =>
-                'Guru Pendidikan Agama Islam',
-                'username' => 'pai'
+                'name' =>  'Cahya Widi Rahayu',
+                'username' => 'widi',
+                'mata_pelajaran_id' => 9
             ],
             [
-                'name' =>
-                'Guru Pendidikan Kewarganegaraan',
-                'username' => 'pkn'
+                'name' =>  'Hepy Puji S,S.Pd',
+                'username' => 'hepy',
+                'mata_pelajaran_id' => 9
             ],
             [
-                'name' =>
-                'Guru Bahasa Indonesia',
-                'username' => 'indonesia'
+                'name' =>  'Adieb Ajie Bayu Mukti,S.Pd',
+                'username' => 'ajie',
+                'mata_pelajaran_id' => 4
             ],
             [
-                'name' =>
-                'Guru Matematika',
-                'username' => 'matematika'
+                'name' =>  'Assabun Nuzul',
+                'username' => 'nuzul',
+                'mata_pelajaran_id' => 12
             ],
             [
-                'name' =>
-                'Guru Ilmu Pengetahuan Alam',
-                'username' => 'ipa'
+                'name' =>  'Nanang Kurnianto,S.Pd',
+                'username' => 'nanang',
+                'mata_pelajaran_id' => 10
             ],
             [
-                'name' =>
-                'Guru Ilmu Pengetahuan Sosial',
-                'username' => 'ips'
+                'name' =>  'Dyah Pertiwi,S.Pd',
+                'username' => 'pertiwi',
+                'mata_pelajaran_id' => 2
             ],
             [
-                'name' =>
-                'Guru Bahasa Inggris',
-                'username' => 'inggris'
+                'name' =>  'Anggita Perwitasari,S.Pd',
+                'username' => 'anggi',
+                'mata_pelajaran_id' => 3
             ],
             [
-                'name' =>
-                'Guru Seni Budaya',
-                'username' => 'seni'
+                'name' =>  'L. Nurzayyana Anita F.,S.Pd',
+                'username' => 'anita',
+                'mata_pelajaran_id' => 16
             ],
             [
-                'name' =>
-                'Guru Pendidikan Jasmani, Olahraga dan Kesehatan',
-                'username' => 'pjok'
+                'name' =>  'M. Awalul Husna',
+                'username' => 'alul',
+                'mata_pelajaran_id' => 14
             ],
             [
-                'name' =>
-                'Guru Informatika',
-                'username' => 'informatika'
+                'name' =>  'Zulfa Aulia Rosada A.',
+                'username' => 'zulfa',
+                'mata_pelajaran_id' => 8
+            ],
+            [
+                'name' =>  'Hanna Azizah,S.Pd',
+                'username' => 'hanna',
+                'mata_pelajaran_id' => 7
+            ],
+            [
+                'name' =>  'Ahmad Arikza Hudaefi,S.Pd',
+                'username' => 'arikza',
+                'mata_pelajaran_id' => 13
+            ],
+            [
+                'name' =>  'Shabila Maurarin Rizqi',
+                'username' => 'shabila',
+                'mata_pelajaran_id' => 7
+            ],
+            [
+                'name' =>  'Nasrul Khusaeni',
+                'username' => 'nasrul',
+                'mata_pelajaran_id' => 6
+            ],
+            [
+                'name' =>  'Doni Setyawan,S.Pd',
+                'username' => 'doni',
+                'mata_pelajaran_id' => 9
+            ],
+            [
+                'name' =>  'Wahib Abdul Rohim',
+                'username' => 'wahib',
+                'mata_pelajaran_id' => 11
+            ],
+            [
+                'name' =>  'Nur Fadhillah,S.Pd',
+                'username' => 'dhila',
+                'mata_pelajaran_id' => 6
+            ],
+            [
+                'name' =>  'Ilzam Mashuri,S.Pd',
+                'username' => 'ilzam',
+                'mata_pelajaran_id' => 17
+            ],
+            [
+                'name' =>  'Rifa Wahyuningsih,S.Pd',
+                'username' => 'rifa',
+                'mata_pelajaran_id' => 3
+            ],
+            [
+                'name' =>  'Dyah Prawanti,S.Pd',
+                'username' => 'prawanti',
+                'mata_pelajaran_id' => 8
+            ],
+            [
+                'name' =>  'Muchamad Ghufron',
+                'username' => 'ghufron',
+                'mata_pelajaran_id' => 15
+            ],
+            [
+                'name' =>  'Nur Huda,S.Pd.I',
+                'username' => 'huda',
+                'mata_pelajaran_id' => 19
+            ],
+            [
+                'name' =>  'Ahmad Ula Khabib,S.Pd',
+                'username' => 'khabib',
+                'mata_pelajaran_id' => 18
             ],
         ];
 
@@ -93,45 +158,6 @@ class InitSeeder extends Seeder
             ]);
 
             $data->assignRole('Guru');
-            $data->mapels()->attach($key + 1);
-
-            $data->kelas()->createMany([
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 1
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 2
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 3
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 4
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 5
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 6
-                ],
-                [
-                    'tahun' => '2022 / 2023',
-                    'mata_pelajaran_id' => $key + 1,
-                    'kelas_id' => 7
-                ],
-            ]);
 
             $data->waliKelas()->create([
                 'kelas_id' => $key + 1,
@@ -148,13 +174,8 @@ class InitSeeder extends Seeder
                 ],
                 [
                     'name' =>
-                    'Guru Kurikulum',
-                    'username' => 'kurikulum'
-                ],
-                [
-                    'name' =>
-                    'Guru Kesiswaan',
-                    'username' => 'kesiswaan'
+                    'Nurul Farida,S.HI',
+                    'username' => 'nurul'
                 ],
             ];
 
@@ -170,9 +191,5 @@ class InitSeeder extends Seeder
 
         $fahmie = User::whereUsername('fahmie')->first();
         $fahmie->assignRole('Kepala Sekolah');
-        $kurikulum = User::whereUsername('kurikulum')->first();
-        $kurikulum->assignRole('Kurikulum');
-        $kesiswaan = User::whereUsername('kesiswaan')->first();
-        $kesiswaan->assignRole('Kesiswaan');
     }
 }

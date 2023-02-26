@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             KategoriNilaiSeeder::class,
             PenilaianRaporSeeder::class,
             EkstrakurikulerSeeder::class,
-            GuruKelasSeeder::class,
             KategoriSikapSeeder::class,
             JenisSikapSeeder::class,
             KkmSeeder::class,

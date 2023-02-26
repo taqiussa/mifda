@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('kelas_id');
             $table->foreignId('mata_pelajaran_id');
             $table->string('tahun', 30);
+            $table->string('semester', 3);
             $table->timestamps();
         });
     }

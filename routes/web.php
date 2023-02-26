@@ -7,7 +7,9 @@ use App\Http\Controllers\GetDataController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
+use App\Http\Controllers\AturGuruKelasController;
 use App\Http\Controllers\GetPenilaianController;
+use App\Http\Controllers\InputCatatanController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
@@ -43,6 +45,7 @@ Route::middleware([
 
     //Route Get Data
     Route::controller(GetDataController::class)->group(function () {
+        Route::post('get-catatan', 'get_catatan')->name('get-catatan');
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-jenis-penilaian', 'get_jenis_penilaian')->name('get-jenis-penilaian');
         Route::post('get-jenis-sikap', 'get_jenis_sikap')->name('get-jenis-sikap');
@@ -80,6 +83,17 @@ Route::middleware([
         Route::get('absensi-ujian', 'index')->name('absensi-ujian');
         Route::post('absensi-ujian/simpan', 'simpan')->name('absensi-ujian.simpan');
         Route::post('absensi-ujian/nihil', 'nihil')->name('absensi-ujian.nihil');
+    });
+
+    // Route Atur Guru Kelas
+    Route::controller(AturGuruKelasController::class)->group(function () {
+        Route::get('atur-guru-kelas', 'index')->name('atur-guru-kelas');
+    });
+
+    // Input Catatan
+    Route::controller(InputCatatanController::class)->group(function () {
+        Route::get('input-catatan', 'index')->name('input-catatan');
+        Route::post('input-catatan/simpan', 'simpan')->name('input-catatan.simpan');
     });
 
     // Route Input Nilai
