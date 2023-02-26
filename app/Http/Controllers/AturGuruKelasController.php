@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GuruKelas;
 use App\Models\Kelas;
 use App\Models\User;
 use App\Traits\InitTrait;
@@ -26,5 +27,24 @@ class AturGuruKelasController extends Controller
 
     public function simpan()
     {
+        request()->validate([
+            'tahun' => 'required',
+            'semester' => 'required',
+            'userId' => 'required',
+            'mataPelajaranId' => 'required',
+            'kelasId' => 'required'
+        ]);
+
+        GuruKelas::create(
+            [
+                'tahun' => request('tahun'),
+                'semester' => request('semester'),
+                'mata_pelajaran_id' => request('mataPelajaranId'),
+                'user_id' => request('userId'),
+                'kelas_id' => request('kelasId')
+            ]
+        );
+
+        return to_route('atur-guru-kelas');
     }
 }

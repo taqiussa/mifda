@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\GuruMataPelajaran;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -158,6 +159,11 @@ class InitSeeder extends Seeder
             ]);
 
             $data->assignRole('Guru');
+
+            GuruMataPelajaran::create([
+                'user_id' => $data->id,
+                'mata_pelajaran_id' => $user['mata_pelajaran_id']
+            ]);
 
             $data->waliKelas()->create([
                 'kelas_id' => $key + 1,

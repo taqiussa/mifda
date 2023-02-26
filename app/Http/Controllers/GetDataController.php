@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AturanKurikulum;
 use App\Models\Catatan;
 use App\Models\GuruKelas;
+use App\Models\GuruMataPelajaran;
 use App\Models\JenisPenilaian;
 use App\Models\JenisSikap;
 use App\Models\KategoriNilai;
@@ -45,6 +46,22 @@ class GetDataController extends Controller
     //             ->values()
     //     ]);
     // }
+
+    public function get_guru_kelas()
+    {
+        return response()->json([
+            'listGuruKelas' => GuruKelas::whereTahun(request('tahun'))
+                ->whereSemester(request('semester'))
+                ->with([
+                    'kelas',
+                    'mapel',
+                    'user' => fn ($q) => $q->select('id', 'name')
+                ])
+                ->get()
+                ->sortBy('user.name')
+                ->values()
+        ]);
+    }
 
     public function get_jenis_penilaian()
     {
@@ -102,6 +119,17 @@ class GetDataController extends Controller
             'kelasId' => WaliKelas::whereUserId(auth()->user()->id)
                 ->whereTahun(request('tahun'))
                 ->value('kelas_id') ?? '',
+        ]);
+    }
+
+    public function get_mata_pelajaran()
+    {
+        return response()->json([
+            'listMataPelajaran' => GuruMataPelajaran::whereUserId(request('userId'))
+                ->with([
+                    'mapel'
+                ])
+                ->get()
         ]);
     }
 

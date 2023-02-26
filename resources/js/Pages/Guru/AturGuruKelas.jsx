@@ -14,61 +14,51 @@ import getCatatan from '@/Functions/getCatatan'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
 import Guru from '@/Components/Sia/Guru'
+import MataPelajaran from '@/Components/Sia/MataPelajaran'
+import getMataPelajaran from '@/Functions/getMataPelajaran'
+import getGuruKelas from '@/Functions/getGuruKelas'
 
 const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
         semester: initSemester,
+        userId: '',
+        mataPelajaranId: '',
         kelasId: '',
-        userId: ''
     })
+
+    const [listMataPelajaran, setListMataPelajaran] = useState([])
+    const [listGuruKelas, setListGuruKelas] = useState([])
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
     }
 
-    async function getDataKelasWali() {
-        const response = await getKelasWali(data.tahun)
-        if (response.kelasId) {
-            setData({
-                tahun: data.tahun,
-                semester: data.semester,
-                kelasId: response.kelasId
-            });
-        } else {
-            setData({
-                tahun: data.tahun,
-                semester: data.semester,
-                kelasId: ''
-            });
-        }
+    async function getDataMataPelajaran() {
+        const response = await getMataPelajaran(data.tahun, data.userId)
+        setListMataPelajaran(response.listMataPelajaran)
     }
 
-    async function getDataSiswa() {
-        const response = await getSiswa(data.tahun, data.kelasId)
-        setListSiswa(response.listSiswa)
-    }
-
-    async function getDataCatatan() {
-        const response = await getCatatan(data.tahun, data.semester, data.kelasId)
-        setListCatatan(response.listCatatan)
+    async function getDataGuruKelas() {
+        const response = await getGuruKelas(data.tahun, data.semester)
+        setListGuruKelas(response.listGuruKelas)
     }
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('input-catatan.simpan'), {
+        post(route('atur-guru-kelas.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Catatan Wali Kelas')
+                toast.success('Berhasil Atur Guru Kelas')
                 setData({
                     tahun: data.tahun,
                     semester: data.semester,
+                    userId: data.userId,
+                    mataPelajaranId: data.mataPelajaranId,
                     kelasId: data.kelasId,
-                    catatan: data.catatan,
-                    nis: data.nis
                 })
 
-                getDataCatatan()
+                getDataGuruKelas()
 
             },
             onError: (error) => {
@@ -82,48 +72,36 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
         })
     }
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if (data.tahun) {
+        if (data.tahun && data.userId
+        ) {
 
-    //         trackPromise(
-    //             getDataKelasWali()
-    //         )
+            trackPromise(
+                getDataMataPelajaran()
+            )
 
-    //     }
-    // }, [data.tahun])
+        }
+        else {
+            setListMataPelajaran([])
+        }
+    }, [data.tahun, data.userId])
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if (data.tahun && data.kelasId
-    //     ) {
+        if (data.tahun
+            && data.semester
+        ) {
 
-    //         trackPromise(
-    //             getDataSiswa()
-    //         )
+            trackPromise(
+                getDataGuruKelas()
+            )
 
-    //     }
-    //     else {
-    //         setListSiswa([])
-    //     }
-    // }, [data.tahun, data.kelasId])
-
-    // useEffect(() => {
-
-    //     if (data.tahun
-    //         && data.semester
-    //         && data.kelasId
-    //     ) {
-
-    //         trackPromise(
-    //             getDataCatatan()
-    //         )
-
-    //     }
-    //     else {
-    //         setListCatatan([])
-    //     }
-    // }, [data.tahun, data.semester, data.kelasId])
+        }
+        else {
+            setListGuruKelas([])
+        }
+    }, [data.tahun, data.semester])
 
     return (
         <>
@@ -163,6 +141,16 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
 
                     </div>
 
+                    <MataPelajaran
+                        id="mataPelajaranId"
+                        name="mataPelajaranId"
+                        value={data.mataPelajaranId}
+                        message={errors.mataPelajaranId}
+                        isFocused={true}
+                        listMapel={listMataPelajaran}
+                        handleChange={onHandleChange}
+                    />
+
                     <Kelas
                         id="kelasId"
                         name="kelasId"
@@ -192,7 +180,7 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
                                 Nama
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Catatan
+                                Keterangan
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
                                 Aksi
@@ -200,22 +188,22 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {listCatatan && listCatatan.map((siswa, index) => (
+                        {listGuruKelas && listGuruKelas.map((guru, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {siswa.user.name}
+                                    {guru.user.name}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {siswa.catatan}
+                                    {guru.mapel.nama + guru.kelas.nama}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
                                     <Hapus />
                                 </td>
                             </tr>
-                        ))} */}
+                        ))}
                     </tbody>
                 </table>
             </div>
