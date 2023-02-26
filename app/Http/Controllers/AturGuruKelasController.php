@@ -20,7 +20,7 @@ class AturGuruKelasController extends Controller
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
                 'listKelas' => Kelas::get(),
-                'listUser' => User::role('Guru')->get(),
+                'listUser' => User::role('Guru')->orderBy('name')->get(),
             ]
         );
     }
