@@ -161,8 +161,8 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
                         handleChange={onHandleChange}
                     />
 
-
                 </div>
+
                 <div className="flex justify-end">
                     <PrimaryButton onClick={submit}>
                         Simpan
@@ -182,25 +182,25 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
                             <th scope='col' className="py-3 px-2 text-left">
                                 Keterangan
                             </th>
-                            <th scope='col' className="py-3 px-2 text-left">
-                                Aksi
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listGuruKelas && listGuruKelas.map((guru, index) => (
+                        {listGuruKelas && listGuruKelas.map((user, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {guru.user.name}
+                                    {user.name}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {guru.mapel.nama + guru.kelas.nama}
-                                </td>
-                                <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
-                                    <Hapus />
+                                    <ul>
+                                        {user.kelas && user.kelas.map((kelas, index) => (
+                                            <li>
+                                                {index + 1 + '. ' + kelas.kelas.nama + ' ' + kelas.mapel.nama}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </td>
                             </tr>
                         ))}

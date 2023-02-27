@@ -13,6 +13,7 @@ use App\Models\Kelas;
 use App\Models\PenilaianRapor;
 use App\Models\Siswa;
 use App\Models\SiswaEkstra;
+use App\Models\User;
 use App\Models\WaliKelas;
 
 class GetDataController extends Controller
@@ -50,16 +51,27 @@ class GetDataController extends Controller
     public function get_guru_kelas()
     {
         return response()->json([
-            'listGuruKelas' => GuruKelas::whereTahun(request('tahun'))
-                ->whereSemester(request('semester'))
+            'listGuruKelas' => User::role('Guru')
                 ->with([
-                    'kelas',
-                    'mapel',
-                    'user' => fn ($q) => $q->select('id', 'name')
+                    'kelas' => fn ($q)
+                    => $q->whereTahun(request('tahun'))
+                        ->whereSemester(request('semester')),
+                    'kelas.kelas',
+                    'kelas.mapel'
                 ])
+                ->orderBy('name')
                 ->get()
-                ->sortBy('user.name')
-                ->values()
+
+            // 'listGuruKelas' => GuruKelas::whereTahun(request('tahun'))
+            //     ->whereSemester(request('semester'))
+            //     ->with([
+            //         'kelas',
+            //         'mapel',
+            //         'user' => fn ($q) => $q->select('id', 'name')
+            //     ])
+            //     ->get()
+            //     ->sortBy('user.name')
+            //     ->values()
         ]);
     }
 
