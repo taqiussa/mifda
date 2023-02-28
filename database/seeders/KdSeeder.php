@@ -21,8 +21,8 @@ class KdSeeder extends Seeder
             Kd::create([
                 'mata_pelajaran_id' => $i,
                 'tingkat' => 7,
-                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF,
-                'jenis_penilaian_id' => 12,
+                'kategori_nilai_id' => EnumKategoriNilai::FORMATIF,
+                'jenis_penilaian_id' => 14,
                 'tahun' => '2022 / 2023',
                 'semester' => 1,
                 'deskripsi' => fake()->text()
@@ -31,8 +31,8 @@ class KdSeeder extends Seeder
             Kd::create([
                 'mata_pelajaran_id' => $i,
                 'tingkat' => 7,
-                'kategori_nilai_id' => EnumKategoriNilai::SUMATIF,
-                'jenis_penilaian_id' => 13,
+                'kategori_nilai_id' => EnumKategoriNilai::FORMATIF,
+                'jenis_penilaian_id' => 15,
                 'tahun' => '2022 / 2023',
                 'semester' => 2,
                 'deskripsi' => fake()->text()

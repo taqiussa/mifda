@@ -19,9 +19,13 @@ class InitSeeder extends Seeder
     {
         $data =
             [
+                'Admin',
                 'Kepala Sekolah',
+                'Bendahara',
                 'Kurikulum',
                 'Kesiswaan',
+                'Tata Usaha',
+                'Konseling',
                 'Guru',
                 'Siswa'
             ];
