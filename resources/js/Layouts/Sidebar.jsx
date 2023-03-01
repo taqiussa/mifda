@@ -2,6 +2,9 @@ import React from 'react';
 import { usePage } from '@inertiajs/react';
 import SidebarLink from '@/Components/Sia/SidebarLink';
 import SidebarGuru from './Partials/SidebarGuru';
+import SidebarKurikulum from './Partials/SidebarKurikulum';
+import { Icon } from '@mdi/react';
+import { mdiAccountCircleOutline } from '@mdi/js';
 export default function Sidebar({ open, closeSide }) {
     const { auth } = usePage().props;
     const role = (roles) =>
@@ -15,13 +18,23 @@ export default function Sidebar({ open, closeSide }) {
                             <path fill="currentColor" d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
                         </svg>
                     </button>
-                    <h1 className="block py-7 text-lg font-bold text-emerald-700">{auth.user.name}</h1>
+                    <div className='flex flex-col items-center text-emerald-500'>
+                        <Icon path={mdiAccountCircleOutline} size={4} />
+                        <h1 className="block py-3 text-lg font-bold text-emerald-700">{auth.user.name}</h1>
+                    </div>
                     {!role('Siswa') ?
-                        <SidebarGuru />
+                        <>
+                            <SidebarGuru />
+                            <SidebarKurikulum />
+                        </>
                         : null
                     }
-                    <SidebarLink href={route('logout')} method="post" as="button" label='log out' />
 
+                    <div className='mt-5'>
+
+                        <SidebarLink href={route('logout')} method="post" as="button" label='log out' />
+
+                    </div>
                 </div>
             </div >
         </div>

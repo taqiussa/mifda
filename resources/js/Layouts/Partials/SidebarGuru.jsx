@@ -9,7 +9,6 @@ export default function SidebarGuru() {
             <div>
                 <SidebarLink href={route('dashboard')} active={route().current('dashboard')} label='dashboard' />
                 <SidebarLink href={route('absensi')} active={route().current('absensi')} label='absensi' />
-                <SidebarLink href={route('atur-guru-kelas')} active={route().current('atur-guru-kelas')} label='atur guru kelas' />
                 <SidebarLink href={route('input-catatan')} active={route().current('input-catatan')} label='input catatan' />
                 <SidebarLink href={route('input-nilai')} active={route().current('input-nilai')} label='input nilai' />
                 <SidebarLink href={route('input-nilai-ekstrakurikuler')} active={route().current('input-nilai-ekstrakurikuler')} label='input nilai ekstrakurikuler' />
