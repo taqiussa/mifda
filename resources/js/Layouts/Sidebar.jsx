@@ -19,7 +19,12 @@ export default function Sidebar({ open, closeSide }) {
                         </svg>
                     </button>
                     <div className='flex flex-col items-center text-emerald-500'>
+                        {auth.user.foto ? 
+                            <img src={`/images/${auth.user.foto}`} className='w-24 rounded-full border border-emerald-500' alt='foto'/>
+                        :
                         <Icon path={mdiAccountCircleOutline} size={4} />
+                            
+                    }
                         <h1 className="block py-3 text-lg font-bold text-emerald-700">{auth.user.name}</h1>
                     </div>
                     {!role('Siswa') ?
