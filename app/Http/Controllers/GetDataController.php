@@ -55,7 +55,8 @@ class GetDataController extends Controller
                 ->with([
                     'kelas' => fn ($q)
                     => $q->whereTahun(request('tahun'))
-                        ->whereSemester(request('semester')),
+                        ->whereSemester(request('semester'))
+                        ->orderBy('kelas_id'),
                     'kelas.kelas',
                     'kelas.mapel'
                 ])

@@ -47,4 +47,11 @@ class AturGuruKelasController extends Controller
 
         return to_route('atur-guru-kelas');
     }
+
+    public function hapus()
+    {
+        GuruKelas::destroy(request('id'));
+
+        return to_route('atur-guru-kelas');
+    }
 }

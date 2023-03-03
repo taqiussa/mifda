@@ -91,12 +91,14 @@ Route::middleware([
     Route::controller(AturGuruKelasController::class)->group(function () {
         Route::get('atur-guru-kelas', 'index')->name('atur-guru-kelas');
         Route::post('atur-guru-kelas/simpan', 'simpan')->name('atur-guru-kelas.simpan');
+        Route::delete('atur-guru-kelas/{id}', 'hapus')->name('atur-guru-kelas.hapus');
     });
 
     // Input Catatan
     Route::controller(InputCatatanController::class)->group(function () {
         Route::get('input-catatan', 'index')->name('input-catatan');
         Route::post('input-catatan/simpan', 'simpan')->name('input-catatan.simpan');
+        Route::delete('input-catatan/{id}', 'hapus')->name('input-catatan.hapus');
     });
 
     // Route Input Nilai

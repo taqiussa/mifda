@@ -50,4 +50,11 @@ class InputCatatanController extends Controller
 
         return to_route('input-catatan');
     }
+
+    public function hapus()
+    {
+        Catatan::destroy(request('id'));
+
+        return to_route('input-catatan');
+    }
 }

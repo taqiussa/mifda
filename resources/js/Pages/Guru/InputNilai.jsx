@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Head, useForm, usePage } from '@inertiajs/react'
+import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
 import Kelas from '@/Components/Sia/Kelas'
@@ -14,7 +14,6 @@ import getJenisPenilaian from '@/Functions/getJenisPenilaian'
 import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 import axios from 'axios'
-import { set } from 'lodash'
 
 const InputNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
 

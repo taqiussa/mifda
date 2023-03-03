@@ -11,7 +11,6 @@ import Jam from '@/Components/Sia/Jam'
 import { toast } from 'react-toastify';
 import { trackPromise } from 'react-promise-tracker'
 import getAbsensiSiswa from '@/Functions/getAbsensiSiswa'
-import Sweet from '@/Components/Sia/Sweet'
 
 const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
 

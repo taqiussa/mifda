@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Head, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
 import Kelas from '@/Components/Sia/Kelas'
 import Semester from '@/Components/Sia/Semester'
-import getKelasWali from '@/Functions/getKelasWali'
 import { trackPromise } from 'react-promise-tracker'
-import getSiswa from '@/Functions/getSiswa'
-import Siswa from '@/Components/Sia/Siswa'
 import Sweet from '@/Components/Sia/Sweet'
 import Hapus from '@/Components/Sia/Hapus'
-import getCatatan from '@/Functions/getCatatan'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
 import Guru from '@/Components/Sia/Guru'
@@ -45,6 +41,38 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
         setListGuruKelas(response.listGuruKelas)
     }
 
+    const handleDelete = (id) => {
+        Sweet.fire({
+            title: 'Anda yakin menghapus?',
+            text: "Hapus Kelas Guru!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    router.delete(route('atur-guru-kelas.hapus',
+                        {
+                            id: id
+                        }),
+                        {
+                            onSuccess: (page) => {
+                                toast.success('Berhasil Hapus Guru Kelas')
+                                setData({
+                                    tahun: data.tahun,
+                                    semester: data.semester,
+                                    userId: data.userId,
+                                    mataPelajaranId: data.mataPelajaranId,
+                                    kelasId: data.kelasId,
+                                })
+                                getDataGuruKelas()
+                            }
+                        })
+                }
+            })
+    }
+
     const submit = (e) => {
         e.preventDefault()
         post(route('atur-guru-kelas.simpan'), {
@@ -64,7 +92,7 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
             onError: (error) => {
                 Sweet.fire({
                     title: 'Gagal!',
-                    text: error.pesan,
+                    text: error,
                     icon: 'error',
                     confirmButtonText: 'Kembali'
                 })
@@ -194,10 +222,17 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
                                     {user.name}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    <ul>
+                                    <ul className='list-decimal space-y-1'>
                                         {user.kelas && user.kelas.map((kelas, index) => (
-                                            <li>
-                                                {index + 1 + '. ' + kelas.kelas.nama + ' ' + kelas.mapel.nama}
+                                            <li key={index} className='items-center list-item'>
+                                                <div className='inline-flex items-center'>
+                                                    <span>
+                                                        {kelas.kelas.nama + ' ' + kelas.mapel.nama}
+                                                    </span>
+                                                    <Hapus
+                                                        onClick={() => handleDelete(kelas.id)}
+                                                    />
+                                                </div>
                                             </li>
                                         ))}
                                     </ul>

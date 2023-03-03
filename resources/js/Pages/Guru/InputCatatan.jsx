@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Head, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
 import Kelas from '@/Components/Sia/Kelas'
@@ -58,6 +58,38 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
         setListCatatan(response.listCatatan)
     }
 
+    const handleDelete = (id) => {
+        Sweet.fire({
+            title: 'Anda yakin menghapus?',
+            text: "Hapus Catatan Wali Kelas!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    router.delete(route('input-catatan.hapus',
+                        {
+                            id: id
+                        }),
+                        {
+                            onSuccess: (page) => {
+                                toast.success('Berhasil Hapus Catatan Wali Kelas')
+                                setData({
+                                    tahun: data.tahun,
+                                    semester: data.semester,
+                                    kelasId: data.kelasId,
+                                    catatan: data.catatan,
+                                    nis: data.nis
+                                })
+                                getDataCatatan()
+                            }
+                        })
+                }
+            })
+    }
+
     const submit = (e) => {
         e.preventDefault()
         post(route('input-catatan.simpan'), {
@@ -77,7 +109,7 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
             onError: (error) => {
                 Sweet.fire({
                     title: 'Gagal!',
-                    text: error.pesan,
+                    text: error,
                     icon: 'error',
                     confirmButtonText: 'Kembali'
                 })
@@ -238,7 +270,9 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                     {siswa.catatan}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
-                                    <Hapus />
+                                    <Hapus
+                                        onClick={() => handleDelete(siswa.id)}
+                                    />
                                 </td>
                             </tr>
                         ))}
