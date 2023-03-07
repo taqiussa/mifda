@@ -13,6 +13,7 @@ use App\Http\Controllers\InputCatatanController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
+use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\PrintRaporController;
 use App\Http\Controllers\UploadNilaiController;
@@ -94,11 +95,19 @@ Route::middleware([
         Route::delete('atur-guru-kelas/{id}', 'hapus')->name('atur-guru-kelas.hapus');
     });
 
-    // Input Catatan
+    // Route Input Catatan
     Route::controller(InputCatatanController::class)->group(function () {
         Route::get('input-catatan', 'index')->name('input-catatan');
         Route::post('input-catatan/simpan', 'simpan')->name('input-catatan.simpan');
         Route::delete('input-catatan/{id}', 'hapus')->name('input-catatan.hapus');
+    });
+
+    // Route Mata Pelajaran
+    Route::controller(MataPelajaranController::class)->group(function () {
+        Route::get('mata-pelajaran', 'index')->name('mata-pelajaran');
+        Route::get('mata-pelajaran/{id}', 'edit')->name('mata-pelajaran.edit');
+        Route::post('mata-pelajaran', 'simpan')->name('mata-pelajaran.simpan');
+        Route::patch('mata-pelajaran/{id}', 'update')->name('mata-pelajaran.update');
     });
 
     // Route Input Nilai

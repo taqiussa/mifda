@@ -8,7 +8,6 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Traits\InitTrait;
 use EnumKehadiran;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 
 class AbsensiController extends Controller
