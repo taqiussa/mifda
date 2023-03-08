@@ -6,12 +6,11 @@ import { toast } from 'react-toastify'
 import Edit from '@/Components/Sia/Edit'
 import axios from 'axios'
 
-const MataPelajaran = ({ listMataPelajaran }) => {
+const Kelas = ({ listKelas }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         id: '',
         nama: '',
-        kelompok: '',
     })
 
     const inputRef = useRef(null)
@@ -29,27 +28,25 @@ const MataPelajaran = ({ listMataPelajaran }) => {
     }
 
     async function getData(id) {
-        const response = await axios.post(route('get-edit-mata-pelajaran', {
+        const response = await axios.post(route('kelas.edit', {
             id: id
         }))
 
         setData({
-            id: response.data.mataPelajaran.id,
-            nama: response.data.mataPelajaran.nama,
-            kelompok: response.data.mataPelajaran.kelompok
+            id: response.data.kelas.id,
+            nama: response.data.kelas.nama,
         })
 
     }
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('mata-pelajaran.simpan'), {
+        post(route('kelas.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Mata Pelajaran')
+                toast.success('Berhasil Simpan Kelas')
                 setData({
                     id: '',
                     nama: '',
-                    kelompok: '',
                 })
             },
         })
@@ -57,12 +54,12 @@ const MataPelajaran = ({ listMataPelajaran }) => {
 
     return (
         <>
-            <Head title='Print Rapor' />
+            <Head title='Kelas' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
-                <div className="lg:grid lg:grid-cols-3 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
-                    <div className='flex flex-col text-slate-600 capitalize col-span-2'>
+                <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
+                    <div className='flex flex-col text-slate-600 capitalize'>
                         <div>
-                            mata pelajaran
+                            kelas
                         </div>
                         <div>
                             <input
@@ -83,34 +80,11 @@ const MataPelajaran = ({ listMataPelajaran }) => {
                             null
                         }
                     </div>
-                    <div className='flex flex-col text-slate-600 capitalize'>
-                        <div>
-                            kelompok
-                        </div>
-                        <div>
-                            <input
-                                name="kelompok"
-                                id="kelompok"
-                                type='text'
-                                value={data.kelompok}
-                                onChange={onHandleChange}
-                                className='border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full'
-                            />
-                        </div>
-                        {errors.kelompok ?
-                            <div className='text-sm text-red-600'>
-                                {errors.kelompok}
-                            </div>
-                            :
-                            null
-                        }
+                    <div className='flex items-end'>
+                        <PrimaryButton onClick={submit}>
+                            Simpan
+                        </PrimaryButton>
                     </div>
-
-                </div>
-                <div className="flex justify-end">
-                    <PrimaryButton onClick={submit}>
-                        Simpan
-                    </PrimaryButton>
                 </div>
             </form>
             <div className="overflow-x-auto">
@@ -121,10 +95,7 @@ const MataPelajaran = ({ listMataPelajaran }) => {
                                 No
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Mata Pelajaran
-                            </th>
-                            <th scope='col' className="py-3 px-2 text-left">
-                                Kelompok
+                                Kelas
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
                                 Aksi
@@ -132,20 +103,17 @@ const MataPelajaran = ({ listMataPelajaran }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listMataPelajaran && listMataPelajaran.map((mapel, index) => (
+                        {listKelas && listKelas.map((kelas, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {mapel.nama}
-                                </td>
-                                <td className="py-2 px-2 font-medium text-slate-600">
-                                    {mapel.kelompok}
+                                    {kelas.nama}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
                                     <Edit
-                                        onClick={() => handleEdit(mapel.id)}
+                                        onClick={() => handleEdit(kelas.id)}
                                     />
                                 </td>
                             </tr>
@@ -156,5 +124,5 @@ const MataPelajaran = ({ listMataPelajaran }) => {
         </>
     )
 }
-MataPelajaran.layout = page => <AppLayout children={page} />
-export default MataPelajaran
+Kelas.layout = page => <AppLayout children={page} />
+export default Kelas

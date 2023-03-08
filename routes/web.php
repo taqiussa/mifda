@@ -13,6 +13,7 @@ use App\Http\Controllers\InputCatatanController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\PrintRaporController;
@@ -47,7 +48,6 @@ Route::middleware([
     //Route Get Data
     Route::controller(GetDataController::class)->group(function () {
         Route::post('get-catatan', 'get_catatan')->name('get-catatan');
-        Route::post('get-edit-mata-pelajaran', 'get_edit_mata_pelajaran')->name('get-edit-mata-pelajaran');
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-guru-kelas', 'get_guru_kelas')->name('get-guru-kelas');
         Route::post('get-jenis-penilaian', 'get_jenis_penilaian')->name('get-jenis-penilaian');
@@ -103,12 +103,18 @@ Route::middleware([
         Route::delete('input-catatan/{id}', 'hapus')->name('input-catatan.hapus');
     });
 
+    // Route Kelas
+    Route::controller(KelasController::class)->group(function () {
+        Route::get('kelas', 'index')->name('kelas');
+        Route::post('kelas/{id}', 'edit')->name('kelas.edit');
+        Route::post('kelas', 'simpan')->name('kelas.simpan');
+    });
+
     // Route Mata Pelajaran
     Route::controller(MataPelajaranController::class)->group(function () {
         Route::get('mata-pelajaran', 'index')->name('mata-pelajaran');
-        Route::get('mata-pelajaran/{id}', 'edit')->name('mata-pelajaran.edit');
+        Route::post('mata-pelajaran/{id}', 'edit')->name('mata-pelajaran.edit');
         Route::post('mata-pelajaran', 'simpan')->name('mata-pelajaran.simpan');
-        Route::patch('mata-pelajaran/{id}', 'update')->name('mata-pelajaran.update');
     });
 
     // Route Input Nilai

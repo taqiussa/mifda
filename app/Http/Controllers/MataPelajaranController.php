@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\MataPelajaran;
-use Illuminate\Http\Request;
 
 class MataPelajaranController extends Controller
 {
@@ -33,11 +32,11 @@ class MataPelajaranController extends Controller
 
         return to_route('mata-pelajaran');
     }
+
     public function edit($id)
     {
-    }
-
-    public function update($id)
-    {
+        return response()->json([
+            'mataPelajaran' => MataPelajaran::find($id)
+        ]);
     }
 }

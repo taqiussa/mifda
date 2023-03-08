@@ -34,13 +34,6 @@ class GetDataController extends Controller
         ]);
     }
 
-    public function get_edit_mata_pelajaran()
-    {
-        return response()->json([
-            'mataPelajaran' => MataPelajaran::find(request('id'))
-        ]);
-    }
-
     public function get_ekstrakurikuler()
     {
         return response()->json([

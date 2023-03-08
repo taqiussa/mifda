@@ -29,7 +29,7 @@ const MataPelajaran = ({ listMataPelajaran }) => {
     }
 
     async function getData(id) {
-        const response = await axios.post(route('get-edit-mata-pelajaran', {
+        const response = await axios.post(route('mata-pelajaran.edit', {
             id: id
         }))
 
@@ -57,7 +57,7 @@ const MataPelajaran = ({ listMataPelajaran }) => {
 
     return (
         <>
-            <Head title='Print Rapor' />
+            <Head title='Mata Pelajaran' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
                 <div className="lg:grid lg:grid-cols-3 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
                     <div className='flex flex-col text-slate-600 capitalize col-span-2'>
