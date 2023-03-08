@@ -10,9 +10,10 @@ use App\Models\JenisPenilaian;
 use App\Models\JenisSikap;
 use App\Models\KategoriNilai;
 use App\Models\Kelas;
+use App\Models\MataPelajaran;
 use App\Models\PenilaianRapor;
 use App\Models\Siswa;
-use App\Models\SiswaEkstra;
+use App\Models\SiswaEkstrakurikuler;
 use App\Models\User;
 use App\Models\WaliKelas;
 
@@ -33,20 +34,27 @@ class GetDataController extends Controller
         ]);
     }
 
-    // public function get_ekstrakurikuler()
-    // {
-    //     return response()->json([
-    //         'listSiswa' => SiswaEkstra::whereTahun(request('tahun'))
-    //             ->whereKelasId(request('kelasId'))
-    //             ->with([
-    //                 'ekstrakurikuler',
-    //                 'user'
-    //             ])
-    //             ->get()
-    //             ->sortBy(['user.name'])
-    //             ->values()
-    //     ]);
-    // }
+    public function get_edit_mata_pelajaran()
+    {
+        return response()->json([
+            'mataPelajaran' => MataPelajaran::find(request('id'))
+        ]);
+    }
+
+    public function get_ekstrakurikuler()
+    {
+        return response()->json([
+            'listSiswa' => SiswaEkstrakurikuler::whereTahun(request('tahun'))
+                ->whereKelasId(request('kelasId'))
+                ->with([
+                    'ekstrakurikuler',
+                    'user'
+                ])
+                ->get()
+                ->sortBy(['user.name'])
+                ->values()
+        ]);
+    }
 
     public function get_guru_kelas()
     {

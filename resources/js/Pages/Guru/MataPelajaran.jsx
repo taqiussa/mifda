@@ -3,6 +3,8 @@ import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
+import Edit from '@/Components/Sia/Edit'
+import axios from 'axios'
 
 const MataPelajaran = ({ listMataPelajaran }) => {
 
@@ -19,14 +21,25 @@ const MataPelajaran = ({ listMataPelajaran }) => {
     }
 
     const handleEdit = (id) => {
+
+        getData(id)
+
         inputRef.current.focus()
-        
+        inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
-    // async function getDataCatatan() {
-    //     const response = await getCatatan(data.tahun, data.semester, data.kelasId)
-    //     setListCatatan(response.listCatatan)
-    // }
+    async function getData(id) {
+        const response = await axios.post(route('get-edit-mata-pelajaran', {
+            id: id
+        }))
+
+        setData({
+            id: response.data.mataPelajaran.id,
+            nama: response.data.mataPelajaran.nama,
+            kelompok: response.data.mataPelajaran.kelompok
+        })
+
+    }
 
     const submit = (e) => {
         e.preventDefault()
@@ -58,6 +71,7 @@ const MataPelajaran = ({ listMataPelajaran }) => {
                                 type='text'
                                 value={data.nama}
                                 onChange={onHandleChange}
+                                ref={inputRef}
                                 className='border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full'
                             />
                         </div>
@@ -130,9 +144,9 @@ const MataPelajaran = ({ listMataPelajaran }) => {
                                     {mapel.kelompok}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
-                                    {/* <Hapus
-                                        onClick={() => handleDelete(siswa.id)}
-                                    /> */}
+                                    <Edit
+                                        onClick={() => handleEdit(mapel.id)}
+                                    />
                                 </td>
                             </tr>
                         ))}

@@ -47,6 +47,7 @@ Route::middleware([
     //Route Get Data
     Route::controller(GetDataController::class)->group(function () {
         Route::post('get-catatan', 'get_catatan')->name('get-catatan');
+        Route::post('get-edit-mata-pelajaran', 'get_edit_mata_pelajaran')->name('get-edit-mata-pelajaran');
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-guru-kelas', 'get_guru_kelas')->name('get-guru-kelas');
         Route::post('get-jenis-penilaian', 'get_jenis_penilaian')->name('get-jenis-penilaian');
