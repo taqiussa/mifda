@@ -6,7 +6,6 @@ use App\Models\Kelas;
 use App\Traits\InitTrait;
 use App\Exports\ExportNilaiSikap;
 use App\Imports\ImportNilaiSikap;
-use App\Models\GuruMataPelajaran;
 use App\Models\KategoriSikap;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -21,11 +20,6 @@ class UploadNilaiSikapController extends Controller
             [
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
-                'listMataPelajaran' => GuruMataPelajaran::whereUserId(auth()->user()->id)
-                    ->with([
-                        'mapel'
-                    ])
-                    ->get(),
                 'listKategori' => KategoriSikap::get(),
             ]
         );

@@ -15,8 +15,9 @@ import getNilaiSikap from '@/Functions/getNilaiSikap'
 import DownloadLink from '@/Components/Sia/DownloadLink'
 import FileUpload from '@/Components/Sia/FileUpload'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
+import getMataPelajaran from '@/Functions/getMataPelajaran'
 
-const UploadNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKategori }) => {
+const UploadNilaiSikap = ({ initTahun, initSemester, listKategori }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -28,9 +29,15 @@ const UploadNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKate
         fileImport: '',
     })
 
-    const [listSiswa, setListSiswa] = useState([])
     const [listJenis, setListJenis] = useState([])
     const [listKelas, setListKelas] = useState([])
+    const [listMataPelajaran, setListMataPelajaran] = useState([])
+    const [listSiswa, setListSiswa] = useState([])
+
+    async function getDataMataPelajaran() {
+        const response = await getMataPelajaran(data.tahun)
+        setListMataPelajaran(response.listMataPelajaran)
+    }
 
     async function getDataNilaiSikap() {
         const response = await getNilaiSikap(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriSikapId, data.jenisSikapId)
@@ -69,6 +76,15 @@ const UploadNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKate
             },
         })
     }
+
+    useEffect(() => {
+
+        if (data.tahun)
+            trackPromise(
+                getDataMataPelajaran()
+            )
+            
+    }, [data.tahun])
 
     useEffect(() => {
 

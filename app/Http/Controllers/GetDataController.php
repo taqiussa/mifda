@@ -63,17 +63,6 @@ class GetDataController extends Controller
                 ])
                 ->orderBy('name')
                 ->get()
-
-            // 'listGuruKelas' => GuruKelas::whereTahun(request('tahun'))
-            //     ->whereSemester(request('semester'))
-            //     ->with([
-            //         'kelas',
-            //         'mapel',
-            //         'user' => fn ($q) => $q->select('id', 'name')
-            //     ])
-            //     ->get()
-            //     ->sortBy('user.name')
-            //     ->values()
         ]);
     }
 
@@ -139,10 +128,13 @@ class GetDataController extends Controller
     public function get_mata_pelajaran()
     {
         return response()->json([
-            'listMataPelajaran' => GuruMataPelajaran::whereUserId(request('userId'))
+            'listMataPelajaran' => GuruKelas::whereUserId(auth()->user()->id)
+                ->whereTahun(request('tahun'))
                 ->with([
                     'mapel'
                 ])
+                ->distinct()
+                ->select('mata_pelajaran_id')
                 ->get()
         ]);
     }

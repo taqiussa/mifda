@@ -16,8 +16,9 @@ import getNilaiSiswa from '@/Functions/getNilaiSiswa'
 import DownloadLink from '@/Components/Sia/DownloadLink'
 import FileUpload from '@/Components/Sia/FileUpload'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
+import getMataPelajaran from '@/Functions/getMataPelajaran'
 
-const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
+const UploadNilai = ({ initTahun, initSemester }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -29,14 +30,16 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         fileImport: '',
     })
 
-    const [listSiswa, setListSiswa] = useState([])
-    const [listKategori, setListKategori] = useState([])
     const [listJenis, setListJenis] = useState([])
+    const [listKategori, setListKategori] = useState([])
     const [listKelas, setListKelas] = useState([])
+    const [listMataPelajaran, setListMataPelajaran] = useState([])
+    const [listSiswa, setListSiswa] = useState([])
 
-    async function getDataNilaiSiswa() {
-        const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
-        setListSiswa(response.listSiswa)
+
+    async function getDataJenisPenilaian() {
+        const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
+        setListJenis(response.listJenis)
     }
 
     async function getDataKategoriNilai() {
@@ -44,14 +47,20 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
         setListKategori(response.listKategori)
     }
 
-    async function getDataJenisPenilaian() {
-        const response = await getJenisPenilaian(data.tahun, data.semester, data.kelasId, data.kategoriNilaiId)
-        setListJenis(response.listJenis)
-    }
 
     async function getDataKelas() {
         const response = await getKelas(data.tahun, data.mataPelajaranId)
         setListKelas(response.listKelas)
+    }
+
+    async function getDataMataPelajaran() {
+        const response = await getMataPelajaran(data.tahun)
+        setListMataPelajaran(response.listMataPelajaran)
+    }
+
+    async function getDataNilaiSiswa() {
+        const response = await getNilaiSiswa(data.tahun, data.semester, data.mataPelajaranId, data.kelasId, data.kategoriNilaiId, data.jenisPenilaianId)
+        setListSiswa(response.listSiswa)
     }
 
     const onHandleChange = (event) => {
@@ -76,6 +85,15 @@ const UploadNilai = ({ initTahun, initSemester, listMataPelajaran }) => {
             },
         })
     }
+
+    useEffect(() => {
+
+        if (data.tahun)
+            trackPromise(
+                getDataMataPelajaran()
+            )
+            
+    }, [data.tahun])
 
     useEffect(() => {
 

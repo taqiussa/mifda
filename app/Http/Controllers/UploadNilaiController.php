@@ -7,7 +7,6 @@ use App\Traits\InitTrait;
 use App\Exports\ExportNilai;
 use App\Imports\ImportNilai;
 use App\Models\JenisPenilaian;
-use App\Models\GuruMataPelajaran;
 use App\Models\MataPelajaran;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -22,11 +21,6 @@ class UploadNilaiController extends Controller
             [
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
-                'listMataPelajaran' => GuruMataPelajaran::whereUserId(auth()->user()->id)
-                    ->with([
-                        'mapel'
-                    ])
-                    ->get(),
             ]
         );
     }

@@ -14,8 +14,9 @@ import Nilai from '@/Components/Sia/Nilai'
 import getNilaiSikap from '@/Functions/getNilaiSikap'
 import JenisSikap from '@/Components/Sia/JenisSikap'
 import KategoriSikap from '@/Components/Sia/KategoriSikap'
+import getMataPelajaran from '@/Functions/getMataPelajaran'
 
-const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKategori }) => {
+const InputNilaiSikap = ({ initTahun, initSemester, listKategori }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -27,9 +28,10 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKateg
         arrayInput: [],
     })
 
-    const [listSiswa, setListSiswa] = useState([])
     const [listJenis, setListJenis] = useState([])
     const [listKelas, setListKelas] = useState([])
+    const [listMataPelajaran, setListMataPelajaran] = useState([])
+    const [listSiswa, setListSiswa] = useState([])
     const [count, setCount] = useState(0)
 
     async function getDataNilaiSikap() {
@@ -57,6 +59,10 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKateg
         setListKelas(response.listKelas)
     }
 
+    async function getDataMataPelajaran() {
+        const response = await getMataPelajaran(data.tahun)
+        setListMataPelajaran(response.listMataPelajaran)
+    }
 
     const handleDynamic = (e, index, id, nis, name) => {
 
@@ -101,6 +107,15 @@ const InputNilaiSikap = ({ initTahun, initSemester, listMataPelajaran, listKateg
             }
         })
     }
+
+    useEffect(() => {
+        
+        if (data.tahun)
+            trackPromise(
+                getDataMataPelajaran()
+            )
+
+    }, [data.tahun])
 
     useEffect(() => {
 

@@ -18,11 +18,6 @@ class InputNilaiSikapController extends Controller
             [
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
-                'listMataPelajaran' => GuruMataPelajaran::whereUserId(auth()->user()->id)
-                    ->with([
-                        'mapel'
-                    ])
-                    ->get(),
                 'listKategori' => KategoriSikap::get(),
             ]
         );
