@@ -39,7 +39,7 @@ export default forwardRef(function MataPelajaran(
                     <option value="">Pilih Mata Pelajaran</option>
 
                     {listMapel.map((mapel, index) => (
-                        <option key={index} value={mapel.mata_pelajaran_id}>{mapel.mapel.nama}</option>
+                        <option key={index} value={mapel.mata_pelajaran_id ?? mapel.id}>{mapel.mapel ? mapel.mapel.nama : mapel.nama}</option>
                     ))}
 
                 </select>

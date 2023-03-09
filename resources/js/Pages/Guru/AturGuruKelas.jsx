@@ -11,10 +11,9 @@ import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
 import Guru from '@/Components/Sia/Guru'
 import MataPelajaran from '@/Components/Sia/MataPelajaran'
-import getMataPelajaran from '@/Functions/getMataPelajaran'
 import getGuruKelas from '@/Functions/getGuruKelas'
 
-const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
+const AturGuruKelas = ({ initTahun, initSemester, listKelas, listMataPelajaran, listUser }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         tahun: initTahun,
@@ -24,16 +23,10 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
         kelasId: '',
     })
 
-    const [listMataPelajaran, setListMataPelajaran] = useState([])
     const [listGuruKelas, setListGuruKelas] = useState([])
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
-    }
-
-    async function getDataMataPelajaran() {
-        const response = await getMataPelajaran(data.tahun, data.userId)
-        setListMataPelajaran(response.listMataPelajaran)
     }
 
     async function getDataGuruKelas() {
@@ -99,21 +92,6 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listUser }) => {
             }
         })
     }
-
-    useEffect(() => {
-
-        if (data.tahun && data.userId
-        ) {
-
-            trackPromise(
-                getDataMataPelajaran()
-            )
-
-        }
-        else {
-            setListMataPelajaran([])
-        }
-    }, [data.tahun, data.userId])
 
     useEffect(() => {
 

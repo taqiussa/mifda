@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GuruKelas;
 use App\Models\Kelas;
+use App\Models\MataPelajaran;
 use App\Models\User;
 use App\Traits\InitTrait;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class AturGuruKelasController extends Controller
                 'initTahun' => $this->data_tahun(),
                 'initSemester' => $this->data_semester(),
                 'listKelas' => Kelas::get(),
+                'listMataPelajaran' => MataPelajaran::orderBy('nama')->get(),
                 'listUser' => User::role('Guru')->orderBy('name')->get(),
             ]
         );
