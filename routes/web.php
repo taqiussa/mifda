@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\AturGuruKelasController;
+use App\Http\Controllers\AturKurikulumController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputCatatanController;
 use App\Http\Controllers\InputNilaiController;
@@ -48,6 +49,7 @@ Route::middleware([
 
     //Route Get Data
     Route::controller(GetDataController::class)->group(function () {
+        Route::post('get-aturan-kurikulum', 'get_aturan_kurikulum')->name('get-aturan-kurikulum');
         Route::post('get-catatan', 'get_catatan')->name('get-catatan');
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-guru-kelas', 'get_guru_kelas')->name('get-guru-kelas');
@@ -95,6 +97,13 @@ Route::middleware([
         Route::get('atur-guru-kelas', 'index')->name('atur-guru-kelas');
         Route::post('atur-guru-kelas/simpan', 'simpan')->name('atur-guru-kelas.simpan');
         Route::delete('atur-guru-kelas/{id}', 'hapus')->name('atur-guru-kelas.hapus');
+    });
+
+    // Route Atur Kurikulum
+    Route::controller(AturKurikulumController::class)->group(function () {
+        Route::get('atur-kurikulum', 'index')->name('atur-kurikulum');
+        Route::post('atur-kurikulum/simpan', 'simpan')->name('atur-kurikulum.simpan');
+        Route::delete('atur-kurikulum/{id}', 'hapus')->name('atur-kurikulum.hapus');
     });
 
     // Route Input Catatan

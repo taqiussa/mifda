@@ -19,6 +19,16 @@ use App\Models\WaliKelas;
 
 class GetDataController extends Controller
 {
+    public function get_aturan_kurikulum()
+    {
+        return response()->json([
+            'listAturan' => AturanKurikulum::whereTahun(request('tahun'))
+                ->with(['kurikulum'])
+                ->orderBy('tingkat')
+                ->get()
+        ]);
+    }
+
     public function get_catatan()
     {
         return response()->json([

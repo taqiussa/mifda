@@ -7,7 +7,6 @@ use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\User;
 use App\Traits\InitTrait;
-use Illuminate\Http\Request;
 
 class AturGuruKelasController extends Controller
 {

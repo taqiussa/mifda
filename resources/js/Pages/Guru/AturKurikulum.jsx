@@ -2,39 +2,38 @@ import React, { useEffect, useState } from 'react'
 import { Head, router, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
-import Kelas from '@/Components/Sia/Kelas'
-import Semester from '@/Components/Sia/Semester'
 import { trackPromise } from 'react-promise-tracker'
 import Sweet from '@/Components/Sia/Sweet'
 import Hapus from '@/Components/Sia/Hapus'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
-import Guru from '@/Components/Sia/Guru'
-import MataPelajaran from '@/Components/Sia/MataPelajaran'
-import getGuruKelas from '@/Functions/getGuruKelas'
+import Tingkat from '@/Components/Sia/Tingkat'
+import Kurikulum from '@/Components/Sia/Kurikulum'
+import getAturanKurikulum from '@/Functions/getAturanKurikulum'
 
-const AturKurikulum = ({ initTahun }) => {
+const AturKurikulum = ({ initTahun, listKurikulum }) => {
 
     const { data, setData, post, errors } = useForm({
         tahun: initTahun,
-        kurikulumId: ''
+        kurikulumId: '',
+        tingkat: '',
     })
 
-    const [listGuruKelas, setListGuruKelas] = useState([])
+    const [listAturan, setListAturan] = useState([])
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
     }
 
-    async function getDataGuruKelas() {
-        const response = await getGuruKelas(data.tahun, data.semester)
-        setListGuruKelas(response.listGuruKelas)
+    async function getDataAturanKurikulum() {
+        const response = await getAturanKurikulum(data.tahun)
+        setListAturan(response.listAturan)
     }
 
     const handleDelete = (id) => {
         Sweet.fire({
             title: 'Anda yakin menghapus?',
-            text: "Hapus Kelas Guru!",
+            text: "Hapus Aturan Kurikulum!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya, Hapus!',
@@ -42,42 +41,51 @@ const AturKurikulum = ({ initTahun }) => {
         })
             .then((result) => {
                 if (result.isConfirmed) {
-                    router.delete(route('atur-guru-kelas.hapus',
+                    router.delete(route('atur-kurikulum.hapus',
                         {
                             id: id
                         }),
                         {
                             onSuccess: (page) => {
-                                toast.success('Berhasil Hapus Guru Kelas')
+                                toast.success('Berhasil Hapus Kurikulum')
                                 setData({
                                     tahun: data.tahun,
-                                    semester: data.semester,
-                                    userId: data.userId,
-                                    mataPelajaranId: data.mataPelajaranId,
-                                    kelasId: data.kelasId,
+                                    kurikulumId: data.kurikulumId,
+                                    tingkat: data.tingkat,
                                 })
-                                getDataGuruKelas()
+
+                                trackPromise(
+                                    getDataAturanKurikulum()
+                                )
                             }
                         })
                 }
             })
     }
 
+    useEffect(() => {
+
+        if (data.tahun)
+            trackPromise(
+                getDataAturanKurikulum()
+            )
+
+    }, [data.tahun])
+
     const submit = (e) => {
         e.preventDefault()
-        post(route('atur-guru-kelas.simpan'), {
+        post(route('atur-kurikulum.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Atur Guru Kelas')
+                toast.success('Berhasil Atur Kurikulum')
                 setData({
                     tahun: data.tahun,
-                    semester: data.semester,
-                    userId: data.userId,
-                    mataPelajaranId: data.mataPelajaranId,
-                    kelasId: data.kelasId,
+                    kurikulumId: data.kurikulumId,
+                    tingkat: data.tingkat,
                 })
 
-                getDataGuruKelas()
-
+                trackPromise(
+                    getDataAturanKurikulum()
+                )
             },
             onError: (error) => {
                 Sweet.fire({
@@ -89,22 +97,6 @@ const AturKurikulum = ({ initTahun }) => {
             }
         })
     }
-
-    useEffect(() => {
-
-        if (data.tahun
-            && data.semester
-        ) {
-
-            trackPromise(
-                getDataGuruKelas()
-            )
-
-        }
-        else {
-            setListGuruKelas([])
-        }
-    }, [data.tahun, data.semester])
 
     return (
         <>
@@ -122,45 +114,22 @@ const AturKurikulum = ({ initTahun }) => {
                         handleChange={onHandleChange}
                     />
 
-                    <Semester
-                        id="semester"
-                        name="semester"
-                        value={data.semester}
-                        message={errors.semester}
+                    <Tingkat
+                        id="tingkat"
+                        name="tingkat"
+                        value={data.tingkat}
+                        message={errors.tingkat}
                         isFocused={true}
                         handleChange={onHandleChange}
                     />
 
-                    <div className="lg:col-span-2">
-
-                        <Guru
-                            id="userId"
-                            name="userId"
-                            value={data.userId}
-                            message={errors.userId}
-                            listUser={listUser}
-                            handleChange={onHandleChange}
-                        />
-
-                    </div>
-
-                    <MataPelajaran
-                        id="mataPelajaranId"
-                        name="mataPelajaranId"
-                        value={data.mataPelajaranId}
-                        message={errors.mataPelajaranId}
+                    <Kurikulum
+                        id="kurikulumId"
+                        name="kurikulumId"
+                        value={data.kurikulumId}
+                        message={errors.kurikulumId}
+                        listKurikulum={listKurikulum}
                         isFocused={true}
-                        listMapel={listMataPelajaran}
-                        handleChange={onHandleChange}
-                    />
-
-                    <Kelas
-                        id="kelasId"
-                        name="kelasId"
-                        value={data.kelasId}
-                        message={errors.kelasId}
-                        isFocused={true}
-                        listKelas={listKelas}
                         handleChange={onHandleChange}
                     />
 
@@ -180,37 +149,32 @@ const AturKurikulum = ({ initTahun }) => {
                                 No
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Nama
+                                Tingkat
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Keterangan
+                                Kurikulum
+                            </th>
+                            <th scope='col' className="py-3 px-2 text-left">
+                                Aksi
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listGuruKelas && listGuruKelas.map((user, index) => (
+                        {listAturan && listAturan.map((aturan, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {user.name}
+                                    {aturan.tingkat}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    <ul className='list-decimal space-y-1'>
-                                        {user.kelas && user.kelas.map((kelas, index) => (
-                                            <li key={index} className='items-center list-item'>
-                                                <div className='inline-flex items-center'>
-                                                    <span>
-                                                        {kelas.kelas.nama + ' ' + kelas.mapel.nama}
-                                                    </span>
-                                                    <Hapus
-                                                        onClick={() => handleDelete(kelas.id)}
-                                                    />
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    {aturan.kurikulum?.nama}
+                                </td>
+                                <td className="py-2 px-2 font-medium text-slate-600">
+                                    <Hapus
+                                        onClick={() => handleDelete(aturan.id)}
+                                    />
                                 </td>
                             </tr>
                         ))}
