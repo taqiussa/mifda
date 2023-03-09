@@ -13,7 +13,7 @@ import getNilaiEkstrakurikuler from '@/Functions/getNilaiEkstrakurikuler'
 
 const InputNilaiEkstrakurikuler = ({ initTahun, initSemester, listEkstrakurikuler }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         tahun: initTahun,
         semester: initSemester,
         ekstrakurikulerId: '',

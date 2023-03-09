@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const MataPelajaran = ({ listMataPelajaran }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, errors } = useForm({
         id: '',
         nama: '',
         kelompok: '',

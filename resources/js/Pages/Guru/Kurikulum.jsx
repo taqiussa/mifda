@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import Edit from '@/Components/Sia/Edit'
 import axios from 'axios'
 
-const Kelas = ({ listKelas }) => {
+const Kurikulum = ({ listKurikulum }) => {
 
     const { data, setData, post, errors } = useForm({
         id: '',
@@ -28,22 +28,22 @@ const Kelas = ({ listKelas }) => {
     }
 
     async function getData(id) {
-        const response = await axios.post(route('kelas.edit', {
+        const response = await axios.post(route('kurikulum.edit', {
             id: id
         }))
 
         setData({
-            id: response.data.kelas.id,
-            nama: response.data.kelas.nama,
+            id: response.data.kurikulum.id,
+            nama: response.data.kurikulum.nama,
         })
 
     }
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('kelas.simpan'), {
+        post(route('kurikulum.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Kelas')
+                toast.success('Berhasil Simpan kurikulum')
                 setData({
                     id: '',
                     nama: '',
@@ -54,12 +54,12 @@ const Kelas = ({ listKelas }) => {
 
     return (
         <>
-            <Head title='Kelas' />
+            <Head title='Kurikulum' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
                     <div className='flex flex-col text-slate-600 capitalize'>
                         <div>
-                            kelas
+                            kurikulum
                         </div>
                         <div>
                             <input
@@ -95,7 +95,7 @@ const Kelas = ({ listKelas }) => {
                                 No
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Kelas
+                                Kurikulum
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
                                 Aksi
@@ -103,17 +103,17 @@ const Kelas = ({ listKelas }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listKelas && listKelas.map((kelas, index) => (
+                        {listKurikulum && listKurikulum.map((kurikulum, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {kelas.nama}
+                                    {kurikulum.nama}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
                                     <Edit
-                                        onClick={() => handleEdit(kelas.id)}
+                                        onClick={() => handleEdit(kurikulum.id)}
                                     />
                                 </td>
                             </tr>
@@ -124,5 +124,5 @@ const Kelas = ({ listKelas }) => {
         </>
     )
 }
-Kelas.layout = page => <AppLayout children={page} />
-export default Kelas
+Kurikulum.layout = page => <AppLayout children={page} />
+export default Kurikulum

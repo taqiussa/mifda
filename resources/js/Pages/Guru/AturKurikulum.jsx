@@ -4,64 +4,37 @@ import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
 import Kelas from '@/Components/Sia/Kelas'
 import Semester from '@/Components/Sia/Semester'
-import getKelasWali from '@/Functions/getKelasWali'
 import { trackPromise } from 'react-promise-tracker'
-import getSiswa from '@/Functions/getSiswa'
-import Siswa from '@/Components/Sia/Siswa'
 import Sweet from '@/Components/Sia/Sweet'
 import Hapus from '@/Components/Sia/Hapus'
-import getCatatan from '@/Functions/getCatatan'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
+import Guru from '@/Components/Sia/Guru'
+import MataPelajaran from '@/Components/Sia/MataPelajaran'
+import getGuruKelas from '@/Functions/getGuruKelas'
 
-const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
+const AturKurikulum = ({ initTahun }) => {
 
     const { data, setData, post, errors } = useForm({
         tahun: initTahun,
-        semester: initSemester,
-        kelasId: initKelasId,
-        catatan: '',
-        nis: ''
+        kurikulumId: ''
     })
 
-    const [listSiswa, setListSiswa] = useState([])
-    const [listCatatan, setListCatatan] = useState([])
+    const [listGuruKelas, setListGuruKelas] = useState([])
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
     }
 
-    async function getDataKelasWali() {
-        const response = await getKelasWali(data.tahun)
-        if (response.kelasId) {
-            setData({
-                tahun: data.tahun,
-                semester: data.semester,
-                kelasId: response.kelasId
-            });
-        } else {
-            setData({
-                tahun: data.tahun,
-                semester: data.semester,
-                kelasId: ''
-            });
-        }
-    }
-
-    async function getDataSiswa() {
-        const response = await getSiswa(data.tahun, data.kelasId)
-        setListSiswa(response.listSiswa)
-    }
-
-    async function getDataCatatan() {
-        const response = await getCatatan(data.tahun, data.semester, data.kelasId)
-        setListCatatan(response.listCatatan)
+    async function getDataGuruKelas() {
+        const response = await getGuruKelas(data.tahun, data.semester)
+        setListGuruKelas(response.listGuruKelas)
     }
 
     const handleDelete = (id) => {
         Sweet.fire({
             title: 'Anda yakin menghapus?',
-            text: "Hapus Catatan Wali Kelas!",
+            text: "Hapus Kelas Guru!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya, Hapus!',
@@ -69,21 +42,21 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
         })
             .then((result) => {
                 if (result.isConfirmed) {
-                    router.delete(route('input-catatan.hapus',
+                    router.delete(route('atur-guru-kelas.hapus',
                         {
                             id: id
                         }),
                         {
                             onSuccess: (page) => {
-                                toast.success('Berhasil Hapus Catatan Wali Kelas')
+                                toast.success('Berhasil Hapus Guru Kelas')
                                 setData({
                                     tahun: data.tahun,
                                     semester: data.semester,
+                                    userId: data.userId,
+                                    mataPelajaranId: data.mataPelajaranId,
                                     kelasId: data.kelasId,
-                                    catatan: data.catatan,
-                                    nis: data.nis
                                 })
-                                getDataCatatan()
+                                getDataGuruKelas()
                             }
                         })
                 }
@@ -92,18 +65,18 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('input-catatan.simpan'), {
+        post(route('atur-guru-kelas.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Simpan Catatan Wali Kelas')
+                toast.success('Berhasil Atur Guru Kelas')
                 setData({
                     tahun: data.tahun,
                     semester: data.semester,
+                    userId: data.userId,
+                    mataPelajaranId: data.mataPelajaranId,
                     kelasId: data.kelasId,
-                    catatan: data.catatan,
-                    nis: data.nis
                 })
 
-                getDataCatatan()
+                getDataGuruKelas()
 
             },
             onError: (error) => {
@@ -119,46 +92,19 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
 
     useEffect(() => {
 
-        if (data.tahun) {
-
-            trackPromise(
-                getDataKelasWali()
-            )
-
-        }
-    }, [data.tahun])
-
-    useEffect(() => {
-
-        if (data.tahun && data.kelasId
-        ) {
-
-            trackPromise(
-                getDataSiswa()
-            )
-
-        }
-        else {
-            setListSiswa([])
-        }
-    }, [data.tahun, data.kelasId])
-
-    useEffect(() => {
-
         if (data.tahun
             && data.semester
-            && data.kelasId
         ) {
 
             trackPromise(
-                getDataCatatan()
+                getDataGuruKelas()
             )
 
         }
         else {
-            setListCatatan([])
+            setListGuruKelas([])
         }
-    }, [data.tahun, data.semester, data.kelasId])
+    }, [data.tahun, data.semester])
 
     return (
         <>
@@ -185,6 +131,29 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                         handleChange={onHandleChange}
                     />
 
+                    <div className="lg:col-span-2">
+
+                        <Guru
+                            id="userId"
+                            name="userId"
+                            value={data.userId}
+                            message={errors.userId}
+                            listUser={listUser}
+                            handleChange={onHandleChange}
+                        />
+
+                    </div>
+
+                    <MataPelajaran
+                        id="mataPelajaranId"
+                        name="mataPelajaranId"
+                        value={data.mataPelajaranId}
+                        message={errors.mataPelajaranId}
+                        isFocused={true}
+                        listMapel={listMataPelajaran}
+                        handleChange={onHandleChange}
+                    />
+
                     <Kelas
                         id="kelasId"
                         name="kelasId"
@@ -193,46 +162,10 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                         isFocused={true}
                         listKelas={listKelas}
                         handleChange={onHandleChange}
-                        disabled={true}
                     />
-                    <div className="lg:col-span-2">
-
-                        <Siswa
-                            id="nis"
-                            name="nis"
-                            value={data.nis}
-                            message={errors.nis}
-                            listSiswa={listSiswa}
-                            handleChange={onHandleChange}
-                        />
-
-                    </div>
 
                 </div>
-                <div className='flex flex-col text-slate-600 capitalize'>
-                    <div>
-                        catatan wali kelas
-                    </div>
-                    <div>
-                        <textarea
-                            name="catatan"
-                            id="catatan"
-                            rows="3"
-                            value={data.catatan}
-                            onChange={onHandleChange}
-                            className='border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm w-full'
-                        >
 
-                        </textarea>
-                    </div>
-                    {errors.catatan ?
-                        <div className='text-sm text-red-600'>
-                            {errors.catatan}
-                        </div>
-                        :
-                        null
-                    }
-                </div>
                 <div className="flex justify-end">
                     <PrimaryButton onClick={submit}>
                         Simpan
@@ -250,29 +183,34 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
                                 Nama
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Catatan
-                            </th>
-                            <th scope='col' className="py-3 px-2 text-left">
-                                Aksi
+                                Keterangan
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listCatatan && listCatatan.map((siswa, index) => (
+                        {listGuruKelas && listGuruKelas.map((user, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {siswa.user.name}
+                                    {user.name}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {siswa.catatan}
-                                </td>
-                                <td className="py-2 px-2 font-medium text-slate-600 inline-flex space-x-3">
-                                    <Hapus
-                                        onClick={() => handleDelete(siswa.id)}
-                                    />
+                                    <ul className='list-decimal space-y-1'>
+                                        {user.kelas && user.kelas.map((kelas, index) => (
+                                            <li key={index} className='items-center list-item'>
+                                                <div className='inline-flex items-center'>
+                                                    <span>
+                                                        {kelas.kelas.nama + ' ' + kelas.mapel.nama}
+                                                    </span>
+                                                    <Hapus
+                                                        onClick={() => handleDelete(kelas.id)}
+                                                    />
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </td>
                             </tr>
                         ))}
@@ -282,5 +220,5 @@ const InputCatatan = ({ initTahun, initSemester, listKelas, initKelasId }) => {
         </>
     )
 }
-InputCatatan.layout = page => <AppLayout children={page} />
-export default InputCatatan
+AturKurikulum.layout = page => <AppLayout children={page} />
+export default AturKurikulum

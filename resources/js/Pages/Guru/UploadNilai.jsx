@@ -20,7 +20,7 @@ import getMataPelajaran from '@/Functions/getMataPelajaran'
 
 const UploadNilai = ({ initTahun, initSemester }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         tahun: initTahun,
         semester: initSemester,
         mataPelajaranId: '',

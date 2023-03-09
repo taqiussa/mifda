@@ -15,9 +15,9 @@ import Ujian from '@/Components/Sia/Ujian'
 import getAbsensiUjian from '@/Functions/getAbsensiUjian'
 import Sweet from '@/Components/Sia/Sweet'
 
-const AbsensiUjian = ({ initTahun, initSemester, listKehadiran, listRuang }) => {
+const AbsensiUjian = ({ initTahun, initSemester, listKehadiran }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         tanggal: moment(new Date()).format('YYYY-MM-DD'),
         tahun: initTahun,
         semester: initSemester,

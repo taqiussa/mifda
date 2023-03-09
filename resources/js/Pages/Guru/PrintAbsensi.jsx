@@ -9,7 +9,7 @@ import Bulan from '@/Components/Sia/Bulan'
 
 const PrintAbsensi = ({ initBulan, initTahun, initSemester, listKelas }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, errors } = useForm({
         bulan: initBulan,
         tahun: initTahun,
         tahunPerSemester: initTahun,

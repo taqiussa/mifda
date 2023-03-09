@@ -14,7 +14,7 @@ import getAbsensiSiswa from '@/Functions/getAbsensiSiswa'
 
 const Absensi = ({ initTahun, listKehadiran, listKelas }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, errors } = useForm({
         tanggal: moment(new Date()).format('YYYY-MM-DD'),
         tahun: initTahun,
         jam: '',

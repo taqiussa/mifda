@@ -14,6 +14,7 @@ use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\KurikulumController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\PrintRaporController;
@@ -42,7 +43,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware([
     'auth',
-    'role:Admin|Guru|Kepala Sekolah|Kesiswaan|Kurikulum'
+    'role:Admin|Bendahara|Guru|Kepala Sekolah|Kesiswaan|Kurikulum'
 ])->group(function () {
 
     //Route Get Data
@@ -108,6 +109,13 @@ Route::middleware([
         Route::get('kelas', 'index')->name('kelas');
         Route::post('kelas/{id}', 'edit')->name('kelas.edit');
         Route::post('kelas', 'simpan')->name('kelas.simpan');
+    });
+
+    // Route Kurikulum
+    Route::controller(KurikulumController::class)->group(function () {
+        Route::get('kurikulum', 'index')->name('kurikulum');
+        Route::post('kurikulum/{id}', 'edit')->name('kurikulum.edit');
+        Route::post('kurikulum', 'simpan')->name('kurikulum.simpan');
     });
 
     // Route Mata Pelajaran

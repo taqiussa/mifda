@@ -11,7 +11,7 @@ import DownloadLink from '@/Components/Sia/DownloadLink'
 
 const PrintRapor = ({ initTahun, initSemester, listKelas, initKelasId }) => {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, errors } = useForm({
         tahun: initTahun,
         semester: initSemester,
         kelasId: initKelasId,
