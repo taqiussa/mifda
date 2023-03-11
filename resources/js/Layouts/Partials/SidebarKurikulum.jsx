@@ -9,6 +9,7 @@ export default function SidebarKurikulum() {
             <div>
                 <SidebarLink href={route('atur-guru-kelas')} active={route().current('atur-guru-kelas')} label='atur guru kelas' />
                 <SidebarLink href={route('atur-kurikulum')} active={route().current('atur-kurikulum')} label='atur kurikulum' />
+                <SidebarLink href={route('atur-wali-kelas')} active={route().current('atur-wali-kelas')} label='atur wali kelas' />
                 <SidebarLink href={route('kelas')} active={route().current('kelas')} label='kelas' />
                 <SidebarLink href={route('kurikulum')} active={route().current('kurikulum')} label='kurikulum' />
                 <SidebarLink href={route('mata-pelajaran')} active={route().current('mata-pelajaran')} label='mata pelajaran' />

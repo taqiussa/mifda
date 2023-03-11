@@ -160,4 +160,16 @@ class GetDataController extends Controller
                 ->values()
         ]);
     }
+
+    public function get_wali_kelas()
+    {
+        return response()->json([
+            'listWaliKelas' => Kelas::with([
+                'waliKelas' => fn ($q) => $q->whereTahun(request('tahun')),
+                'waliKelas.user',
+            ])
+                ->orderBy('nama')
+                ->get()
+        ]);
+    }
 }
