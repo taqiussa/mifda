@@ -9,6 +9,7 @@ use App\Http\Controllers\GetAbsensiController;
 use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\AturGuruKelasController;
 use App\Http\Controllers\AturKurikulumController;
+use App\Http\Controllers\AturPenilaianRaporController;
 use App\Http\Controllers\AturWaliKelasController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputCatatanController;
@@ -60,6 +61,7 @@ Route::middleware([
         Route::post('get-kelas', 'get_kelas')->name('get-kelas');
         Route::post('get-kelas-wali', 'get_kelas_wali')->name('get-kelas-wali');
         Route::post('get-mata-pelajaran', 'get_mata_pelajaran')->name('get-mata-pelajaran');
+        Route::post('get-penilaian-rapor', 'get_penilaian_rapor')->name('get-penilaian-rapor');
         Route::post('get-siswa', 'get_siswa')->name('get-siswa');
         Route::post('get-wali-kelas', 'get_wali_kelas')->name('get-wali-kelas');
     });
@@ -106,6 +108,13 @@ Route::middleware([
         Route::get('atur-kurikulum', 'index')->name('atur-kurikulum');
         Route::post('atur-kurikulum/simpan', 'simpan')->name('atur-kurikulum.simpan');
         Route::delete('atur-kurikulum/{id}', 'hapus')->name('atur-kurikulum.hapus');
+    });
+
+    // Route Atur Penilaian Rapor
+    Route::controller(AturPenilaianRaporController::class)->group(function () {
+        Route::get('atur-penilaian-rapor', 'index')->name('atur-penilaian-rapor');
+        Route::post('atur-penilaian-rapor/simpan', 'simpan')->name('atur-penilaian-rapor.simpan');
+        Route::delete('atur-penilaian-rapor/{id}', 'hapus')->name('atur-penilaian-rapor.hapus');
     });
 
     // Route Atur Wali Kelas

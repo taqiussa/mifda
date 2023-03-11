@@ -149,6 +149,22 @@ class GetDataController extends Controller
         ]);
     }
 
+    public function get_penilaian_rapor()
+    {
+        return response()->json([
+            'listPenilaian' => PenilaianRapor::whereTahun(request('tahun'))
+                ->whereSemester(request('semester'))
+                ->with([
+                    'jenisPenilaian',
+                    'kategoriNilai',
+                    'kurikulum'
+                ])
+                ->get()
+                ->sortBy(['kategoriNilai.nama', 'jenisPenilaian.nama'])
+                ->values()
+        ]);
+    }
+
     public function get_siswa()
     {
         return response()->json([
