@@ -5,12 +5,14 @@ import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
 import Edit from '@/Components/Sia/Edit'
 import axios from 'axios'
+import Tingkat from '@/Components/Sia/Tingkat'
 
 const Kelas = ({ listKelas }) => {
 
     const { data, setData, post, errors } = useForm({
         id: '',
         nama: '',
+        tingkat: ''
     })
 
     const inputRef = useRef(null)
@@ -35,6 +37,7 @@ const Kelas = ({ listKelas }) => {
         setData({
             id: response.data.kelas.id,
             nama: response.data.kelas.nama,
+            tingkat: response.data.kelas.tingkat
         })
 
     }
@@ -47,6 +50,7 @@ const Kelas = ({ listKelas }) => {
                 setData({
                     id: '',
                     nama: '',
+                    tingkat: ''
                 })
             },
         })
@@ -80,6 +84,16 @@ const Kelas = ({ listKelas }) => {
                             null
                         }
                     </div>
+
+                    <Tingkat
+                        id="tingkat"
+                        name="tingkat"
+                        value={data.tingkat}
+                        message={errors.tingkat}
+                        isFocused={true}
+                        handleChange={onHandleChange}
+                    />
+
                     <div className='flex items-end'>
                         <PrimaryButton onClick={submit}>
                             Simpan

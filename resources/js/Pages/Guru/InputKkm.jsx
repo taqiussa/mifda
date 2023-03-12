@@ -17,7 +17,7 @@ import { toast } from 'react-toastify'
 import Hapus from '@/Components/Sia/Hapus'
 import Sweet from '@/Components/Sia/Sweet'
 
-const InputKd = ({ initTahun, initSemester }) => {
+const InputKkm = ({ initTahun, initSemester }) => {
 
     const { data, setData, post, errors, delete: destroy } = useForm({
         tahun: initTahun,
@@ -168,7 +168,7 @@ const InputKd = ({ initTahun, initSemester }) => {
 
     return (
         <>
-            <Head title='Input KD/TP' />
+            <Head title='Input KKM' />
             <form onSubmit={submit} className='space-y-3'>
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 
@@ -309,5 +309,5 @@ const InputKd = ({ initTahun, initSemester }) => {
         </>
     )
 }
-InputKd.layout = page => <AppLayout children={page} />
-export default InputKd
+InputKkm.layout = page => <AppLayout children={page} />
+export default InputKkm

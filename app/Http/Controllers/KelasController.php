@@ -31,7 +31,8 @@ class KelasController extends Controller
                 'id' => request('id')
             ],
             [
-                'nama' => request('nama')
+                'nama' => request('nama'),
+                'tingkat' => request('tingkat')
             ]
         );
 
