@@ -11,6 +11,7 @@ use App\Models\JenisSikap;
 use App\Models\KategoriNilai;
 use App\Models\Kd;
 use App\Models\Kelas;
+use App\Models\Kkm;
 use App\Models\MataPelajaran;
 use App\Models\PenilaianRapor;
 use App\Models\Siswa;
@@ -42,6 +43,21 @@ class GetDataController extends Controller
                 ->get()
                 ->sortBy(['user.name'])
                 ->values()
+        ]);
+    }
+
+    public function get_deskripsi_penilaian()
+    {
+        return response()->json([
+            'listDeskripsi' => Kd::whereTahun(request('tahun'))
+                ->whereSemester(request('semester'))
+                ->whereMataPelajaranId(request('mataPelajaranId'))
+                ->whereTingkat(request('tingkat'))
+                ->with([
+                    'jenisPenilaian',
+                    'kategoriNilai'
+                ])
+                ->get()
         ]);
     }
 
@@ -179,17 +195,12 @@ class GetDataController extends Controller
         ]);
     }
 
-    public function get_deskripsi_penilaian()
+    public function get_kkm()
     {
         return response()->json([
-            'listDeskripsi' => Kd::whereTahun(request('tahun'))
-                ->whereSemester(request('semester'))
+            'listKkm' => Kkm::whereTahun(request('tahun'))
                 ->whereMataPelajaranId(request('mataPelajaranId'))
-                ->whereTingkat(request('tingkat'))
-                ->with([
-                    'jenisPenilaian',
-                    'kategoriNilai'
-                ])
+                ->orderBy('tingkat')
                 ->get()
         ]);
     }

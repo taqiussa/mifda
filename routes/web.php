@@ -15,6 +15,7 @@ use App\Http\Controllers\AturWaliKelasController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputCatatanController;
 use App\Http\Controllers\InputKdController;
+use App\Http\Controllers\InputKkmController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
@@ -65,6 +66,7 @@ Route::middleware([
         Route::post('get-kategori-nilai-per-tingkat', 'get_kategori_nilai_per_tingkat')->name('get-kategori-nilai-per-tingkat');
         Route::post('get-kelas', 'get_kelas')->name('get-kelas');
         Route::post('get-kelas-wali', 'get_kelas_wali')->name('get-kelas-wali');
+        Route::post('get-kkm', 'get_kkm')->name('get-kkm');
         Route::post('get-mata-pelajaran', 'get_mata_pelajaran')->name('get-mata-pelajaran');
         Route::post('get-penilaian-rapor', 'get_penilaian_rapor')->name('get-penilaian-rapor');
         Route::post('get-siswa', 'get_siswa')->name('get-siswa');
@@ -146,9 +148,16 @@ Route::middleware([
     // Route Input Kd
     Route::controller(InputKdController::class)->group(function () {
         Route::get('input-kd', 'index')->name('input-kd');
-        Route::post('input-kd', 'simpan')->name('input-kd.simpan');
+        Route::post('input-kd/simpan', 'simpan')->name('input-kd.simpan');
         Route::post('input-kd/{id}', 'edit')->name('input-kd.edit');
         Route::delete('input-kd/{id}', 'hapus')->name('input-kd.hapus');
+    });
+
+    // Route Input Kkm
+    Route::controller(InputKkmController::class)->group(function () {
+        Route::get('input-kkm', 'index')->name('input-kkm');
+        Route::post('input-kkm/simpan', 'simpan')->name('input-kkm.simpan');
+        Route::delete('input-kkm/{id}', 'hapus')->name('input-kkm.hapus');
     });
 
     // Route Kelas
