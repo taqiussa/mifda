@@ -9,7 +9,7 @@ class KelasController extends Controller
     public function index()
     {
         return inertia('Guru/Kelas', [
-            'listKelas' => Kelas::get(),
+            'listKelas' => Kelas::orderBy('nama')->get(),
         ]);
     }
 
@@ -23,7 +23,8 @@ class KelasController extends Controller
     public function simpan()
     {
         request()->validate([
-            'nama' => 'required'
+            'nama' => 'required',
+            'tingkat' => 'required'
         ]);
 
         Kelas::updateOrCreate(
