@@ -111,7 +111,7 @@ const AturGuruKelas = ({ initTahun, initSemester, listKelas, listMataPelajaran, 
 
     return (
         <>
-            <Head title='Print Rapor' />
+            <Head title='Atur Guru Kelas' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
 
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">

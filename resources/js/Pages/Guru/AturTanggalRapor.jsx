@@ -2,38 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
-import Kelas from '@/Components/Sia/Kelas'
-import { trackPromise } from 'react-promise-tracker'
+import Semester from '@/Components/Sia/Semester'
 import Sweet from '@/Components/Sia/Sweet'
 import Hapus from '@/Components/Sia/Hapus'
 import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
-import Guru from '@/Components/Sia/Guru'
-import getWaliKelas from '@/Functions/getWaliKelas'
+import moment from 'moment'
+import Tanggal from '@/Components/Sia/Tanggal'
+import { hariTanggal } from '@/Functions/hariTanggal'
 
-const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
+const AturPenilaianRapor = ({ initTahun, initSemester, listTanggal }) => {
 
-    const { data, setData, post, errors, delete: destroy } = useForm({
+    const { data, setData, post, reset, errors, delete: destroy } = useForm({
         tahun: initTahun,
-        userId: '',
-        kelasId: '',
+        semester: initSemester,
+        tanggal: moment(new Date()).format('YYYY-MM-DD'),
     })
 
-    const [listWaliKelas, setListWaliKelas] = useState([])
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value)
     }
 
-    async function getDataWaliKelas() {
-        const response = await getWaliKelas(data.tahun)
-        setListWaliKelas(response.listWaliKelas)
-    }
-
     const handleDelete = (id) => {
         Sweet.fire({
             title: 'Anda yakin menghapus?',
-            text: "Hapus Wali kelas!",
+            text: "Hapus Tanggal Rapor!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya, Hapus!',
@@ -41,19 +35,23 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
         })
             .then((result) => {
                 if (result.isConfirmed) {
-                    destroy(route('atur-wali-kelas.hapus',
+                    destroy(route('atur-tanggal-rapor.hapus',
                         {
                             id: id
                         }),
                         {
                             onSuccess: (page) => {
-                                toast.success('Berhasil Hapus Wali Kelas')
+
+                                toast.success('Berhasil Hapus Tanggal Rapor')
+
                                 setData({
                                     tahun: data.tahun,
-                                    userId: data.userId,
-                                    kelasId: data.kelasId,
+                                    semester: data.semester,
+                                    tanggal: data.tanggal
                                 })
-                                getDataWaliKelas()
+
+                                reset()
+
                             }
                         })
                 }
@@ -62,16 +60,19 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        post(route('atur-wali-kelas.simpan'), {
+        post(route('atur-tanggal-rapor.simpan'), {
             onSuccess: (page) => {
-                toast.success('Berhasil Atur Wali Kelas')
+
+                toast.success('Berhasil Atur Tanggal Rapor')
+
+
                 setData({
                     tahun: data.tahun,
-                    userId: data.userId,
-                    kelasId: data.kelasId,
+                    semester: data.semester,
+                    tanggal: data.tanggal
                 })
 
-                getDataWaliKelas()
+                reset()
 
             },
             onError: (error) => {
@@ -85,27 +86,12 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
         })
     }
 
-    useEffect(() => {
-
-        if (data.tahun
-        ) {
-
-            trackPromise(
-                getDataWaliKelas()
-            )
-
-        }
-        else {
-            setListWaliKelas([])
-        }
-    }, [data.tahun])
-
     return (
         <>
-            <Head title='Atur Wali Kelas' />
+            <Head title='Tanggal Rapor' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
 
-                <div className="lg:grid lg:grid-cols-4 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
+                <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
 
                     <Tahun
                         id="tahun"
@@ -116,26 +102,22 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
                         handleChange={onHandleChange}
                     />
 
-                    <div className="lg:col-span-2">
-
-                        <Guru
-                            id="userId"
-                            name="userId"
-                            value={data.userId}
-                            message={errors.userId}
-                            listUser={listUser}
-                            handleChange={onHandleChange}
-                        />
-
-                    </div>
-
-                    <Kelas
-                        id="kelasId"
-                        name="kelasId"
-                        value={data.kelasId}
-                        message={errors.kelasId}
+                    <Semester
+                        id="semester"
+                        name="semester"
+                        value={data.semester}
+                        message={errors.semester}
                         isFocused={true}
-                        listKelas={listKelas}
+                        handleChange={onHandleChange}
+                    />
+
+                    <Tanggal
+                        id="tanggal"
+                        name="tanggal"
+                        label="tanggal"
+                        value={data.tanggal}
+                        message={errors.tanggal}
+                        isFocused={true}
                         handleChange={onHandleChange}
                     />
 
@@ -155,10 +137,13 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
                                 No
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Kelas
+                                Tahun
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
-                                Wali Kelas
+                                Semester
+                            </th>
+                            <th scope='col' className="py-3 px-2 text-left">
+                                Tanggal
                             </th>
                             <th scope='col' className="py-3 px-2 text-left">
                                 Aksi
@@ -166,25 +151,24 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listWaliKelas && listWaliKelas.map((kelas, index) => (
+                        {listTanggal && listTanggal.map((tanggal, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {kelas.nama}
+                                    {tanggal.tahun}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {kelas.wali_kelas?.user?.name}
+                                    {tanggal.semester}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-
-                                    {
-                                        kelas.wali_kelas.id &&
-                                        <Hapus
-                                            onClick={() => handleDelete(kelas.wali_kelas?.id)}
-                                        />
-                                    }
+                                    {tanggal.tanggal && hariTanggal(tanggal.tanggal)}
+                                </td>
+                                <td className="py-2 px-2 font-medium text-slate-600">
+                                    <Hapus
+                                        onClick={() => handleDelete(tanggal.id)}
+                                    />
                                 </td>
                             </tr>
                         ))}
@@ -194,5 +178,5 @@ const AturWaliKelas = ({ initTahun, listKelas, listUser }) => {
         </>
     )
 }
-AturWaliKelas.layout = page => <AppLayout children={page} />
-export default AturWaliKelas
+AturPenilaianRapor.layout = page => <AppLayout children={page} />
+export default AturPenilaianRapor

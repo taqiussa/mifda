@@ -10,6 +10,7 @@ use App\Http\Controllers\AbsensiUjianController;
 use App\Http\Controllers\AturGuruKelasController;
 use App\Http\Controllers\AturKurikulumController;
 use App\Http\Controllers\AturPenilaianRaporController;
+use App\Http\Controllers\AturTanggalRaporController;
 use App\Http\Controllers\AturWaliKelasController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputCatatanController;
@@ -115,6 +116,13 @@ Route::middleware([
         Route::get('atur-penilaian-rapor', 'index')->name('atur-penilaian-rapor');
         Route::post('atur-penilaian-rapor/simpan', 'simpan')->name('atur-penilaian-rapor.simpan');
         Route::delete('atur-penilaian-rapor/{id}', 'hapus')->name('atur-penilaian-rapor.hapus');
+    });
+
+    // Route Atur Tanggal Rapor
+    Route::controller(AturTanggalRaporController::class)->group(function () {
+        Route::get('atur-tanggal-rapor', 'index')->name('atur-tanggal-rapor');
+        Route::post('atur-tanggal-rapor/simpan', 'simpan')->name('atur-tanggal-rapor.simpan');
+        Route::delete('atur-tanggal-rapor/{id}', 'hapus')->name('atur-tanggal-rapor.hapus');
     });
 
     // Route Atur Wali Kelas
