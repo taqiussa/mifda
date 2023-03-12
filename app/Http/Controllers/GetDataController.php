@@ -9,6 +9,7 @@ use App\Models\GuruMataPelajaran;
 use App\Models\JenisPenilaian;
 use App\Models\JenisSikap;
 use App\Models\KategoriNilai;
+use App\Models\Kd;
 use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\PenilaianRapor;
@@ -79,11 +80,34 @@ class GetDataController extends Controller
     public function get_jenis_penilaian()
     {
         $tingkat = Kelas::find(request('kelasId'))->tingkat;
+
+        $kurikulumId = AturanKurikulum::whereTahun(request('tahun'))
+            ->whereTingkat($tingkat)
+            ->value('kurikulum_id');
+
         $jenisPenilaianId = PenilaianRapor::whereTahun(request('tahun'))
             ->whereSemester(request('semester'))
-            ->whereTingkat($tingkat)
+            ->whereKurikulumId($kurikulumId)
             ->whereKategoriNilaiId(request('kategoriNilaiId'))
             ->pluck('jenis_penilaian_id');
+
+        return response()->json([
+            'listJenis' => JenisPenilaian::whereIn('id', $jenisPenilaianId)->get()
+        ]);
+    }
+
+    public function get_jenis_penilaian_per_tingkat()
+    {
+        $kurikulumId = AturanKurikulum::whereTahun(request('tahun'))
+            ->whereTingkat(request('tingkat'))
+            ->value('kurikulum_id');
+
+        $jenisPenilaianId = PenilaianRapor::whereTahun(request('tahun'))
+            ->whereSemester(request('semester'))
+            ->whereKurikulumId($kurikulumId)
+            ->whereKategoriNilaiId(request('kategoriNilaiId'))
+            ->pluck('jenis_penilaian_id');
+
         return response()->json([
             'listJenis' => JenisPenilaian::whereIn('id', $jenisPenilaianId)->get()
         ]);
@@ -99,11 +123,31 @@ class GetDataController extends Controller
     public function get_kategori_nilai()
     {
         $tingkat = Kelas::find(request('kelasId'))->tingkat;
+
         $kurikulum = AturanKurikulum::whereTahun(request('tahun'))
             ->whereTingkat($tingkat)
             ->with(['kurikulum' => fn ($q) => $q->select('id', 'nama')])
             ->first()->kurikulum->nama;
-        if ($kurikulum == 'K13') {
+
+        if ($kurikulum == 'Kurtilas') {
+            $kategori = KategoriNilai::whereIn('nama', ['Pengetahuan', 'Keterampilan'])->get();
+        } else {
+            $kategori = KategoriNilai::whereIn('nama', ['Formatif', 'Sumatif'])->get();
+        }
+
+        return response()->json([
+            'listKategori' => $kategori
+        ]);
+    }
+
+    public function get_kategori_nilai_per_tingkat()
+    {
+        $kurikulum = AturanKurikulum::whereTahun(request('tahun'))
+            ->whereTingkat(request('tingkat'))
+            ->with(['kurikulum' => fn ($q) => $q->select('id', 'nama')])
+            ->first()->kurikulum->nama;
+
+        if ($kurikulum == 'Kurtilas') {
             $kategori = KategoriNilai::whereIn('nama', ['Pengetahuan', 'Keterampilan'])->get();
         } else {
             $kategori = KategoriNilai::whereIn('nama', ['Formatif', 'Sumatif'])->get();
@@ -135,6 +179,21 @@ class GetDataController extends Controller
         ]);
     }
 
+    public function get_deskripsi_penilaian()
+    {
+        return response()->json([
+            'listDeskripsi' => Kd::whereTahun(request('tahun'))
+                ->whereSemester(request('semester'))
+                ->whereMataPelajaranId(request('mataPelajaranId'))
+                ->whereTingkat(request('tingkat'))
+                ->with([
+                    'jenisPenilaian',
+                    'kategoriNilai'
+                ])
+                ->get()
+        ]);
+    }
+
     public function get_mata_pelajaran()
     {
         return response()->json([
@@ -160,7 +219,7 @@ class GetDataController extends Controller
                     'kurikulum'
                 ])
                 ->get()
-                ->sortBy(['kategoriNilai.nama', 'jenisPenilaian.nama'])
+                ->sortBy(['kurikulum.nama', 'kategoriNilai.nama', 'jenisPenilaian.nama'])
                 ->values()
         ]);
     }

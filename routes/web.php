@@ -14,6 +14,7 @@ use App\Http\Controllers\AturTanggalRaporController;
 use App\Http\Controllers\AturWaliKelasController;
 use App\Http\Controllers\GetPenilaianController;
 use App\Http\Controllers\InputCatatanController;
+use App\Http\Controllers\InputKdController;
 use App\Http\Controllers\InputNilaiController;
 use App\Http\Controllers\InputNilaiEkstrakurikulerController;
 use App\Http\Controllers\InputNilaiSikapController;
@@ -54,11 +55,14 @@ Route::middleware([
     Route::controller(GetDataController::class)->group(function () {
         Route::post('get-aturan-kurikulum', 'get_aturan_kurikulum')->name('get-aturan-kurikulum');
         Route::post('get-catatan', 'get_catatan')->name('get-catatan');
+        Route::post('get-deskripsi-penilaian', 'get_deskripsi_penilaian')->name('get-deskripsi-penilaian');
         Route::post('get-ekstrakurikuler', 'get_ekstrakurikuler')->name('get-ekstrakurikuler');
         Route::post('get-guru-kelas', 'get_guru_kelas')->name('get-guru-kelas');
         Route::post('get-jenis-penilaian', 'get_jenis_penilaian')->name('get-jenis-penilaian');
+        Route::post('get-jenis-penilaian-per-tingkat', 'get_jenis_penilaian_per_tingkat')->name('get-jenis-penilaian-per-tingkat');
         Route::post('get-jenis-sikap', 'get_jenis_sikap')->name('get-jenis-sikap');
         Route::post('get-kategori-nilai', 'get_kategori_nilai')->name('get-kategori-nilai');
+        Route::post('get-kategori-nilai-per-tingkat', 'get_kategori_nilai_per_tingkat')->name('get-kategori-nilai-per-tingkat');
         Route::post('get-kelas', 'get_kelas')->name('get-kelas');
         Route::post('get-kelas-wali', 'get_kelas_wali')->name('get-kelas-wali');
         Route::post('get-mata-pelajaran', 'get_mata_pelajaran')->name('get-mata-pelajaran');
@@ -137,6 +141,14 @@ Route::middleware([
         Route::get('input-catatan', 'index')->name('input-catatan');
         Route::post('input-catatan/simpan', 'simpan')->name('input-catatan.simpan');
         Route::delete('input-catatan/{id}', 'hapus')->name('input-catatan.hapus');
+    });
+
+    // Route Input Kd
+    Route::controller(InputKdController::class)->group(function () {
+        Route::get('input-kd', 'index')->name('input-kd');
+        Route::post('input-kd', 'simpan')->name('input-kd.simpan');
+        Route::post('input-kd/{id}', 'edit')->name('input-kd.edit');
+        Route::delete('input-kd/{id}', 'hapus')->name('input-kd.hapus');
     });
 
     // Route Kelas

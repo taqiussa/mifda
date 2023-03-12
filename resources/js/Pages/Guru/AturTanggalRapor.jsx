@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Head, useForm } from '@inertiajs/react'
 import AppLayout from '@/Layouts/AppLayout'
 import Tahun from '@/Components/Sia/Tahun'
@@ -9,7 +9,7 @@ import PrimaryButton from '@/Components/Breeze/PrimaryButton'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import Tanggal from '@/Components/Sia/Tanggal'
-import { hariTanggal } from '@/Functions/hariTanggal'
+import { hariTanggal } from '@/Functions/functions'
 
 const AturPenilaianRapor = ({ initTahun, initSemester, listTanggal }) => {
 
@@ -88,7 +88,7 @@ const AturPenilaianRapor = ({ initTahun, initSemester, listTanggal }) => {
 
     return (
         <>
-            <Head title='Tanggal Rapor' />
+            <Head title='Atur Tanggal Rapor' />
             <form onSubmit={submit} className='space-y-5 mt-10 mb-10'>
 
                 <div className="lg:grid lg:grid-cols-6 lg:gap-2 lg:space-y-0 grid grid-cols-2 gap-2">
@@ -151,23 +151,23 @@ const AturPenilaianRapor = ({ initTahun, initSemester, listTanggal }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listTanggal && listTanggal.map((tanggal, index) => (
+                        {listTanggal && listTanggal.map((data, index) => (
                             <tr key={index} className="bg-white border-b hover:bg-slate-300 odd:bg-slate-200">
                                 <td className="py-2 px-2 font-medium text-slate-600 text-center">
                                     {index + 1}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {tanggal.tahun}
+                                    {data.tahun}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {tanggal.semester}
+                                    {data.semester}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
-                                    {tanggal.tanggal && hariTanggal(tanggal.tanggal)}
+                                    {data.tanggal && hariTanggal(data.tanggal)}
                                 </td>
                                 <td className="py-2 px-2 font-medium text-slate-600">
                                     <Hapus
-                                        onClick={() => handleDelete(tanggal.id)}
+                                        onClick={() => handleDelete(data.id)}
                                     />
                                 </td>
                             </tr>
