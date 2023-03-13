@@ -20,7 +20,7 @@ export default function Sidebar({ open, closeSide }) {
                     </button>
                     <div className='flex flex-col items-center text-emerald-500'>
                         {auth.user.foto ?
-                            <img src={`/images/${auth.user.foto}`} className='w-28 h-28 rounded-full border-2 border-emerald-500 object-cover' alt='foto' />
+                            <img src={`/images/${auth.user.foto}`} className='w-28 h-28 rounded-full border-2 border-emerald-500 object-cover object-top' alt='foto' />
                             :
                             <Icon path={mdiAccountCircleOutline} size={4} />
 
