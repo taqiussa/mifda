@@ -191,75 +191,146 @@ class PrintRaporController extends Controller
             ->first()
             ->user
             ->name;
+        if ($tahun == '2022 / 2023') {
+            if ($cekKurikulum->kurikulum->nama == 'Kurtilas') {
+                $data =
+                    [
+                        'kelasId' => $kelas->id,
+                        'namaKelas' => $kelas->nama,
+                        'tingkat' => $kelas->tingkat,
+                        'namaSiswa' => $siswa->user->name,
+                        'nis' => $siswa->nis,
+                        'nisn' => $siswa->biodata->nisn,
+                        'tahun' => $tahun,
+                        'semester' => $semester,
+                        'kelompok_a' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'A'),
+                        'kelompok_b' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'B'),
+                        'kelompok_c' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'C'),
+                        'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                        'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                        'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                        'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                        'naik' => $naik,
+                        'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                        'listPrestasi' => $siswa->prestasi,
+                        'catatan' => $siswa->catatan,
+                        'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                            ->whereSemester($semester)
+                            ->first(),
+                        'namaWaliKelas' => $namaWaliKelas,
+                    ];
 
-        if ($cekKurikulum->kurikulum->nama == 'Kurtilas') {
-            $data =
-                [
-                    'kelasId' => $kelas->id,
-                    'namaKelas' => $kelas->nama,
-                    'tingkat' => $kelas->tingkat,
-                    'namaSiswa' => $siswa->user->name,
-                    'nis' => $siswa->nis,
-                    'nisn' => $siswa->biodata->nisn,
-                    'tahun' => $tahun,
-                    'semester' => $semester,
-                    'kelompok_a' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'A'),
-                    'kelompok_b' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'B'),
-                    'kelompok_c' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'C'),
-                    'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
-                    'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
-                    'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
-                    'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
-                    'naik' => $naik,
-                    'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
-                    'listPrestasi' => $siswa->prestasi,
-                    'catatan' => $siswa->catatan,
-                    'tanggalRapor' => TanggalRapor::whereTahun($tahun)
-                        ->whereSemester($semester)
-                        ->first(),
-                    'namaWaliKelas' => $namaWaliKelas,
-                ];
+                $pdf = Pdf::loadView('print.rapor-kurtilas-lama', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+                return response()->streamDownload(
+                    fn () => print($pdf),
+                    $siswa->user->name . '.pdf'
+                );
+            }
 
-            $pdf = Pdf::loadView('print.rapor-kurtilas', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
-            return response()->streamDownload(
-                fn () => print($pdf),
-                $siswa->user->name . '.pdf'
-            );
-        }
+            if ($cekKurikulum->kurikulum->nama == 'Merdeka') {
+                $data =
+                    [
+                        'kelasId' => $kelas->id,
+                        'namaKelas' => $kelas->nama,
+                        'tingkat' => $kelas->tingkat,
+                        'namaSiswa' => $siswa->user->name,
+                        'nis' => $siswa->nis,
+                        'nisn' => $siswa->biodata->nisn,
+                        'tahun' => $tahun,
+                        'semester' => $semester,
+                        'kelompok_a' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'A', EnumKategoriNilai::SUMATIF),
+                        'kelompok_b' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'B', EnumKategoriNilai::SUMATIF),
+                        'kelompok_c' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'C', EnumKategoriNilai::SUMATIF),
+                        'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                        'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                        'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                        'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                        'naik' => $naik,
+                        'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                        'listPrestasi' => $siswa->prestasi,
+                        'catatan' => $siswa->catatan,
+                        'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                            ->whereSemester($semester)
+                            ->first(),
+                        'namaWaliKelas' => $namaWaliKelas,
+                    ];
 
-        if ($cekKurikulum->kurikulum->nama == 'Merdeka') {
-            $data =
-                [
-                    'kelasId' => $kelas->id,
-                    'namaKelas' => $kelas->nama,
-                    'tingkat' => $kelas->tingkat,
-                    'namaSiswa' => $siswa->user->name,
-                    'nis' => $siswa->nis,
-                    'nisn' => $siswa->biodata->nisn,
-                    'tahun' => $tahun,
-                    'semester' => $semester,
-                    'kelompok_a' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'A', EnumKategoriNilai::SUMATIF),
-                    'kelompok_b' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'B', EnumKategoriNilai::SUMATIF),
-                    'kelompok_c' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'C', EnumKategoriNilai::SUMATIF),
-                    'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
-                    'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
-                    'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
-                    'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
-                    'naik' => $naik,
-                    'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
-                    'listPrestasi' => $siswa->prestasi,
-                    'catatan' => $siswa->catatan,
-                    'tanggalRapor' => TanggalRapor::whereTahun($tahun)
-                        ->whereSemester($semester)
-                        ->first(),
-                    'namaWaliKelas' => $namaWaliKelas,
-                ];
+                $pdf = Pdf::loadView('print.rapor-merdeka-lama', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+                return response()->streamDownload(
+                    fn () => print($pdf),
+                    $siswa->user->name . '.pdf'
+                );
+            }
+        } else {
+            if ($cekKurikulum->kurikulum->nama == 'Kurtilas') {
+                $data =
+                    [
+                        'kelasId' => $kelas->id,
+                        'namaKelas' => $kelas->nama,
+                        'tingkat' => $kelas->tingkat,
+                        'namaSiswa' => $siswa->user->name,
+                        'nis' => $siswa->nis,
+                        'nisn' => $siswa->biodata->nisn,
+                        'tahun' => $tahun,
+                        'semester' => $semester,
+                        'kelompok_a' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'A'),
+                        'kelompok_b' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'B'),
+                        'kelompok_c' => $this->get_nilai_kurtilas($nis, $kelas->tingkat, 'C'),
+                        'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                        'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                        'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                        'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                        'naik' => $naik,
+                        'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                        'listPrestasi' => $siswa->prestasi,
+                        'catatan' => $siswa->catatan,
+                        'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                            ->whereSemester($semester)
+                            ->first(),
+                        'namaWaliKelas' => $namaWaliKelas,
+                    ];
 
-            $pdf = Pdf::loadView('print.rapor-merdeka', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
-            return response()->streamDownload(
-                fn () => print($pdf),
-                $siswa->user->name . '.pdf'
-            );
+                $pdf = Pdf::loadView('print.rapor-kurtilas', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+                return response()->streamDownload(
+                    fn () => print($pdf),
+                    $siswa->user->name . '.pdf'
+                );
+            }
+
+            if ($cekKurikulum->kurikulum->nama == 'Merdeka') {
+                $data =
+                    [
+                        'kelasId' => $kelas->id,
+                        'namaKelas' => $kelas->nama,
+                        'tingkat' => $kelas->tingkat,
+                        'namaSiswa' => $siswa->user->name,
+                        'nis' => $siswa->nis,
+                        'nisn' => $siswa->biodata->nisn,
+                        'tahun' => $tahun,
+                        'semester' => $semester,
+                        'kelompok_a' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'A', EnumKategoriNilai::SUMATIF),
+                        'kelompok_b' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'B', EnumKategoriNilai::SUMATIF),
+                        'kelompok_c' => $this->get_nilai_merdeka($nis, $kelas->tingkat, 'C', EnumKategoriNilai::SUMATIF),
+                        'listSikap' => JenisSikap::whereKategoriSikapId(EnumKategoriSikap::P5)->get(),
+                        'sakit' => $siswa->hitung_sakit ? floor($siswa->hitung_sakit / 4) : 0,
+                        'izin' => $siswa->hitung_izin ? floor($siswa->hitung_izin / 4) : 0,
+                        'alpha' => $siswa->hitung_alpha ? floor($siswa->hitung_alpha / 4) : 0,
+                        'naik' => $naik,
+                        'penilaianEkstrakurikuler' => $siswa->penilaianEkstrakurikuler,
+                        'listPrestasi' => $siswa->prestasi,
+                        'catatan' => $siswa->catatan,
+                        'tanggalRapor' => TanggalRapor::whereTahun($tahun)
+                            ->whereSemester($semester)
+                            ->first(),
+                        'namaWaliKelas' => $namaWaliKelas,
+                    ];
+
+                $pdf = Pdf::loadView('print.rapor-merdeka', $data)->setPaper(array(0, 0, 595.276, 935.433))->download();
+                return response()->streamDownload(
+                    fn () => print($pdf),
+                    $siswa->user->name . '.pdf'
+                );
+            }
         }
     }
 
