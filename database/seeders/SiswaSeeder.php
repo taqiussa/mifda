@@ -18,43 +18,43 @@ class SiswaSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 2023001; $i < 2023301; $i++) {
-            $user = User::create([
-                'name' => fake()->name(),
-                'username' => $i,
-                'nis' => $i,
-                'password' => bcrypt('12345678')
-            ]);
+        // for ($i = 2023001; $i < 2023301; $i++) {
+        //     $user = User::create([
+        //         'name' => fake()->name(),
+        //         'username' => $i,
+        //         'nis' => $i,
+        //         'password' => bcrypt('12345678')
+        //     ]);
 
-            $siswa = Siswa::create([
-                'nis' => $i,
-                'kelas_id' => random_int(1, 21),
-                'tahun' => '2022 / 2023'
-            ]);
+        //     $siswa = Siswa::create([
+        //         'nis' => $i,
+        //         'kelas_id' => random_int(1, 21),
+        //         'tahun' => '2022 / 2023'
+        //     ]);
 
-            Siswa::create([
-                'nis' => $i,
-                'kelas_id' => random_int(1, 21),
-                'tahun' => '2023 / 2024'
-            ]);
+        //     Siswa::create([
+        //         'nis' => $i,
+        //         'kelas_id' => random_int(1, 21),
+        //         'tahun' => '2023 / 2024'
+        //     ]);
 
-            SiswaEkstrakurikuler::create([
-                'nis' => $i,
-                'kelas_id' => $siswa->kelas_id,
-                'ekstrakurikuler_id' => random_int(1, 17),
-                'tahun' => '2022 / 2023'
-            ]);
+        //     SiswaEkstrakurikuler::create([
+        //         'nis' => $i,
+        //         'kelas_id' => $siswa->kelas_id,
+        //         'ekstrakurikuler_id' => random_int(1, 17),
+        //         'tahun' => '2022 / 2023'
+        //     ]);
 
-            Biodata::create([
-                'nis' => $i,
-                'nik' => 3324223 . $i,
-                'nisn' => 293 . $i,
-                'jenis_kelamin' => fake()->randomElement(['L', 'P']),
-                'tempat_lahir' => fake()->randomElement(['Kendal', 'Semarang', 'Temanggung', 'Magelang']),
-                'tanggal_lahir' => fake()->date(),
-            ]);
+        //     Biodata::create([
+        //         'nis' => $i,
+        //         'nik' => 3324223 . $i,
+        //         'nisn' => 293 . $i,
+        //         'jenis_kelamin' => fake()->randomElement(['L', 'P']),
+        //         'tempat_lahir' => fake()->randomElement(['Kendal', 'Semarang', 'Temanggung', 'Magelang']),
+        //         'tanggal_lahir' => fake()->date(),
+        //     ]);
 
-            $user->assignRole('Siswa');
-        }
+        //     $user->assignRole('Siswa');
+        // }
     }
 }

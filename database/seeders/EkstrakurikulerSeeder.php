@@ -16,23 +16,13 @@ class EkstrakurikulerSeeder extends Seeder
     public function run()
     {
         $ekstras = [
-            'Pramuka',
-            'Sepak Bola',
-            'Voli',
-            'Tilawah',
-            'Tartil',
-            'Club Bahasa Indonesia',
-            'Club Bahasa Inggris',
-            'KIR',
-            'Club IPS',
-            'Club Matematika',
-            'Club Bahasa Jawa',
-            'Club Bahasa Arab',
-            'Tahfidz',
-            'Kaligrafi',
-            'Fiqih Ubudiyah',
-            'Sepak Takraw',
-            'Club Computer',
+            "Pramuka",
+            "Al Qur'an",
+            "Pagar Nusa",
+            "Rebana",
+            "Voli",
+            "Futsal"
+
         ];
 
         foreach ($ekstras as $ekstra) {

@@ -129,6 +129,8 @@ enum EnumKehadiran: int
 enum EnumKategoriSikap: int
 {
     case P5 = 1;
+    case Spiritual = 2;
+    case Sosial = 3;
 }
 
 enum EnumBulan: int

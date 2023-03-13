@@ -26,6 +26,7 @@ use App\Http\Controllers\PrintAbsensiController;
 use App\Http\Controllers\PrintRaporController;
 use App\Http\Controllers\UploadNilaiController;
 use App\Http\Controllers\UploadNilaiSikapController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------

@@ -29,14 +29,14 @@ class DatabaseSeeder extends Seeder
             AturanKurikulumSeeder::class,
             JenisPenilaianSeeder::class,
             KategoriNilaiSeeder::class,
-            PenilaianRaporSeeder::class,
+            // PenilaianRaporSeeder::class,
             EkstrakurikulerSeeder::class,
             KategoriSikapSeeder::class,
             JenisSikapSeeder::class,
             KkmSeeder::class,
             KdSeeder::class,
 
-            SiswaSeeder::class,
+            // SiswaSeeder::class,
         ]);
     }
 }

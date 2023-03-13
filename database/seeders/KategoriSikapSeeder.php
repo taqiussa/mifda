@@ -18,5 +18,11 @@ class KategoriSikapSeeder extends Seeder
         KategoriSikap::create([
             'nama' => 'P5'
         ]);
+        KategoriSikap::create([
+            'nama' => 'Spiritual'
+        ]);
+        KategoriSikap::create([
+            'nama' => 'Sosial'
+        ]);
     }
 }
